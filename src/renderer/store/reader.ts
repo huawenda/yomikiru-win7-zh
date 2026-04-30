@@ -116,7 +116,7 @@ const readerSlice = createSlice({
             } else {
                 state.loading = {
                     percent: null,
-                    message: action.payload.message ?? state.loading?.message ?? "Loading...",
+                    message: action.payload.message ?? state.loading?.message ?? "正在加载...",
                 };
             }
         },

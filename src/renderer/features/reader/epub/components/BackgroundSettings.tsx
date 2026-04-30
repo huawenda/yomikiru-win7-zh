@@ -30,7 +30,7 @@ const BackgroundSettings = memo(() => {
                     );
                 }}
             >
-                Background Image
+                背景图片
             </div>
             <div className="options col">
                 <InputCheckbox
@@ -45,14 +45,14 @@ const BackgroundSettings = memo(() => {
                             }),
                         );
                     }}
-                    labelAfter="Use Background Image"
+                    labelAfter="使用背景图片"
                 />
                 {appSettings.epubReaderSettings.backgroundImage.enabled && (
                     <>
                         <div className="row">
                             <input
                                 type="text"
-                                placeholder="No image selected"
+                                placeholder="未选择图片"
                                 value={appSettings.epubReaderSettings.backgroundImage.path}
                                 readOnly
                             />
@@ -75,13 +75,13 @@ const BackgroundSettings = memo(() => {
                                         [
                                             {
                                                 extensions: ["jpg", "jpeg", "png", "webp", "gif", "svg"],
-                                                name: "Images",
+                                                name: "图片",
                                             },
                                         ],
                                     );
                                 }}
                             >
-                                Select
+                                选择
                             </button>
                             <button
                                 onClick={() => {
@@ -95,7 +95,7 @@ const BackgroundSettings = memo(() => {
                                     );
                                 }}
                             >
-                                Clear
+                                清除
                             </button>
                             <button
                                 onClick={() => {
@@ -109,7 +109,7 @@ const BackgroundSettings = memo(() => {
                                     );
                                 }}
                             >
-                                Reset
+                                重置
                             </button>
                         </div>
                         <InputRange
@@ -118,7 +118,7 @@ const BackgroundSettings = memo(() => {
                             step={5}
                             value={appSettings.epubReaderSettings.backgroundImage.dimIntensity}
                             labeled
-                            labelText="Dim intensity"
+                            labelText="变暗强度"
                             timeout={[
                                 350,
                                 (value) =>
@@ -138,7 +138,7 @@ const BackgroundSettings = memo(() => {
                             step={5}
                             value={appSettings.epubReaderSettings.backgroundImage.brightness}
                             labeled
-                            labelText="Brightness"
+                            labelText="亮度"
                             timeout={[
                                 350,
                                 (value) =>
@@ -158,7 +158,7 @@ const BackgroundSettings = memo(() => {
                             step={5}
                             value={appSettings.epubReaderSettings.backgroundImage.contrast}
                             labeled
-                            labelText="Contrast"
+                            labelText="对比度"
                             timeout={[
                                 350,
                                 (value) =>
@@ -187,7 +187,7 @@ const BackgroundSettings = memo(() => {
                                     }),
                                 );
                             }}
-                            labelAfter="Image layer overlay"
+                            labelAfter="图片图层叠加"
                         />
 
                         <InputColor
@@ -209,7 +209,7 @@ const BackgroundSettings = memo(() => {
                                         }),
                                     ),
                             ]}
-                            paraBefore="Layer color&nbsp;:"
+                            paraBefore="图层颜色&nbsp;:"
                         />
                         <InputRange
                             min={0}
@@ -218,7 +218,7 @@ const BackgroundSettings = memo(() => {
                             disabled={!appSettings.epubReaderSettings.backgroundImage.layer.enabled}
                             value={appSettings.epubReaderSettings.backgroundImage.layer.opacity}
                             labeled
-                            labelText="Layer opacity"
+                            labelText="图层不透明度"
                             timeout={[
                                 350,
                                 (value) =>

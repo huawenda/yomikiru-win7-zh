@@ -25,7 +25,7 @@ const Link = ({
                 if (confirmOpen)
                     dialogUtils
                         .confirm({
-                            message: "Open URL in Browser?",
+                            message: "在浏览器中打开 URL？",
                             detail: href,
                             noOption: false,
                         })

@@ -38,7 +38,7 @@ if (window.fs.existsSync(readerPresetsPath)) {
         if (didNormalize) {
             saveJSONfile(readerPresetsPath, state);
             dialogUtils.warn({
-                message: "Some reader preset fields were missing or invalid; filled from defaults.",
+                message: "部分阅读器预设字段缺失或无效，已使用默认值补全。",
             });
         }
     } catch (err) {
@@ -48,7 +48,7 @@ if (window.fs.existsSync(readerPresetsPath)) {
         saveJSONfile(readerPresetsPath, firstRun);
         initialState = firstRun;
         dialogUtils.warn({
-            message: "Reader presets file was unreadable; recreated presets from your current reader settings.",
+            message: "阅读器预设文件无法读取，已根据当前阅读器设置重新创建预设。",
         });
     }
 } else {
@@ -120,7 +120,7 @@ const readerPresets = createSlice({
          */
         deleteMangaPreset: (state, action: PayloadAction<string>) => {
             if (action.payload === USER_PRESET_MANGA_ID) {
-                dialogUtils.warn({ message: "Cannot delete the User preset." });
+                dialogUtils.warn({ message: "不能删除“用户”预设。" });
                 return;
             }
             let mangaCount = 0;
@@ -134,7 +134,7 @@ const readerPresets = createSlice({
                 }
             }
             if (mangaCount === 1) {
-                dialogUtils.warn({ message: "Cannot delete last manga preset." });
+                dialogUtils.warn({ message: "不能删除最后一个漫画预设。" });
                 return;
             }
             if (deleteIdx >= 0) {
@@ -147,7 +147,7 @@ const readerPresets = createSlice({
          */
         deleteBookPreset: (state, action: PayloadAction<string>) => {
             if (action.payload === USER_PRESET_BOOK_ID) {
-                dialogUtils.warn({ message: "Cannot delete the User preset." });
+                dialogUtils.warn({ message: "不能删除“用户”预设。" });
                 return;
             }
             let bookCount = 0;
@@ -161,7 +161,7 @@ const readerPresets = createSlice({
                 }
             }
             if (bookCount === 1) {
-                dialogUtils.warn({ message: "Cannot delete last book preset." });
+                dialogUtils.warn({ message: "不能删除最后一个书籍预设。" });
                 return;
             }
             if (deleteIdx >= 0) {
@@ -342,7 +342,7 @@ export const selectReaderPreset =
     (dispatch: AppDispatch, getState: () => RootState): void => {
         const preset = getState().readerPresets.presets.find((p) => p.id === id);
         if (!preset) {
-            dialogUtils.customError({ message: "Preset not found." });
+            dialogUtils.customError({ message: "未找到预设。" });
             return;
         }
         if (preset.type === "manga") {
@@ -361,7 +361,7 @@ export const deleteReaderPresetWithFallback =
     (id: string) =>
     (dispatch: AppDispatch, getState: () => RootState): void => {
         if (isUserPresetId(id)) {
-            dialogUtils.warn({ message: "Cannot delete the User preset." });
+            dialogUtils.warn({ message: "不能删除“用户”预设。" });
             return;
         }
         const state = getState();

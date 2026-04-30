@@ -11,12 +11,12 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import FocusLock from "react-focus-lock";
 
 const betterStatus = {
-    CURRENT: "Reading",
-    PLANNING: "Plan to Read",
-    COMPLETED: "Completed",
-    DROPPED: "Dropped",
-    PAUSED: "Paused",
-    REPEATING: "Repeating",
+    CURRENT: "正在阅读",
+    PLANNING: "计划阅读",
+    COMPLETED: "已完成",
+    DROPPED: "已弃读",
+    PAUSED: "暂停",
+    REPEATING: "重读中",
 };
 
 const AnilistEdit = () => {
@@ -69,7 +69,7 @@ const AnilistEdit = () => {
                             ></span>
                             <div className="info">
                                 <div className="cover">
-                                    <img src={tempData.media.coverImage.medium} alt="Cover" draggable={false} />
+                                    <img src={tempData.media.coverImage.medium} alt="封面" draggable={false} />
                                 </div>
                                 <div className="col">
                                     <span>
@@ -113,14 +113,14 @@ const AnilistEdit = () => {
                                             });
                                         }}
                                         labeled
-                                        labelBefore="Status"
+                                        labelBefore="状态"
                                         className="noBG"
                                     />
                                 </div>
                                 <div>
                                     <InputNumber
                                         value={tempData.progress}
-                                        labelBefore="Chapters"
+                                        labelBefore="章节"
                                         className="noBG"
                                         min={0}
                                         max={20000}
@@ -136,7 +136,7 @@ const AnilistEdit = () => {
                                 <div>
                                     <InputNumber
                                         value={tempData.progressVolumes}
-                                        labelBefore="Volumes"
+                                        labelBefore="卷数"
                                         className="noBG"
                                         min={0}
                                         max={20000}
@@ -152,7 +152,7 @@ const AnilistEdit = () => {
                                 <div>
                                     <InputNumber
                                         value={tempData.score}
-                                        labelBefore="Score"
+                                        labelBefore="评分"
                                         className="noBG"
                                         min={0}
                                         max={10}
@@ -168,7 +168,7 @@ const AnilistEdit = () => {
                                 </div>
                                 <div>
                                     <label className="noBG">
-                                        Start Date
+                                        开始日期
                                         <input
                                             type="date"
                                             value={
@@ -201,7 +201,7 @@ const AnilistEdit = () => {
                                 </div>
                                 <div>
                                     <label className="noBG">
-                                        Finish Date
+                                        完成日期
                                         <input
                                             type="date"
                                             value={
@@ -236,7 +236,7 @@ const AnilistEdit = () => {
                                 <div>
                                     <InputNumber
                                         value={tempData.repeat}
-                                        labelBefore="Repeat"
+                                        labelBefore="重复"
                                         className="noBG"
                                         min={0}
                                         max={1000}
@@ -252,7 +252,7 @@ const AnilistEdit = () => {
                                 <div>
                                     <InputCheckbox
                                         checked={tempData.private}
-                                        labelAfter="Private"
+                                        labelAfter="私密"
                                         onChange={(e) => {
                                             const value = e.currentTarget.checked;
                                             setTempData((init) => {
@@ -272,13 +272,13 @@ const AnilistEdit = () => {
                                         onClick={(e) => {
                                             const target = e.currentTarget;
                                             const oldText = target.innerText;
-                                            target.innerText = "Saving...";
+                                            target.innerText = "正在保存...";
                                             AniList.setCurrentMangaData(tempData).then((e) => {
                                                 if (e) {
                                                     dispatch(setAnilistCurrentManga(e));
-                                                    target.innerText = "Saved!";
+                                                    target.innerText = "已保存！";
                                                 } else {
-                                                    target.innerText = "Failed!";
+                                                    target.innerText = "失败！";
                                                 }
                                                 setTimeout(() => {
                                                     target.innerText = oldText;
@@ -286,7 +286,7 @@ const AnilistEdit = () => {
                                             });
                                         }}
                                     >
-                                        Save
+                                        保存
                                     </button>
                                 </div>
                                 <div className="last">
@@ -294,9 +294,9 @@ const AnilistEdit = () => {
                                         onClick={() =>
                                             mangaInReader && dispatch(removeAnilistTracker(mangaInReader))
                                         }
-                                        title="This only remove tracking locally. Anilist entry is not deleted."
+                                        title="这只会移除本地追踪，不会删除 AniList 条目。"
                                     >
-                                        Untrack
+                                        取消追踪
                                     </button>
                                 </div>
                                 <div></div>

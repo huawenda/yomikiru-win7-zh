@@ -255,12 +255,12 @@ export class DirectoryValidatorService {
                     if (options.errorOnInvalid) {
                         if (err instanceof Error && err.message?.includes("spawn unzip ENOENT")) {
                             dialogUtils.customError({
-                                message: "Error while extracting.",
+                                message: "解压时出错。",
                                 detail: '"unzip" not found. Please install by using\n"sudo apt install unzip"',
                             });
                         } else {
                             dialogUtils.customError({
-                                message: "Error while extracting.",
+                                message: "解压时出错。",
                                 detail: err instanceof Error ? err.message : String(err),
                                 log: false,
                             });
@@ -356,8 +356,8 @@ export class DirectoryValidatorService {
             if (files.length <= 0) {
                 if (options.errorOnInvalid)
                     dialogUtils.customError({
-                        title: "No images found",
-                        message: "Directory is empty.",
+                        title: "未找到图片",
+                        message: "目录为空。",
                         detail: link,
                     });
                 return { isValid: false, error: "Directory is empty" };
@@ -406,10 +406,10 @@ export class DirectoryValidatorService {
 
                 if (options.errorOnInvalid)
                     dialogUtils.customError({
-                        title: "No images found",
-                        message: "Directory doesn't contain any supported image format.",
+                        title: "未找到图片",
+                        message: "目录中没有受支持的图片格式。",
                     });
-                return { isValid: false, error: "No supported images found" };
+                return { isValid: false, error: "未找到受支持的图片" };
             }
 
             if (sendImages) {

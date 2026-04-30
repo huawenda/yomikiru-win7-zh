@@ -77,7 +77,7 @@ const EPUBReaderSettings = memo(
                     const id = appSettings.bookReaderPresetId;
                     if (id) {
                         dispatch(updateBookPreset({ id, data: appSettings.epubReaderSettings }));
-                        setShortcutText(`Saved to preset "${currentPresetName ?? "Unknown"}"`);
+                        setShortcutText(`已保存到预设“${currentPresetName ?? "未知"}”`);
                     }
                 }
             };
@@ -116,7 +116,7 @@ const EPUBReaderSettings = memo(
                     onKeyDown={(e) => {
                         if (e.key === "Escape" || e.key === "q") e.currentTarget.blur();
                     }}
-                    {...(!isReaderSettingsOpen ? { "data-tooltip": "Reader Settings" } : {})}
+                    {...(!isReaderSettingsOpen ? { "data-tooltip": "阅读器设置" } : {})}
                 >
                     <FontAwesomeIcon icon={isReaderSettingsOpen ? faTimes : faBars} />
                 </button>
@@ -143,7 +143,7 @@ const EPUBReaderSettings = memo(
                                 );
                             }}
                         >
-                            Size
+                            尺寸
                         </div>
                         <div className="options">
                             <InputNumber
@@ -209,7 +209,7 @@ const EPUBReaderSettings = memo(
                                             }),
                                         );
                                     }}
-                                    paraAfter="Limit Image height to viewport"
+                                    paraAfter="限制图片高度不超过视口"
                                 />
                             </div>
                         </div>
@@ -235,7 +235,7 @@ const EPUBReaderSettings = memo(
                                 );
                             }}
                         >
-                            Font & Layout
+                            字体与排版
                         </div>
                         <div className="options">
                             <div className="row">
@@ -292,7 +292,7 @@ const EPUBReaderSettings = memo(
                                             }),
                                         );
                                     }}
-                                    paraAfter="Custom Font Family"
+                                    paraAfter="自定义字体"
                                 />
                                 <InputSelect
                                     disabled={appSettings.epubReaderSettings.useDefault_fontFamily}
@@ -355,8 +355,8 @@ const EPUBReaderSettings = memo(
                                     {appSettings.epubReaderSettings.quickFontFamily.includes(
                                         appSettings.epubReaderSettings.fontFamily,
                                     )
-                                        ? "Remove Star"
-                                        : "Star Font Family"}
+                                        ? "取消常用"
+                                        : "设为常用字体"}
                                 </button>
                                 <InputCheckbox
                                     checked={!appSettings.epubReaderSettings.useDefault_fontWeight}
@@ -367,8 +367,8 @@ const EPUBReaderSettings = memo(
                                             }),
                                         );
                                     }}
-                                    title="only if supported for the font-family"
-                                    paraAfter="Font Weight"
+                                    title="仅在字体支持时生效"
+                                    paraAfter="字重"
                                 />
                                 <InputRange
                                     value={appSettings.epubReaderSettings.fontWeight}
@@ -406,7 +406,7 @@ const EPUBReaderSettings = memo(
                                         1000,
                                         (value) => dispatch(setEpubReaderSettings({ lineSpacing: value })),
                                     ]}
-                                    paraBefore="Line Height&nbsp;:"
+                                    paraBefore="行高&nbsp;:"
                                     paraAfter="em"
                                 />
                                 <InputCheckboxNumber
@@ -427,7 +427,7 @@ const EPUBReaderSettings = memo(
                                         1000,
                                         (value) => dispatch(setEpubReaderSettings({ paragraphSpacing: value })),
                                     ]}
-                                    paraBefore="Paragraph Spacing&nbsp;:"
+                                    paraBefore="段落间距&nbsp;:"
                                     paraAfter="em"
                                 />
                                 <InputCheckboxNumber
@@ -447,7 +447,7 @@ const EPUBReaderSettings = memo(
                                         1000,
                                         (value) => dispatch(setEpubReaderSettings({ wordSpacing: value })),
                                     ]}
-                                    paraBefore="Word Spacing&nbsp;:"
+                                    paraBefore="词间距&nbsp;:"
                                     paraAfter="em"
                                 />
                                 <InputCheckboxNumber
@@ -467,7 +467,7 @@ const EPUBReaderSettings = memo(
                                         1000,
                                         (value) => dispatch(setEpubReaderSettings({ letterSpacing: value })),
                                     ]}
-                                    paraBefore="Letter Spacing&nbsp;:"
+                                    paraBefore="字间距&nbsp;:"
                                     paraAfter="em"
                                 />
 
@@ -476,7 +476,7 @@ const EPUBReaderSettings = memo(
                                     onChange={(e) => {
                                         dispatch(setEpubReaderSettings({ noIndent: !e.currentTarget.checked }));
                                     }}
-                                    paraAfter="Indentation"
+                                    paraAfter="首行缩进"
                                 />
                                 {/* <InputCheckbox
                                     checked={appSettings.epubReaderSettings.hyphenation}
@@ -508,7 +508,7 @@ const EPUBReaderSettings = memo(
                                 );
                             }}
                         >
-                            Styles & Others
+                            样式与其他
                         </div>
                         <div className="options col">
                             <InputCheckboxColor
@@ -530,7 +530,7 @@ const EPUBReaderSettings = memo(
                                             }),
                                         ),
                                 ]}
-                                paraBefore="Font Color&nbsp;:"
+                                paraBefore="字体颜色&nbsp;:"
                             />
                             <InputCheckboxColor
                                 checked={!appSettings.epubReaderSettings.useDefault_linkColor}
@@ -551,7 +551,7 @@ const EPUBReaderSettings = memo(
                                             }),
                                         ),
                                 ]}
-                                paraBefore="Link Color&nbsp;:"
+                                paraBefore="链接颜色&nbsp;:"
                             />
                             <InputCheckboxColor
                                 checked={!appSettings.epubReaderSettings.useDefault_backgroundColor}
@@ -572,7 +572,7 @@ const EPUBReaderSettings = memo(
                                             }),
                                         ),
                                 ]}
-                                paraBefore="Page background color&nbsp;:"
+                                paraBefore="页面背景色&nbsp;:"
                             />
                             <InputCheckbox
                                 checked={appSettings.epubReaderSettings.overrideEpubColors}
@@ -583,8 +583,8 @@ const EPUBReaderSettings = memo(
                                         }),
                                     );
                                 }}
-                                title="When a color below is customized (not default), override matching styles from the book so your choices apply."
-                                paraAfter="Override EPUB's colors"
+                                title="当下方颜色被自定义（非默认）时，覆盖书籍中的对应样式以应用你的选择。"
+                                paraAfter="覆盖 EPUB 内置颜色"
                             />
                             <InputCheckboxColor
                                 checked={!appSettings.epubReaderSettings.useDefault_progressBackgroundColor}
@@ -605,7 +605,7 @@ const EPUBReaderSettings = memo(
                                             }),
                                         ),
                                 ]}
-                                paraBefore="Progress Background Color&nbsp;:"
+                                paraBefore="进度背景色&nbsp;:"
                             />
                             <InputCheckbox
                                 checked={appSettings.epubReaderSettings.forceLowBrightness.enabled}
@@ -619,7 +619,7 @@ const EPUBReaderSettings = memo(
                                         }),
                                     );
                                 }}
-                                paraAfter="Force Low brightness"
+                                paraAfter="强制降低亮度"
                             />
                             <InputRange
                                 className={"colorRange"}
@@ -647,8 +647,8 @@ const EPUBReaderSettings = memo(
                                 onChange={(e) => {
                                     dispatch(setEpubReaderSettings({ invertImageColor: e.currentTarget.checked }));
                                 }}
-                                title="To blend decoration images better"
-                                paraAfter="Invert and Blend Image Color"
+                                title="让装饰图片更好地融入背景"
+                                paraAfter="反色并混合图片颜色"
                             />
                             <InputCheckbox
                                 checked={appSettings.epubReaderSettings.showProgressInZenMode}
@@ -657,7 +657,7 @@ const EPUBReaderSettings = memo(
                                         setEpubReaderSettings({ showProgressInZenMode: e.currentTarget.checked }),
                                     );
                                 }}
-                                paraAfter="Show progress in Zen mode"
+                                paraAfter="在 Zen Mode 中显示进度"
                             />
                         </div>
                     </div>
@@ -683,9 +683,9 @@ const EPUBReaderSettings = memo(
                                     }),
                                 );
                             }}
-                            title="Scrolling speed with keys."
+                            title="使用按键滚动时的速度。"
                         >
-                            Scroll Speed
+                            滚动速度
                         </div>
                         <div className="options">
                             <InputNumber
@@ -696,7 +696,7 @@ const EPUBReaderSettings = memo(
                                     1000,
                                     (value) => dispatch(setEpubReaderSettings({ scrollSpeedA: value })),
                                 ]}
-                                labelBefore=" Scroll&nbsp;A&nbsp;:"
+                                labelBefore=" 滚动&nbsp;A&nbsp;:"
                                 labelAfter="px"
                             />
                             <InputNumber
@@ -707,7 +707,7 @@ const EPUBReaderSettings = memo(
                                     1000,
                                     (value) => dispatch(setEpubReaderSettings({ scrollSpeedB: value })),
                                 ]}
-                                labelBefore=" Scroll&nbsp;B&nbsp;:"
+                                labelBefore=" 滚动&nbsp;B&nbsp;:"
                                 labelAfter="px"
                             />
                         </div>

@@ -283,8 +283,8 @@ export class DatabaseService {
                 });
                 dialog.showMessageBox({
                     type: "error",
-                    message: "There were errors during migration.",
-                    detail: `Items skipped : ${errors.length}.\nPlease check the logs.`,
+                    message: "迁移过程中发生错误。",
+                    detail: `已跳过项目：${errors.length}。\n请检查日志。`,
                 });
             }
 

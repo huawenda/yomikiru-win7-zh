@@ -94,7 +94,7 @@ const App = (): ReactElement => {
     useEffect(() => {
         if (firstRendered) {
             if (appSettings.baseDir === "") {
-                dialogUtils.customError({ message: "No settings found, Select manga folder" });
+                dialogUtils.customError({ message: "未找到设置，请选择漫画文件夹" });
                 promptSelectDir((path) => dispatch(setAppSettings({ baseDir: path as string })));
             }
         } else {
@@ -264,7 +264,7 @@ const App = (): ReactElement => {
             },
             open(url) {
                 return {
-                    label: "Open",
+                    label: "打开",
                     disabled: !url,
                     action() {
                         openInReaderIfValid(url);
@@ -273,7 +273,7 @@ const App = (): ReactElement => {
             },
             openInNewWindow(url) {
                 return {
-                    label: "Open in new Window",
+                    label: "在新窗口中打开",
                     disabled: !url,
                     action() {
                         openInNewWindow(url);
@@ -282,7 +282,7 @@ const App = (): ReactElement => {
             },
             showInExplorer(url) {
                 return {
-                    label: "Show in File Explorer",
+                    label: "在文件资源管理器中显示",
                     disabled: !url,
                     action() {
                         if (process.platform === "win32") window.electron.showItemInFolder(url || "");
@@ -294,7 +294,7 @@ const App = (): ReactElement => {
             },
             copyPath(url) {
                 return {
-                    label: "Copy Path",
+                    label: "复制路径",
                     disabled: !url,
                     action() {
                         window.electron.writeText(url);
@@ -303,7 +303,7 @@ const App = (): ReactElement => {
             },
             copyImage(url) {
                 return {
-                    label: "Copy Image",
+                    label: "复制图片",
                     disabled: !url,
                     action() {
                         window.electron.copyImage(url.replace("file://", ""));
@@ -312,7 +312,7 @@ const App = (): ReactElement => {
             },
             removeHistory(url, isInSideList = false) {
                 return {
-                    label: "Remove",
+                    label: "移除",
                     disabled: !url,
                     action() {
                         if (isInSideList && !appSettings.confirmDeleteItem) {
@@ -324,10 +324,10 @@ const App = (): ReactElement => {
                         } else {
                             dialogUtils
                                 .warn({
-                                    title: "Remove History",
-                                    message: "This will also remove all related bookmarks. Continue?",
+                                    title: "移除历史记录",
+                                    message: "这也会移除所有相关书签。是否继续？",
                                     noOption: false,
-                                    buttons: ["Cancel", "Yes"],
+                                    buttons: ["取消", "是"],
                                     defaultId: 0,
                                 })
                                 .then(({ response }) => {
@@ -344,7 +344,7 @@ const App = (): ReactElement => {
             },
             removeBookmark(itemLink, bookmarkId, type, isInSideList = false) {
                 return {
-                    label: "Remove Bookmark",
+                    label: "移除书签",
                     action() {
                         if (isInSideList && !appSettings.confirmDeleteItem) {
                             dispatch(
@@ -357,10 +357,10 @@ const App = (): ReactElement => {
                         } else {
                             dialogUtils
                                 .warn({
-                                    title: "Remove Bookmark",
-                                    message: "Only this bookmark will be removed. Continue?",
+                                    title: "移除书签",
+                                    message: "只会移除此书签。是否继续？",
                                     noOption: false,
-                                    buttons: ["Cancel", "Yes"],
+                                    buttons: ["取消", "是"],
                                     defaultId: 0,
                                 })
                                 .then(({ response }) => {
@@ -379,7 +379,7 @@ const App = (): ReactElement => {
             },
             addToBookmark(args) {
                 return {
-                    label: "Add to Bookmarks",
+                    label: "添加到书签",
                     // disabled: args ? false : true,
                     action() {
                         dispatch(addBookmark(args));
@@ -388,7 +388,7 @@ const App = (): ReactElement => {
             },
             unreadChapter(itemLink: string, chapterName: string) {
                 return {
-                    label: "Mark as Unread",
+                    label: "标记为未读",
                     // todo check why i added these
                     // disabled: mangaIndex >= 0 && chapterIndex >= 0 ? false : true,
                     action() {
@@ -404,7 +404,7 @@ const App = (): ReactElement => {
             },
             readChapter(itemLink: string, chapterName: string) {
                 return {
-                    label: "Mark as Read",
+                    label: "标记为已读",
                     // disabled: mangaIndex >= 0 && chapter ? false : true,
                     action() {
                         dispatch(updateChaptersRead({ itemLink, chapterName, read: true }));
@@ -413,15 +413,15 @@ const App = (): ReactElement => {
             },
             readAllChapter(mangaIndex, chapters) {
                 return {
-                    label: "Mark All as Read",
+                    label: "全部标记为已读",
                     // disabled: mangaIndex >= 0 && chapters.length > 0 ? false : true,
                     action() {
                         dialogUtils
                             .warn({
-                                title: "Mark All as Read",
-                                message: "This will also mark all Chapters in this manga as read. Continue?",
+                                title: "全部标记为已读",
+                                message: "这会将此漫画中的所有章节标记为已读。是否继续？",
                                 noOption: false,
-                                buttons: ["Cancel", "Yes"],
+                                buttons: ["取消", "是"],
                                 defaultId: 0,
                             })
                             .then(({ response }) => {
@@ -433,15 +433,15 @@ const App = (): ReactElement => {
             },
             unreadAllChapter(mangaIndex) {
                 return {
-                    label: "Mark All as Unread",
+                    label: "全部标记为未读",
                     // disabled: mangaIndex >= 0 ? false : true,
                     action() {
                         dialogUtils
                             .warn({
-                                title: "Mark All as Unread",
-                                message: "This will remove all Chapters in this manga from history. Continue?",
+                                title: "全部标记为未读",
+                                message: "这会从历史记录中移除此漫画的所有章节。是否继续？",
                                 noOption: false,
-                                buttons: ["Cancel", "Yes"],
+                                buttons: ["取消", "是"],
                                 defaultId: 0,
                             })
                             .then(({ response }) => {
@@ -535,7 +535,7 @@ const App = (): ReactElement => {
                             if (data.length > 1)
                                 dialogUtils.customError({
                                     message:
-                                        "More than one file/folder dropped. Only first in list will be loaded.",
+                                        "拖入了多个文件/文件夹。只会加载列表中的第一个。",
                                 });
                             await window.fs.access(data[0].path);
                             if (window.fs.isDir(data[0].path)) {
@@ -553,7 +553,7 @@ const App = (): ReactElement => {
                 } catch (err) {
                     log.error("Drop handler: failed to open dropped path", err);
                     dialogUtils.customError({
-                        message: "Error while dropping file",
+                        message: "拖放文件时出错",
                         detail: err instanceof Error ? err.message : String(err),
                     });
                 }

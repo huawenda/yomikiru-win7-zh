@@ -16,15 +16,15 @@ const GeneralPDFSettings: React.FC = () => {
     const dispatch = useAppDispatch();
     return (
         <div className="settingItem2" id="settings-pdfScale">
-            <h3>PDF OPTIONS</h3>
+            <h3>PDF 选项</h3>
             <div className="desc">
-                Scales PDF render quality. Higher scale results in higher quality.{" "}
+                调整 PDF 渲染质量。数值越高，质量越高。{" "}
                 <a
                     onClick={() => {
                         scrollIntoView("#settings-usage-pdfScale", "extras");
                     }}
                 >
-                    More Info
+                    更多信息
                 </a>
             </div>
             <div className="main row">
@@ -37,28 +37,28 @@ const GeneralPDFSettings: React.FC = () => {
                         const value = e.valueAsNumber;
                         dispatch(setReaderSettings({ pdfScale: value }));
                     }}
-                    labelBefore="SCALE"
+                    labelBefore="缩放"
                     className="noBG"
                 />
             </div>
             <div className="desc">
-                Render your pdf into png for faster loading. It is recommended to set{" "}
+                将 PDF 渲染为 PNG 以加快加载速度。建议将{" "}
                 <a
                     onClick={() => {
                         scrollIntoView("#settings-customTempFolder", "settings");
                     }}
                 >
-                    temp folder
+                    临时文件夹
                 </a>{" "}
-                to something that is not cleaned by your OS. <br />
+                设置为不会被操作系统自动清理的位置。<br />
                 <a
                     onClick={() => {
                         scrollIntoView("#settings-keepExtractedFiles", "settings");
                     }}
                 >
-                    Keep Temp Files
+                    保留临时文件
                 </a>{" "}
-                must be enabled to use this.
+                必须启用后才能使用此功能。
             </div>
             <div className="main row">
                 <button
@@ -75,7 +75,7 @@ const GeneralPDFSettings: React.FC = () => {
                                         const linkSplitted = path.split(window.path.sep);
                                         dispatch(
                                             setReaderLoading({
-                                                message: `[${i + 1}/${paths.length}] Rendering "${linkSplitted
+                                                message: `[${i + 1}/${paths.length}] 正在渲染 "${linkSplitted
                                                     .at(-1)
                                                     ?.substring(0, 20)}..."`,
                                             }),
@@ -98,14 +98,14 @@ const GeneralPDFSettings: React.FC = () => {
                                             log.error(`render failed for "${path}"`, reason);
                                             if (reason instanceof Error && !reason.message.includes("password"))
                                                 dialogUtils.customError({
-                                                    message: "Error in rendering PDF",
+                                                    message: "渲染 PDF 时出错",
                                                     detail: path,
                                                     log: false,
                                                 });
                                         }
                                     }
                                     dialogUtils.confirm({
-                                        message: "Rendered all PDFs",
+                                        message: "所有 PDF 已渲染完成",
                                     });
                                     dispatch(setReaderLoading(null));
                                 })();
@@ -121,7 +121,7 @@ const GeneralPDFSettings: React.FC = () => {
                         );
                     }}
                 >
-                    Select PDFs to render
+                    选择要渲染的 PDF
                 </button>
             </div>
         </div>

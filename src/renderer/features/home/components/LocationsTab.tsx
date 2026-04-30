@@ -34,11 +34,11 @@ const LocationsTab = (): ReactElement => {
         try {
             if (!window.fs.existsSync(link)) {
                 if (!window.fs.existsSync(appSettings.baseDir)) {
-                    dialogUtils.customError({ message: "Default Location doesn't exist." });
+                    dialogUtils.customError({ message: "默认位置不存在。" });
                     promptSelectDir((path) => dispatch(setAppSettings({ baseDir: path as string })));
                     return;
                 }
-                dialogUtils.customError({ message: "Directory/File doesn't exist." });
+                dialogUtils.customError({ message: "目录/文件不存在。" });
                 setCurrentLink(window.path.resolve(appSettings.baseDir));
                 return;
             }
@@ -240,21 +240,21 @@ const LocationsTab = (): ReactElement => {
                 onContextMenu={handleContextMenu}
                 handleExtraKeyDown={handleKeyDown}
                 onSelect={handleSelect}
-                emptyMessage="No folders found"
+                emptyMessage="未找到文件夹"
             >
-                <h2>Location</h2>
+                <h2>位置</h2>
                 <div className="tools">
                     <div className="row1">
                         <button
                             data-tooltip={
-                                "Sort: " +
+                                "排序：" +
                                 (appSettings.locationListSortType === "normal" ? "▲ " : "▼ ") +
                                 appSettings.locationListSortBy.toUpperCase()
                             }
                             onClick={(e) => {
                                 const items: Menu.ListItem[] = [
                                     {
-                                        label: "Name",
+                                        label: "名称",
                                         action() {
                                             dispatch(
                                                 setAppSettings({
@@ -265,7 +265,7 @@ const LocationsTab = (): ReactElement => {
                                         selected: appSettings.locationListSortBy === "name",
                                     },
                                     {
-                                        label: "Date Modified",
+                                        label: "修改日期",
                                         action() {
                                             dispatch(
                                                 setAppSettings({
@@ -278,7 +278,7 @@ const LocationsTab = (): ReactElement => {
                                     },
                                     window.contextMenu.template.divider(),
                                     {
-                                        label: "Ascending",
+                                        label: "升序",
                                         action() {
                                             dispatch(
                                                 setAppSettings({
@@ -289,7 +289,7 @@ const LocationsTab = (): ReactElement => {
                                         selected: appSettings.locationListSortType === "normal",
                                     },
                                     {
-                                        label: "Descending",
+                                        label: "降序",
                                         action() {
                                             dispatch(
                                                 setAppSettings({
@@ -312,7 +312,7 @@ const LocationsTab = (): ReactElement => {
                             <FontAwesomeIcon icon={faSort} />
                         </button>
                         <button
-                            data-tooltip="Directory Up"
+                            data-tooltip="上一级目录"
                             onClick={() => {
                                 setCurrentLink((link) => window.path.dirname(link));
                             }}
@@ -323,20 +323,20 @@ const LocationsTab = (): ReactElement => {
                     </div>
                     <div className="currentPath">
                         <button
-                            data-tooltip={`${imageCount} Images`}
+                            data-tooltip={`${imageCount} 张图片`}
                             disabled={imageCount <= 0}
                             onClick={() => openInReader(currentLink)}
                         >
-                            Open
+                            打开
                         </button>
                         <span>{currentLink}</span>
                     </div>
                 </div>
                 <div className="location-cont" ref={locationContRef}>
                     {isLoadingFile ? (
-                        <p>Loading...</p>
+                        <p>加载中...</p>
                     ) : locations.length === 0 ? (
-                        <p>0 Folders, {imageCount} Images</p>
+                        <p>0 个文件夹，{imageCount} 张图片</p>
                     ) : (
                         <ListNavigator.List />
                     )}

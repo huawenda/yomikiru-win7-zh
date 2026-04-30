@@ -22,48 +22,48 @@ const BookmarkHistoryListItem: React.FC<{
     const appSettings = useAppSelector((store) => store.appSettings);
     const libraryItem = useAppSelector((store) => store.library.items[props.link]);
 
-    if (props.isBookmark && !props.bookmark) return <p>Error: Bookmark not found</p>;
+    if (props.isBookmark && !props.bookmark) return <p>错误：未找到书签</p>;
 
     // todo: this is temp only until properly implemented
-    if (!libraryItem) return <p>Error: Item not found</p>;
-    if (libraryItem.type === "manga" && !libraryItem.progress) return <p>Error: Item not found</p>;
+    if (!libraryItem) return <p>错误：未找到项目</p>;
+    if (libraryItem.type === "manga" && !libraryItem.progress) return <p>错误：未找到项目</p>;
     const link =
         props.bookmark && "page" in props.bookmark
             ? props.bookmark.link
             : libraryItem.type === "book"
               ? libraryItem.link
               : libraryItem.progress?.chapterLink;
-    if (!link) return <p>Error: Link not found</p>;
+    if (!link) return <p>错误：未找到链接</p>;
 
     const title = props.isHistory
         ? libraryItem.type === "book"
-            ? `Title       : ${libraryItem.title}\n` +
-              `Chapter : ${libraryItem.progress?.chapterName || "~"}\n` +
-              `Date      : ${dateUtils.format(libraryItem.progress?.lastReadAt, {
+            ? `标题       : ${libraryItem.title}\n` +
+              `章节 : ${libraryItem.progress?.chapterName || "~"}\n` +
+              `日期      : ${dateUtils.format(libraryItem.progress?.lastReadAt, {
                   format: dateUtils.presets.dateTimeFull,
               })}\n` +
-              `Path      : ${libraryItem.link}`
-            : `Manga   : ${libraryItem.title}\n` +
-              `Chapter : ${libraryItem.progress?.chapterName}\n` +
-              `Pages    : ${libraryItem.progress?.totalPages}\n` +
-              `Page      : ${libraryItem.progress?.currentPage}\n` +
-              `Date      : ${dateUtils.format(libraryItem.progress?.lastReadAt, {
+              `路径      : ${libraryItem.link}`
+            : `漫画   : ${libraryItem.title}\n` +
+              `章节 : ${libraryItem.progress?.chapterName}\n` +
+              `总页数    : ${libraryItem.progress?.totalPages}\n` +
+              `页码      : ${libraryItem.progress?.currentPage}\n` +
+              `日期      : ${dateUtils.format(libraryItem.progress?.lastReadAt, {
                   format: dateUtils.presets.dateTimeFull,
               })}\n` +
-              `Path      : ${libraryItem.link}`
-        : `Title       : ${libraryItem.title}\n` +
-          `Chapter : ${props.bookmark?.chapterName || "~"}\n` +
-          `Date      : ${dateUtils.format(props.bookmark?.createdAt, {
+              `路径      : ${libraryItem.link}`
+        : `标题       : ${libraryItem.title}\n` +
+          `章节 : ${props.bookmark?.chapterName || "~"}\n` +
+          `日期      : ${dateUtils.format(props.bookmark?.createdAt, {
               format: dateUtils.presets.dateTimeFull,
           })}\n` +
-          `Path      : ${props.bookmark?.itemLink}`;
+          `路径      : ${props.bookmark?.itemLink}`;
 
     const handleClick = () => {
         if (!window.fs.existsSync(link)) {
             dialogUtils
                 .confirm({
                     type: "error",
-                    message: "File/folder does not exit. Remove item from library?",
+                    message: "文件/文件夹不存在。是否从书库中移除此项目？",
                     noOption: false,
                     defaultId: 0,
                     cancelId: 1,
@@ -121,7 +121,7 @@ const BookmarkHistoryListItem: React.FC<{
             window.contextMenu.template.showInExplorer(link),
             window.contextMenu.template.copyPath(link),
             {
-                label: "Bookmark",
+                label: "添加书签",
                 action() {
                     const type = formatUtils.book.test(link) ? "book" : "manga";
                     if (type === "book" && libraryItem.progress && "chapterId" in libraryItem.progress) {

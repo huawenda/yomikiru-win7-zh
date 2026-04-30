@@ -758,7 +758,7 @@ const Reader: React.FC = () => {
                     canvas.width = 500;
                     canvas.height = 100;
                     ctx.fillStyle = window.getComputedStyle(document.body).color || "black";
-                    ctx.fillText("Error occurred while loading image.", 10, 10);
+                    ctx.fillText("加载图片时出错。", 10, 10);
 
                     imagesLoaded++;
                     onProgress(imagesLoaded);
@@ -1027,11 +1027,11 @@ const Reader: React.FC = () => {
                     <span
                         className="a"
                         data-tooltip={
-                            `press "${shortcuts.find((e) => e.command === "prevPage")?.keys}"` +
-                            ` or click left side of screen`
+                            `按下“${shortcuts.find((e) => e.command === "prevPage")?.keys}”` +
+                            `或点击屏幕左侧`
                         }
                     >
-                        Previous :{/* <FontAwesomeIcon icon={faQuestionCircle} />: */}
+                        上一章：{/* <FontAwesomeIcon icon={faQuestionCircle} />: */}
                     </span>
                     <span className="b">
                         {window.path.basename(
@@ -1044,7 +1044,7 @@ const Reader: React.FC = () => {
                     </span>
                 </div>
                 <div className="c">
-                    <span className="a">Current :</span>
+                    <span className="a">当前：</span>
                     <span className="b">
                         {window.path.basename(readerState?.content?.progress?.chapterName || "")}
                         {formatUtils.files.test(readerState?.content?.progress?.chapterName || "") && (
@@ -1216,7 +1216,7 @@ const Reader: React.FC = () => {
                             },
                         },
                         {
-                            label: "Hide Cursor in Zen Mode",
+                            label: "在 Zen Mode 中隐藏光标",
                             selected: appSettings.hideCursorInZenMode,
                             action() {
                                 dispatch(
@@ -1228,7 +1228,7 @@ const Reader: React.FC = () => {
                         },
                         window.contextMenu.template.divider(),
                         {
-                            label: "Bookmark",
+                            label: "书签",
                             disabled: false,
                             action() {
                                 addToBookmarkRef.current?.click();

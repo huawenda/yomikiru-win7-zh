@@ -44,12 +44,12 @@ export default class EPUB {
                     if (err instanceof Error) {
                         if (err.message.includes("spawn unzip ENOENT")) {
                             dialogUtils.customError({
-                                message: "Error while extracting.",
-                                detail: '"unzip" not found. Please install by using\n"sudo apt install unzip"',
+                                message: "解压时出错。",
+                                detail: '未找到 "unzip"。请使用\n"sudo apt install unzip" 安装',
                             });
                         } else
                             dialogUtils.customError({
-                                message: "Error while extracting.",
+                                message: "解压时出错。",
                                 detail: err.message,
                             });
                         return false;
@@ -59,7 +59,7 @@ export default class EPUB {
         } catch (err) {
             if (err instanceof Error || typeof err === "string")
                 dialogUtils.customError({
-                    message: "An Error occurred while checking/extracting epub.",
+                    message: "检查/解压 EPUB 时出错。",
                     detail: err.toString(),
                 });
             else log.error(`EPUB extract: unexpected failure for "${epubPath}"`, err);
@@ -74,7 +74,7 @@ export default class EPUB {
         );
         // const now = performance.now();
         const extractSuccess = await EPUB.extractEpub(epubPath, extractPath, keepExtractedFiles);
-        if (!extractSuccess) throw new Error("Error while extracting.");
+        if (!extractSuccess) throw new Error("解压时出错。");
         const parsed = await EPUB.parseEpubDir(extractPath);
         // console.log(performance.now() - now);
         return parsed;
@@ -108,7 +108,7 @@ export default class EPUB {
                 ? opf.querySelector(`manifest > item[id='${coverId}']`)?.getAttribute("href") || ""
                 : "";
             const metadata: EPUB.MetaData = {
-                title: opf.getElementsByTagName("dc:title")[0]?.textContent || "No Title",
+                title: opf.getElementsByTagName("dc:title")[0]?.textContent || "无标题",
                 author: [...opf.getElementsByTagName("dc:creator")].map((el) => el.textContent).join(", "),
                 // description: opf.querySelector("dc:description")?.textContent || "No Description",
                 cover: window.path.join(window.path.dirname(opfPath), coverSrc),
@@ -183,7 +183,7 @@ export default class EPUB {
         } catch (e) {
             if (e instanceof Error || e instanceof String)
                 dialogUtils.customError({
-                    message: "Error while parsing epub.",
+                    message: "解析 EPUB 时出错。",
                     detail: e.toString(),
                 });
             throw e;
@@ -436,10 +436,10 @@ export default class EPUB {
             if (e instanceof Error || typeof e === "string") log.error("EPUB readChapter:", e);
             else log.error("EPUB readChapter: Error while reading chapter", e);
             return `
-            <p>An error occurred while reading epub files. It is possible that temporary files are deleted, try reloading.</p>
-            <p>If it does not help then its possible that your epub file is malformed. You can try raising an issue 
-            <a data-href="https://github.com/mienaiyami/yomikiru/issues">here</a> if you have original file.</p>
-            <p>Keep it in mind that Yomikiru's EPUB reader is only a basic one, it does not follow full epub specs.</p>
+            <p>读取 EPUB 文件时出错。可能是临时文件已被删除，请尝试重新加载。</p>
+            <p>如果仍未解决，可能是 EPUB 文件格式异常。若你有原始文件，可以在
+            <a data-href="https://github.com/mienaiyami/yomikiru/issues">这里</a>提交 issue。</p>
+            <p>请注意，Yomikiru 的 EPUB 阅读器只是基础阅读器，并未完整实现 EPUB 规范。</p>
             <code>${e}</code>
             `;
         }

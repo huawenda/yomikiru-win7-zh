@@ -205,7 +205,7 @@ const EPubReader: React.FC = () => {
                     }
                 } else {
                     dialogUtils.customError({
-                        message: "Could not find the chapter for corresponding id.",
+                        message: "找不到对应 ID 的章节。",
                     });
                 }
             }
@@ -227,7 +227,7 @@ const EPubReader: React.FC = () => {
                 if (href.startsWith("http")) {
                     dialogUtils
                         .warn({
-                            message: "Open external link?",
+                            message: "打开外部链接？",
                             detail: href,
                             noOption: false,
                         })
@@ -264,7 +264,7 @@ const EPubReader: React.FC = () => {
                         const itemIdx = epubData.spine.findIndex((e) => e.href === href.split("#")[0]);
                         if (itemIdx < 0) {
                             dialogUtils.customError({
-                                message: "Could not find the chapter for corresponding link.",
+                                message: "找不到对应链接的章节。",
                             });
                             return;
                         }
@@ -480,7 +480,7 @@ const EPubReader: React.FC = () => {
             const selection = window.getSelection();
             if (!selection || selection.isCollapsed || !mainRef.current?.contains(selection.anchorNode)) {
                 dialogUtils.customError({
-                    message: "Please select some text first",
+                    message: "请先选择一些文本",
                 });
                 return;
             }
@@ -488,7 +488,7 @@ const EPubReader: React.FC = () => {
             const range = highlightUtils.getCurrentSelection();
             if (!range) {
                 dialogUtils.customError({
-                    message: "Could not get selection range",
+                    message: "无法获取选区范围",
                 });
                 return;
             }
@@ -666,8 +666,8 @@ const EPubReader: React.FC = () => {
                     return true;
                 case is(shortcutsMapped.showHidePageNumberInZen):
                     setShortcutText(
-                        (!appSettings.epubReaderSettings.showProgressInZenMode ? "Show" : "Hide") +
-                            " progress in Zen Mode",
+                        (!appSettings.epubReaderSettings.showProgressInZenMode ? "显示" : "隐藏") +
+                            " Zen Mode 进度",
                     );
                     dispatch(
                         setEpubReaderSettings({
@@ -677,12 +677,12 @@ const EPubReader: React.FC = () => {
                     return true;
                 case is(shortcutsMapped.cyclePresetNext): {
                     const name = dispatch(cyclePresetNext("book")) as string | null;
-                    if (name) setShortcutText(`Preset: ${name}`);
+                    if (name) setShortcutText(`预设: ${name}`);
                     return true;
                 }
                 case is(shortcutsMapped.cyclePresetPrev): {
                     const name = dispatch(cyclePresetPrev("book")) as string | null;
-                    if (name) setShortcutText(`Preset: ${name}`);
+                    if (name) setShortcutText(`预设: ${name}`);
                     return true;
                 }
                 case is(shortcutsMapped.selectPreset1):
@@ -699,7 +699,7 @@ const EPubReader: React.FC = () => {
                     ].findIndex((keys) => is(keys ?? []));
                     if (slotIdx >= 0) {
                         const name = dispatch(selectPresetSlot("book", slotIdx)) as string | null;
-                        if (name) setShortcutText(`Preset: ${name}`);
+                        if (name) setShortcutText(`预设: ${name}`);
                     }
                     return true;
                 }
@@ -1000,7 +1000,7 @@ const EPubReader: React.FC = () => {
                             },
                         },
                         {
-                            label: "Hide Cursor in Zen Mode",
+                            label: "在 Zen Mode 中隐藏光标",
                             selected: appSettings.hideCursorInZenMode,
                             action() {
                                 dispatch(
@@ -1011,7 +1011,7 @@ const EPubReader: React.FC = () => {
                             },
                         },
                         {
-                            label: "Double Click Zen Mode",
+                            label: "双击切换 Zen Mode",
                             selected: !appSettings.epubReaderSettings.textSelect,
                             action() {
                                 dispatch(
@@ -1026,7 +1026,7 @@ const EPubReader: React.FC = () => {
                     const selection = window.getSelection();
                     if (selection && !selection.isCollapsed && mainRef.current?.contains(selection.anchorNode)) {
                         items.push({
-                            label: "Add Note",
+                            label: "添加笔记",
                             action() {
                                 handleAddNote();
                             },
@@ -1035,7 +1035,7 @@ const EPubReader: React.FC = () => {
                     items.push(
                         ...[
                             {
-                                label: "Bookmark",
+                                label: "书签",
                                 action() {
                                     addToBookmarkRef.current?.click();
                                 },

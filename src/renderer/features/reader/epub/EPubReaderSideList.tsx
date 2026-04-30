@@ -195,7 +195,7 @@ const EPubReaderSideList = memo(
                     <div className="row2">
                         <button
                             className="ctrl-menu-item"
-                            data-tooltip="Open Previous"
+                            data-tooltip="打开上一章"
                             onClick={() => {
                                 openPrevChapter();
                             }}
@@ -209,7 +209,7 @@ const EPubReaderSideList = memo(
                         />
                         <button
                             className="ctrl-menu-item"
-                            data-tooltip="Open Next"
+                            data-tooltip="打开下一章"
                             onClick={() => {
                                 openNextChapter();
                             }}
@@ -220,13 +220,13 @@ const EPubReaderSideList = memo(
                 </div>
                 <div className="in-reader">
                     <div>
-                        <span className="bold">Title</span>
+                        <span className="bold">标题</span>
                         <span className="bold"> : </span>
                         <span>{epubData.metadata.title}</span>
                     </div>
                     {appSettings.epubReaderSettings.loadOneChapter && (
                         <div>
-                            <span className="bold">Chapter</span>
+                            <span className="bold">章节</span>
                             <span className="bold"> : </span>
                             <span>{epubData.manifest.get(currentChapterFake)?.title || "~"}</span>
                         </div>
@@ -240,9 +240,9 @@ const EPubReaderSideList = memo(
                             onClick={() => {
                                 setDisplayList((init) => (init === "content" ? "" : "content"));
                             }}
-                            data-tooltip="Click again to hide"
+                            data-tooltip="再次点击隐藏"
                         >
-                            Content
+                            目录
                         </button>
                         <button
                             className={`${displayList === "bookmarks" ? "selected" : ""}`}
@@ -250,7 +250,7 @@ const EPubReaderSideList = memo(
                                 setDisplayList((init) => (init === "bookmarks" ? "" : "bookmarks"));
                             }}
                         >
-                            Bookmarks
+                            书签
                         </button>
                         <button
                             className={`${displayList === "notes" ? "selected" : ""}`}
@@ -258,14 +258,14 @@ const EPubReaderSideList = memo(
                                 setDisplayList((init) => (init === "notes" ? "" : "notes"));
                             }}
                         >
-                            Notes
+                            笔记
                         </button>
                     </div>
                     {displayList === "content" && (
                         <div className="row2">
                             <button
                                 className="ctrl-menu-item"
-                                data-tooltip="Locate Current Chapter"
+                                data-tooltip="定位当前章节"
                                 onClick={() => {
                                     if (sideListRef.current) {
                                         const href =
@@ -304,7 +304,7 @@ const EPubReaderSideList = memo(
                                     }}
                                     className="btn"
                                 >
-                                    Show in-book TOC
+                                    显示书内目录
                                 </a>
                             )}
                         </div>
@@ -322,8 +322,7 @@ const EPubReaderSideList = memo(
                         {/* //todo virtualize list */}
                         {epubData.toc.size > 500 && (
                             <p>
-                                Too many chapters, click &quot;Content&quot; to hide list to improve performance of
-                                application.
+                                章节过多，点击“目录”隐藏列表可提升应用性能。
                             </p>
                         )}
                         {epubData.ncx.length > 0 && (
@@ -338,7 +337,7 @@ const EPubReaderSideList = memo(
                             />
                         )}
                         {epubData.ncx.length === 0 && (
-                            <p>No NCX found in epub, use &quot;Show in-book TOC&quot; to for Table of Contents.</p>
+                            <p>EPUB 中未找到 NCX，可使用“显示书内目录”查看目录。</p>
                         )}
                     </div>
                 )}

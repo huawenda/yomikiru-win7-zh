@@ -71,13 +71,13 @@ const ThemeElement = ({
                     onClick={() => {
                         if (originalColor.current) changeValue(prop, originalColor.current);
                     }}
-                    title="Reset"
+                    title="重置"
                 >
                     <FontAwesomeIcon icon={faSync} />
                 </button>
                 <label
                     className={`${variable === `var(${prop})` ? "disabled" : ""} ${checked ? "selected" : ""}`}
-                    title="Link to variable"
+                    title="链接到变量"
                     onKeyDown={(e) => {
                         if ([" ", "Enter"].includes(e.key)) {
                             e.preventDefault();
@@ -117,7 +117,7 @@ const ThemeElement = ({
                                 setRealColor(colorUtils.new(value));
                             },
                         ]}
-                        title="Color"
+                        title="颜色"
                     />
                 )}
             </td>
@@ -168,15 +168,15 @@ const ThemeCont = () => {
             if (saveAndReplace) name = theme;
             if (initThemeData.allData.map((e) => e.name).includes(name)) {
                 dialogUtils.customError({
-                    title: "Error",
-                    message: `Can't edit default themes, save as new instead.`,
+                    title: "错误",
+                    message: `不能编辑默认主题，请另存为新主题。`,
                 });
                 return;
             }
             if (!saveAndReplace && allThemes.map((e) => e.name).includes(nameInput.value)) {
                 dialogUtils.customError({
-                    title: "Error",
-                    message: `Theme name "${nameInput.value}" already exist, choose something else.`,
+                    title: "错误",
+                    message: `主题名称 "${nameInput.value}" 已存在，请换一个名称。`,
                 });
                 return;
             }
@@ -223,7 +223,7 @@ const ThemeCont = () => {
                             })),
                         );
                     }}
-                    title="Reset All"
+                    title="全部重置"
                 >
                     <FontAwesomeIcon icon={faSync} />
                 </button>
@@ -242,30 +242,29 @@ const ThemeCont = () => {
                         saveTheme();
                     }}
                 >
-                    Save as New
+                    另存为新主题
                 </button>
                 <button
                     onClick={() => {
                         saveTheme(true);
                     }}
                 >
-                    Save
+                    保存
                 </button>
             </h1>
             <div className="themeMaker">
                 <ul>
                     <li>
-                        To use previously defined color, click on link button and select property from dropdown
-                        options.
+                        若要使用已定义的颜色，请点击链接按钮，并从下拉选项中选择属性。
                     </li>
-                    <li>Some changes may require refresh.</li>
+                    <li>部分更改可能需要刷新。</li>
                 </ul>
                 <table>
                     <tbody>
                         <tr>
-                            <th>Property</th>
-                            <th>Reset &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Link</th>
-                            <th>Color / Variable</th>
+                            <th>属性</th>
+                            <th>重置 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 链接</th>
+                            <th>颜色 / 变量</th>
                         </tr>
                         {fakeCurrentTheme.map((e) => (
                             <tr key={e.prop} className="newThemeMakerRow">

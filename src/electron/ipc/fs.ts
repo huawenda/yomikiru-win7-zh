@@ -56,7 +56,7 @@ export const registerFSHandlers = (): void => {
                 });
             }
         } catch (err) {
-            if (err instanceof Error) dialog.showErrorBox("Error", err.message);
+            if (err instanceof Error) dialog.showErrorBox("错误", err.message);
         }
     });
     ipc.handle("fs:saveFile", async (_event, { filePath, data }) => {

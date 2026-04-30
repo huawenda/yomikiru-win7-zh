@@ -25,7 +25,7 @@ const LocationListItem = ({
 
     const onClickHandle = () => {
         if (!window.fs.existsSync(link)) {
-            dialogUtils.customError({ message: "Directory/File doesn't exist." });
+            dialogUtils.customError({ message: "目录/文件不存在。" });
             return;
         }
         if (formatUtils.files.test(name)) {

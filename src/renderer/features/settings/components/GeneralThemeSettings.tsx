@@ -18,7 +18,7 @@ const GeneralThemeSettings: React.FC = () => {
     const dispatch = useAppDispatch();
     return (
         <div className="settingItem2" id="settings-theme">
-            <h3>Theme</h3>
+            <h3>主题</h3>
             <div className="main row">
                 {allThemes.map((e) => (
                     <div className="themeButtons" key={e.name}>
@@ -47,7 +47,7 @@ const GeneralThemeSettings: React.FC = () => {
                             onClick={() => {
                                 dialogUtils
                                     .confirm({
-                                        message: `Delete theme "${theme}"`,
+                                        message: `删除主题 "${theme}"？`,
                                         noOption: false,
                                     })
                                     .then((res) => {
@@ -72,7 +72,7 @@ const GeneralThemeSettings: React.FC = () => {
                     <button
                         onClick={async () => {
                             const opt = await dialogUtils.showSaveDialog({
-                                title: "Export Themes",
+                                title: "导出主题",
                                 defaultPath: "yomikiru-themes.json",
                                 filters: [
                                     {
@@ -91,7 +91,7 @@ const GeneralThemeSettings: React.FC = () => {
                             });
                         }}
                     >
-                        Export
+                        导出
                     </button>
                     <button
                         onClick={async () => {
@@ -121,7 +121,7 @@ const GeneralThemeSettings: React.FC = () => {
                                             ) {
                                                 dialogUtils.warn({
                                                     message:
-                                                        "Same theme name detected. Wont be imported.\nName: " +
+                                                        "检测到同名主题，不会导入。\n名称：" +
                                                         e.name,
                                                 });
                                             } else {
@@ -132,7 +132,7 @@ const GeneralThemeSettings: React.FC = () => {
                                     });
                                 } else {
                                     dialogUtils.customError({
-                                        message: "Data is not in correct format.",
+                                        message: "数据格式不正确。",
                                         log: false,
                                     });
                                     return;
@@ -145,7 +145,7 @@ const GeneralThemeSettings: React.FC = () => {
                                             dataToAdd.map((a) => a.name).includes(e.name)
                                         ) {
                                             dialogUtils.warn({
-                                                message: `Same theme name detected. Wont be imported.\nName: ${e.name}`,
+                                                message: `检测到同名主题，不会导入。\n名称：${e.name}`,
                                             });
                                         } else {
                                             dataToAdd.push(e);
@@ -154,32 +154,32 @@ const GeneralThemeSettings: React.FC = () => {
                                     } else log.warn(`Theme import: skipped invalid row at index ${i}`);
                                 });
                             dialogUtils.confirm({
-                                title: "Imported",
-                                message: `Imported ${importedCount} themes.`,
+                                title: "已导入",
+                                message: `已导入 ${importedCount} 个主题。`,
                                 noOption: true,
                             });
                             dispatch(addThemes(dataToAdd));
                         }}
                     >
-                        Import
+                        导入
                     </button>
                     <button
                         onClick={() =>
                             window.electron.openExternal("https://github.com/mienaiyami/yomikiru/discussions/191")
                         }
                     >
-                        Share Theme / Get more Themes
+                        分享主题 / 获取更多主题
                     </button>
                 </div>
                 <div className="desc">
-                    Share your custom theme easily.{" "}
+                    轻松分享你的自定义主题。{" "}
                     <a
                         onClick={() => {
                             scrollIntoView("#settings-usage-copyTheme", "extras");
                         }}
                         id="settings-copyTheme"
                     >
-                        More Info.
+                        更多信息。
                     </a>
                 </div>
                 <div className="main row">
@@ -194,7 +194,7 @@ const GeneralThemeSettings: React.FC = () => {
                                             if (allThemes.map((e) => e.name).includes(themeJSON.name)) {
                                                 dialogUtils.warn({
                                                     message:
-                                                        "Same theme name detected. Wont be imported.\nName: " +
+                                                        "检测到同名主题，不会导入。\n名称：" +
                                                         themeJSON.name,
                                                 });
                                             } else {
@@ -202,21 +202,21 @@ const GeneralThemeSettings: React.FC = () => {
                                             }
                                         } else
                                             dialogUtils.customError({
-                                                title: "Failed",
-                                                message: `Invalid theme data. Please note that data must be similar to the result of "Copy Current Theme to Clipboard"`,
+                                                title: "失败",
+                                                message: `主题数据无效。请注意，数据必须类似“复制当前主题到剪贴板”的结果。`,
                                             });
                                     }
                                 } catch (reason) {
                                     log.error("Theme import: file read or parse failed", reason);
                                     dialogUtils.customError({
-                                        title: "Failed",
-                                        message: `Invalid theme data. Please note that data must be similar to the result of "Copy Current Theme to Clipboard"`,
+                                        title: "失败",
+                                        message: `主题数据无效。请注意，数据必须类似“复制当前主题到剪贴板”的结果。`,
                                     });
                                 }
                             }
                         }}
                     >
-                        Save Theme from Clipboard
+                        从剪贴板保存主题
                     </button>
                     <button
                         onClick={(e) => {
@@ -226,7 +226,7 @@ const GeneralThemeSettings: React.FC = () => {
                                     window.electron.writeText(JSON.stringify(currentTheme, null, "\t"));
                                     const target = e.currentTarget;
                                     const oldText = target.innerText;
-                                    target.innerText = `${"\u00a0".repeat(23)}Copied!${"\u00a0".repeat(23)}`;
+                                    target.innerText = `${"\u00a0".repeat(23)}已复制${"\u00a0".repeat(23)}`;
                                     target.disabled = true;
                                     setTimeout(() => {
                                         target.disabled = false;
@@ -234,13 +234,13 @@ const GeneralThemeSettings: React.FC = () => {
                                     }, 3000);
                                 } catch (reason) {
                                     dialogUtils.customError({
-                                        message: `Failed to copy theme: ${reason}`,
+                                        message: `复制主题失败：${reason}`,
                                     });
                                 }
                             }
                         }}
                     >
-                        Copy Current Theme to Clipboard
+                        复制当前主题到剪贴板
                     </button>
                 </div>
             </div>

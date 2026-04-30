@@ -84,13 +84,13 @@ const BookmarkTab: React.FC = () => {
 
     return (
         <div className="contTab listCont" id="bookmarksTab">
-            <h2>Bookmarks</h2>
+            <h2>书签</h2>
 
             <ListNavigator.Provider
                 items={bookmarksArray as (BookBookmark | MangaBookmark)[]}
                 filterFn={filterBookmark}
                 renderItem={renderBookmarkItem}
-                emptyMessage="No Bookmarks"
+                emptyMessage="暂无书签"
                 onContextMenu={(elem) => elem.dispatchEvent(window.contextMenu.fakeEvent(elem))}
                 onSelect={(elem) => elem.click()}
             >
@@ -99,14 +99,14 @@ const BookmarkTab: React.FC = () => {
                         <div className="row1">
                             <button
                                 data-tooltip={
-                                    "Sort: " +
+                                    "排序：" +
                                     (appSettings.bookListSortType === "normal" ? "▲ " : "▼ ") +
                                     appSettings.bookListSortBy.toUpperCase()
                                 }
                                 onClick={(e) => {
                                     const items: Menu.ListItem[] = [
                                         {
-                                            label: "Name",
+                                            label: "名称",
                                             action() {
                                                 dispatch(
                                                     setAppSettings({
@@ -117,7 +117,7 @@ const BookmarkTab: React.FC = () => {
                                             selected: appSettings.bookListSortBy === "name",
                                         },
                                         {
-                                            label: "Date Added",
+                                            label: "添加日期",
                                             action() {
                                                 dispatch(
                                                     setAppSettings({
@@ -129,7 +129,7 @@ const BookmarkTab: React.FC = () => {
                                         },
                                         window.contextMenu.template.divider(),
                                         {
-                                            label: "Ascending",
+                                            label: "升序",
                                             action() {
                                                 dispatch(
                                                     setAppSettings({
@@ -140,7 +140,7 @@ const BookmarkTab: React.FC = () => {
                                             selected: appSettings.bookListSortType === "normal",
                                         },
                                         {
-                                            label: "Descending",
+                                            label: "降序",
                                             action() {
                                                 dispatch(
                                                     setAppSettings({

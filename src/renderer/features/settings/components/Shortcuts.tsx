@@ -15,7 +15,7 @@ const ShortcutInput = ({ command }: { command: ShortcutCommands }) => {
     const shortcuts = useAppSelector((store) => store.shortcuts);
     const dispatch = useAppDispatch();
     const shortcut = shortcuts.find((e) => e.command === command);
-    if (!shortcut) return <p>Command &quot;{command}&quot; not found.</p>;
+    if (!shortcut) return <p>未找到命令 &quot;{command}&quot;。</p>;
 
     const tryAddShortcut = (newKey: string, inputRef?: HTMLInputElement) => {
         const dupIndex = shortcuts.findIndex((s) => s.keys.includes(newKey));
@@ -23,11 +23,11 @@ const ShortcutInput = ({ command }: { command: ShortcutCommands }) => {
             const name =
                 SHORTCUT_COMMAND_MAP.find((s) => s.command === shortcuts[dupIndex].command)?.name || command;
             log.warn(`"${newKey}" already bound to "${shortcuts[dupIndex].command}"`);
-            dialogUtils.warn({ message: `"${newKey}" already bound to "${name}".` });
+            dialogUtils.warn({ message: `"${newKey}" 已绑定到 "${name}"。` });
             return;
         }
         if (reservedKeys.includes(newKey)) {
-            dialogUtils.warn({ message: "Can't use reserved key combination." });
+            dialogUtils.warn({ message: "不能使用保留的快捷键组合。" });
             log.warn(`"${newKey}" is reserved key combination.`);
             inputRef?.focus();
             return;
@@ -84,7 +84,7 @@ const ShortcutInput = ({ command }: { command: ShortcutCommands }) => {
                         e.stopPropagation();
                         tryAddShortcut(newKey);
                     }}
-                    placeholder="Add New"
+                    placeholder="新增"
                     readOnly
                     spellCheck={false}
                 />
@@ -98,17 +98,16 @@ const Shortcuts = (): ReactElement => {
     return (
         <div className="shortcutKey">
             <ul>
-                <li>Some changes may require app to restart.</li>
-                <li>You can use middle mouse button or grab to scroll reader.</li>
+                <li>部分更改可能需要重启应用。</li>
+                <li>可以使用鼠标中键或拖拽来滚动阅读器。</li>
                 <li>
-                    Mouse button 4 or 5 (back/forward): hover over &quot;Add New&quot; input first, then click to
-                    bind.
+                    鼠标按键 4 或 5（后退/前进）：先将鼠标悬停在“新增”输入框上，然后点击绑定。
                 </li>
                 <li>
-                    Use <code>Backspace</code> to clear key binding.
+                    使用 <code>Backspace</code> 清除快捷键绑定。
                 </li>
                 <li>
-                    Reserved Keys :{" "}
+                    保留快捷键：{" "}
                     {reservedKeys.map((e) => (
                         <span key={e}>
                             <code>{e}</code>{" "}
@@ -120,8 +119,8 @@ const Shortcuts = (): ReactElement => {
             <table>
                 <tbody>
                     <tr>
-                        <th>Function</th>
-                        <th>Key</th>
+                        <th>功能</th>
+                        <th>快捷键</th>
                     </tr>
                     {SHORTCUT_COMMAND_MAP.map((e) => (
                         <tr key={e.command}>
@@ -133,7 +132,7 @@ const Shortcuts = (): ReactElement => {
                                             scrollIntoView("#settings-usage-searchShortcutKeys", "extras");
                                         }}
                                     >
-                                        More Info.
+                                        更多信息。
                                     </a>
                                 )}
                             </td>
@@ -143,37 +142,37 @@ const Shortcuts = (): ReactElement => {
                         </tr>
                     ))}
                     <tr>
-                        <td>New Window</td>
+                        <td>新窗口</td>
                         <td>
                             <code>ctrl+n</code>
                         </td>
                     </tr>
                     <tr>
-                        <td>Close Window</td>
+                        <td>关闭窗口</td>
                         <td>
                             <code>ctrl+w</code>
                         </td>
                     </tr>
                     <tr>
-                        <td>Reader width</td>
+                        <td>阅读器宽度</td>
                         <td>
                             <code>ctrl+scroll</code>
                         </td>
                     </tr>
                     <tr>
-                        <td>Reload UI</td>
+                        <td>重载 UI</td>
                         <td>
                             <code>ctrl+r</code>
                         </td>
                     </tr>
                     <tr>
-                        <td>Reload UI and try to clear cache</td>
+                        <td>重载 UI 并尝试清除缓存</td>
                         <td>
                             <code>ctrl+shift+r</code>
                         </td>
                     </tr>
                     <tr>
-                        <td>Dev Tool</td>
+                        <td>开发者工具</td>
                         <td>
                             <code>ctrl+shift+i</code>
                         </td>

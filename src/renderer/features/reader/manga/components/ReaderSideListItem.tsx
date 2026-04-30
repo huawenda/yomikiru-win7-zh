@@ -88,7 +88,7 @@ const ReaderSideListItem = memo(
                         {formatUtils.files.getExt(name)}
                     </code>
                 ) : (
-                    <span className="pageNum" title="Total Pages">
+                    <span className="pageNum" title="总页数">
                         {pages}
                     </span>
                 )}

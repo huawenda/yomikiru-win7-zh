@@ -46,16 +46,16 @@ const setBodyTheme = ({ allData, name }: Themes) => {
             }
         } else {
             dialogUtils.customError({
-                title: "Error",
-                message: `"${name}" Theme does not exist or is corrupted.\nRewriting theme`,
+                title: "错误",
+                message: `主题“${name}”不存在或已损坏。\n正在重写主题`,
             });
             window.fs.rm(window.path.join(window.electron.app.getPath("userData"), "themes.json"));
             window.location.reload();
         }
     } else {
         dialogUtils.customError({
-            title: "Error",
-            message: `Theme "${name}" does not exist. Try fixing or deleting theme.json and settings.json in "userdata" folder.(at "%appdata%/Yomikiru/" or in main folder on Portable version)`,
+            title: "错误",
+            message: `主题“${name}”不存在。请尝试修复或删除 userdata 文件夹中的 theme.json 和 settings.json（位于 "%appdata%/Yomikiru/"，便携版则在主文件夹中）。`,
         });
     }
 };
@@ -77,7 +77,7 @@ if (window.fs.existsSync(themesPath)) {
 
         // validate theme data
         if (typeof data.allData[0].main === "string" || !Array.isArray(data.allData))
-            throw { message: "Theme variable does not exist on theme.main" };
+            throw { message: "theme.main 中不存在主题变量" };
         const addedProp = new Set<string>();
         for (const prop in themeProps) {
             let rewriteNeeded = false;
@@ -121,7 +121,7 @@ if (window.fs.existsSync(themesPath)) {
         const message = err instanceof Error ? err.message : String(err);
         if (message === "newTheme")
             dialogUtils.customError({
-                message: "Theme system changed, old themes will be deleted. Sorry for your inconvenience.",
+                message: "主题系统已变更，旧主题将被删除。给你带来不便很抱歉。",
             });
         else
             dialogUtils.customError({
@@ -140,8 +140,8 @@ if (window.fs.existsSync(themesPath)) {
 
 if (!initialState.allData.map((e) => e.name).includes(initialState.name)) {
     dialogUtils.customError({
-        title: "Error",
-        message: `Theme "${initialState.name}" does not exist. Switching to default theme.`,
+        title: "错误",
+        message: `主题“${initialState.name}”不存在。正在切换到默认主题。`,
     });
     initialState.name = "theme2";
     saveJSONfile(themesPath, initialState);
@@ -177,8 +177,8 @@ const themes = createSlice({
                 });
             } catch {
                 dialogUtils.customError({
-                    title: "Error",
-                    message: `Unable to parse ${themesPath}\nMaking new themes.json...`,
+                    title: "错误",
+                    message: `无法解析 ${themesPath}\n正在创建新的 themes.json...`,
                 });
             }
         },

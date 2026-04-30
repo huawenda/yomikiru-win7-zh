@@ -55,7 +55,7 @@ export class TrayManager {
         const windows = WindowManager.getAllWindows();
         const windowItems: Electron.MenuItemConstructorOptions[] =
             windows.length === 0
-                ? [{ label: "(No windows)", enabled: false }]
+                ? [{ label: "（无窗口）", enabled: false }]
                 : windows.map((w) => ({
                       label: TrayManager.truncateTitle(w.getTitle() || app.name),
                       click: () => {
@@ -71,13 +71,13 @@ export class TrayManager {
 
         const template: Electron.MenuItemConstructorOptions[] = [
             {
-                label: "Windows",
+                label: "窗口",
                 enabled: false,
             },
             ...windowItems,
             { type: "separator" },
             {
-                label: "Hide all Windows",
+                label: "隐藏所有窗口",
                 enabled: windows.length > 0,
                 click: () => {
                     TrayManager.hideAllWindows();
@@ -85,7 +85,7 @@ export class TrayManager {
             },
             { type: "separator" },
             {
-                label: "Exit",
+                label: "退出",
                 click: () => {
                     app.quit();
                 },

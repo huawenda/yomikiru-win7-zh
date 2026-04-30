@@ -63,7 +63,7 @@ const ReaderSettings = memo(
                     const id = appSettings.mangaReaderPresetId;
                     if (id) {
                         dispatch(updateMangaPreset({ id, data: appSettings.readerSettings }));
-                        setShortcutText(`Saved to preset "${currentPresetName ?? "Unknown"}"`);
+                        setShortcutText(`已保存到预设“${currentPresetName ?? "未知"}”`);
                     }
                 }
             };
@@ -109,7 +109,7 @@ const ReaderSettings = memo(
                     onKeyDown={(e) => {
                         if (e.key === "Escape" || e.key === "q") e.currentTarget.blur();
                     }}
-                    {...(!isReaderSettingsOpen ? { "data-tooltip": "Reader Settings" } : {})}
+                    {...(!isReaderSettingsOpen ? { "data-tooltip": "阅读器设置" } : {})}
                 >
                     <FontAwesomeIcon icon={isReaderSettingsOpen ? faTimes : faBars} />
                 </button>
@@ -132,7 +132,7 @@ const ReaderSettings = memo(
                                 );
                             }}
                         >
-                            Size
+                            尺寸
                         </div>
                         <div className="options">
                             <InputNumber
@@ -193,7 +193,7 @@ const ReaderSettings = memo(
                                     onChange={(e) =>
                                         dispatch(setReaderSettings({ widthClamped: e.target.checked }))
                                     }
-                                    paraAfter="Clamp size to window width"
+                                    paraAfter="将尺寸限制在窗口宽度内"
                                 />
                             </div>
                         </div>
@@ -219,7 +219,7 @@ const ReaderSettings = memo(
                                 );
                             }}
                         >
-                            Fit Options
+                            适配选项
                         </div>
                         <div className="options">
                             <div className="row">
@@ -230,7 +230,7 @@ const ReaderSettings = memo(
                                     onClick={() => {
                                         dispatch(setReaderSettings({ fitOption: 0 }));
                                     }}
-                                    title="Free"
+                                    title="自由缩放"
                                 >
                                     <FontAwesomeIcon icon={faExpandArrowsAlt} />
                                 </button>
@@ -245,7 +245,7 @@ const ReaderSettings = memo(
                                             }),
                                         );
                                     }}
-                                    title="Fit Vertically"
+                                    title="垂直适配"
                                 >
                                     <FontAwesomeIcon icon={faArrowsAltV} />
                                 </button>
@@ -260,7 +260,7 @@ const ReaderSettings = memo(
                                             }),
                                         );
                                     }}
-                                    title="Fit Horizontally"
+                                    title="水平适配"
                                 >
                                     <FontAwesomeIcon icon={faArrowsAltH} />
                                 </button>
@@ -275,7 +275,7 @@ const ReaderSettings = memo(
                                             }),
                                         );
                                     }}
-                                    title="Original"
+                                    title="原始尺寸"
                                     style={{ fontWeight: "bold" }}
                                 >
                                     1:1
@@ -302,7 +302,7 @@ const ReaderSettings = memo(
                                         appSettings.readerSettings.fitOption !== 0
                                     }
                                     timeout={[1000, (value) => dispatch(setReaderSettings({ maxWidth: value }))]}
-                                    paraBefore="Max Image Width&nbsp;&nbsp;:"
+                                    paraBefore="最大图片宽度&nbsp;&nbsp;:"
                                     paraAfter="px"
                                 />
                                 <InputCheckboxNumber
@@ -325,7 +325,7 @@ const ReaderSettings = memo(
                                         appSettings.readerSettings.fitOption !== 0
                                     }
                                     timeout={[1000, (value) => dispatch(setReaderSettings({ maxHeight: value }))]}
-                                    paraBefore="Max Image Height&nbsp;:"
+                                    paraBefore="最大图片高度&nbsp;:"
                                     paraAfter="px"
                                 />
                             </div>
@@ -352,7 +352,7 @@ const ReaderSettings = memo(
                                 );
                             }}
                         >
-                            Reading Mode
+                            阅读模式
                         </div>
                         <div className="options">
                             <button
@@ -361,7 +361,7 @@ const ReaderSettings = memo(
                                 }
                                 onClick={() => dispatch(setReaderSettings({ readerTypeSelected: 0 }))}
                             >
-                                Vertical Scroll
+                                垂直滚动
                             </button>
                             <button
                                 className={
@@ -369,7 +369,7 @@ const ReaderSettings = memo(
                                 }
                                 onClick={() => dispatch(setReaderSettings({ readerTypeSelected: 1 }))}
                             >
-                                Left to Right
+                                从左到右
                             </button>
                             <button
                                 className={
@@ -377,7 +377,7 @@ const ReaderSettings = memo(
                                 }
                                 onClick={() => dispatch(setReaderSettings({ readerTypeSelected: 2 }))}
                             >
-                                Right to Left
+                                从右到左
                             </button>
                         </div>
                     </div>
@@ -402,7 +402,7 @@ const ReaderSettings = memo(
                                 );
                             }}
                         >
-                            Pages Per Row
+                            每行页数
                         </div>
                         <div className="options">
                             <button
@@ -456,7 +456,7 @@ const ReaderSettings = memo(
                                     dispatch(setReaderSettings({ pagesPerRowSelected, readerWidth }));
                                 }}
                             >
-                                2 odd
+                                2（奇数优先）
                             </button>
                         </div>
                     </div>
@@ -481,7 +481,7 @@ const ReaderSettings = memo(
                                 );
                             }}
                         >
-                            Reading Side
+                            阅读方向
                         </div>
                         <div className="options">
                             <button
@@ -524,9 +524,9 @@ const ReaderSettings = memo(
                                     }),
                                 );
                             }}
-                            title={`Scrolling speed with keys.\nCheck Settings->Shortcut for more.`}
+                            title={`使用按键滚动时的速度。\n更多设置见“设置 -> 快捷键”。`}
                         >
-                            Scroll Speed
+                            滚动速度
                         </div>
                         <div className="options">
                             <InputNumber
@@ -534,7 +534,7 @@ const ReaderSettings = memo(
                                 max={500}
                                 value={appSettings.readerSettings.scrollSpeedA}
                                 timeout={[1000, (value) => dispatch(setReaderSettings({ scrollSpeedA: value }))]}
-                                labelBefore="Scroll&nbsp;A&nbsp;(key)&nbsp;:"
+                                labelBefore="滚动&nbsp;A&nbsp;（按键）&nbsp;:"
                                 labelAfter="px"
                                 // tooltip={(() => {
                                 //     const index1 = shortcuts.findIndex((e) => e.command === "scrollDown");
@@ -548,7 +548,7 @@ const ReaderSettings = memo(
                                 max={500}
                                 value={appSettings.readerSettings.scrollSpeedB}
                                 timeout={[1000, (value) => dispatch(setReaderSettings({ scrollSpeedB: value }))]}
-                                labelBefore="Scroll&nbsp;B&nbsp;(key)&nbsp;:"
+                                labelBefore="滚动&nbsp;B&nbsp;（按键）&nbsp;:"
                                 labelAfter="px"
                                 // tooltip={(() => {
                                 //     const index = shortcuts.findIndex((e) => e.command === "largeScroll");
@@ -573,8 +573,8 @@ const ReaderSettings = memo(
                                     1000,
                                     (value) => dispatch(setReaderSettings({ mouseWheelScrollSpeed: value })),
                                 ]}
-                                paraBefore="Mouse Wheel Speed&nbsp;:"
-                                paraAfter="screen"
+                                paraBefore="鼠标滚轮速度&nbsp;:"
+                                paraAfter="屏"
                             />
                             <InputNumber
                                 min={0}
@@ -585,7 +585,7 @@ const ReaderSettings = memo(
                                     1000,
                                     (value) => dispatch(setReaderSettings({ mouseWheelScrollDuration: value })),
                                 ]}
-                                paraBefore="Mouse Wheel Scroll Duration&nbsp;:"
+                                paraBefore="鼠标滚轮滚动时长&nbsp;:"
                                 paraAfter="ms"
                             />
                             <InputCheckboxNumber
@@ -601,7 +601,7 @@ const ReaderSettings = memo(
                                     1000,
                                     (value) => dispatch(setReaderSettings({ touchScrollMultiplier: value })),
                                 ]}
-                                labelBefore="Drag&nbsp;Multiplier&nbsp;:"
+                                labelBefore="拖拽倍率&nbsp;:"
                             />
                         </div>
                     </div>
@@ -629,7 +629,7 @@ const ReaderSettings = memo(
                                 );
                             }}
                         >
-                            Color Filters
+                            颜色滤镜
                         </div>
                         <div className="options col">
                             <InputCheckboxColor
@@ -644,7 +644,7 @@ const ReaderSettings = memo(
                                         }),
                                     );
                                 }}
-                                paraBefore="Use Custom Color Filter"
+                                paraBefore="使用自定义颜色滤镜"
                                 value={colorUtils.new([
                                     appSettings.readerSettings.customColorFilter.r,
                                     appSettings.readerSettings.customColorFilter.g,
@@ -673,7 +673,7 @@ const ReaderSettings = memo(
                                 disabled={!appSettings.readerSettings.customColorFilter.enabled}
                                 value={appSettings.readerSettings.customColorFilter.blendMode}
                                 labeled={true}
-                                paraBefore="Blend&nbsp;Mode:"
+                                paraBefore="混合模式&nbsp;:"
                                 onChange={(value) => {
                                     dispatch(
                                         setReaderSettings({
@@ -706,7 +706,7 @@ const ReaderSettings = memo(
                                 ].map((e) => ({ label: e, value: e }))}
                             />
                             <InputRange
-                                labelText="Hue: "
+                                labelText="色相: "
                                 min={0}
                                 max={360}
                                 value={appSettings.readerSettings.customColorFilter.hue}
@@ -726,7 +726,7 @@ const ReaderSettings = memo(
                                 ]}
                             />
                             <InputRange
-                                labelText="Contrast: "
+                                labelText="对比度: "
                                 min={-1}
                                 max={1}
                                 step={0.1}
@@ -747,7 +747,7 @@ const ReaderSettings = memo(
                                 ]}
                             />
                             <InputRange
-                                labelText="Saturation: "
+                                labelText="饱和度: "
                                 min={-1}
                                 max={1}
                                 step={0.1}
@@ -768,7 +768,7 @@ const ReaderSettings = memo(
                                 ]}
                             />
                             <InputRange
-                                labelText="Brightness: "
+                                labelText="亮度: "
                                 min={-1}
                                 max={1}
                                 step={0.1}
@@ -801,7 +801,7 @@ const ReaderSettings = memo(
                                     );
                                 }}
                             >
-                                Reset
+                                重置
                             </button>
                             <InputCheckbox
                                 checked={appSettings.readerSettings.invertImage}
@@ -812,7 +812,7 @@ const ReaderSettings = memo(
                                         }),
                                     );
                                 }}
-                                paraAfter="Invert Image"
+                                paraAfter="图片反色"
                             />
                             <InputCheckbox
                                 checked={appSettings.readerSettings.grayscale}
@@ -823,7 +823,7 @@ const ReaderSettings = memo(
                                         }),
                                     );
                                 }}
-                                paraAfter="Grayscale"
+                                paraAfter="灰度"
                             />
                         </div>
                     </div>
@@ -845,7 +845,7 @@ const ReaderSettings = memo(
                                 );
                             }}
                         >
-                            Other Settings
+                            其他设置
                         </div>
 
                         <div className="options col">
@@ -855,7 +855,7 @@ const ReaderSettings = memo(
                                 onChange={(e) => {
                                     dispatch(setReaderSettings({ variableImageSize: e.currentTarget.checked }));
                                 }}
-                                paraAfter="Double size for double spread pages."
+                                paraAfter="跨页图片使用双倍尺寸"
                             />
                             <InputCheckboxNumber
                                 disabled={appSettings.readerSettings.readerTypeSelected !== 0}
@@ -867,7 +867,7 @@ const ReaderSettings = memo(
                                 min={0}
                                 max={2000}
                                 timeout={[1000, (value) => dispatch(setReaderSettings({ gapSize: value }))]}
-                                paraBefore="Gap between rows&nbsp;:"
+                                paraBefore="行间距&nbsp;:"
                                 paraAfter="px"
                             />
                             <InputCheckbox
@@ -879,7 +879,7 @@ const ReaderSettings = memo(
                                         }),
                                     );
                                 }}
-                                paraAfter="Show Page Number in Zen Mode"
+                                paraAfter="在 Zen Mode 中显示页码"
                             />
                             <InputCheckbox
                                 checked={appSettings.readerSettings.forceLowBrightness.enabled}
@@ -893,7 +893,7 @@ const ReaderSettings = memo(
                                         }),
                                     );
                                 }}
-                                paraAfter="Force Low brightness"
+                                paraAfter="强制降低亮度"
                             />
                             <InputRange
                                 className={"colorRange"}

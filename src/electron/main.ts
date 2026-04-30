@@ -82,7 +82,7 @@ app.on("ready", async () => {
          */
         const template: MenuItemConstructorOptions[] = [
             {
-                label: "Edit",
+                label: "编辑",
                 submenu: [
                     { role: "undo" },
                     { role: "redo" },
@@ -94,7 +94,7 @@ app.on("ready", async () => {
                 ],
             },
             {
-                label: "View",
+                label: "视图",
                 submenu: [
                     { role: "reload" },
                     { role: "forceReload" },
@@ -103,7 +103,7 @@ app.on("ready", async () => {
                 ],
             },
             {
-                label: "Others",
+                label: "其他",
                 submenu: [
                     {
                         role: "help",
@@ -111,17 +111,17 @@ app.on("ready", async () => {
                         click: () => shell.openExternal("https://github.com/mienaiyami/yomikiru"),
                     },
                     {
-                        label: "New Window",
+                        label: "新窗口",
                         accelerator: process.platform === "darwin" ? "Cmd+N" : "Ctrl+N",
                         click: () => WindowManager.createWindow(),
                     },
                     {
-                        label: "Close",
+                        label: "关闭",
                         accelerator: process.platform === "darwin" ? "Cmd+W" : "Ctrl+W",
                         click: (_, window) => window?.close(),
                     },
                     {
-                        label: "Report Issue",
+                        label: "报告问题",
                         click: () => errorHandler.showIssueReportDialog(),
                     },
                 ],

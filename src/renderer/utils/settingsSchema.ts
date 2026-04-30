@@ -149,18 +149,18 @@ const parseAppSettings = (): z.infer<typeof settingSchema> => {
         );
         if (!repaired.success) {
             log.error("settings.json could not be repaired with defaults; remaking file");
-            dialogUtils.customError({ message: "Unable to parse settings.json. Remaking." });
+            dialogUtils.customError({ message: "无法解析 settings.json，正在重新生成。" });
             makeSettingsJson();
             return defaultSettings;
         }
         dialogUtils.warn({
-            message: `Some settings are invalid or new settings added. Re-writing settings.`,
+            message: "部分设置无效，或新增了设置项。正在重新写入设置。",
         });
         saveJSONfile(settingsPath, repaired.data);
         return repaired.data;
     } catch (err) {
         log.error("settings.json read or parse threw; remaking file", err);
-        dialogUtils.customError({ message: "Unable to parse settings.json. Remaking." });
+        dialogUtils.customError({ message: "无法解析 settings.json，正在重新生成。" });
         makeSettingsJson();
         return defaultSettings;
     }

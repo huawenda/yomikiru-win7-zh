@@ -24,7 +24,7 @@ const GeneralSettings: React.FC = () => {
     return (
         <div className="content2">
             <div className="settingItem2">
-                <h3>Default Location</h3>
+                <h3>默认位置</h3>
                 {/* <div className="desc">
                                     Default location of home screen Locations tab. Set this to folder where you
                                     store your manga.
@@ -36,7 +36,7 @@ const GeneralSettings: React.FC = () => {
                             promptSelectDir((path) => dispatch(setAppSettings({ baseDir: path as string })));
                         }}
                     >
-                        Change Default
+                        更改默认位置
                     </button>
                 </div>
             </div>
@@ -46,21 +46,21 @@ const GeneralSettings: React.FC = () => {
             <AnilistSetting />
             <GeneralPDFSettings />
             <div className="settingItem2" id="settings-customStylesheet">
-                <h3>Custom Stylesheet</h3>
+                <h3>自定义样式表</h3>
                 <div className="desc">
-                    You can include your custom css stylesheet to change style of app more than what theme can do.{" "}
+                    可以加载自定义 CSS 样式表，以实现主题之外的界面样式调整。{" "}
                     <a
                         onClick={() => {
                             scrollIntoView("#settings-usage-customStylesheet", "extras");
                         }}
                     >
-                        More Info
+                        更多信息
                     </a>
                 </div>
                 <div className="main row">
                     <input
                         type="text"
-                        placeholder="No File Selected"
+                        placeholder="未选择文件"
                         value={appSettings.customStylesheet}
                         readOnly
                     />
@@ -80,20 +80,20 @@ const GeneralSettings: React.FC = () => {
                             );
                         }}
                     >
-                        Select
+                        选择
                     </button>
                     <button
                         onClick={() => {
                             dispatch(setAppSettings({ customStylesheet: "" }));
                         }}
                     >
-                        Clear
+                        清除
                     </button>
                 </div>
             </div>
             <CustomTempLocation />
             <div className="settingItem2 otherSettings" id="settings-otherSettings">
-                <h3>Other Settings</h3>
+                <h3>其他设置</h3>
                 <div className="toggleItem">
                     <InputCheckbox
                         checked={mainSettings.hardwareAcceleration}
@@ -101,11 +101,10 @@ const GeneralSettings: React.FC = () => {
                         onChange={async (e) => {
                             dispatch(updateMainSettings({ hardwareAcceleration: e.currentTarget.checked }));
                         }}
-                        labelAfter="Hardware Acceleration"
+                        labelAfter="硬件加速"
                     />
                     <div className="desc">
-                        Use GPU to accelerate rendering. Prevents reader stuttering.{" "}
-                        <code>App Restart Needed</code>
+                        使用 GPU 加速渲染，减少阅读器卡顿。 <code>需要重启应用</code>
                     </div>
                 </div>
                 <div className="toggleItem">
@@ -115,9 +114,9 @@ const GeneralSettings: React.FC = () => {
                         onChange={async (e) => {
                             dispatch(updateMainSettings({ askBeforeClosing: e.currentTarget.checked }));
                         }}
-                        labelAfter="Confirm Close Window"
+                        labelAfter="关闭窗口前确认"
                     />
-                    <div className="desc">Ask for confirmation before closing a window.</div>
+                    <div className="desc">关闭窗口前弹出确认。</div>
                 </div>
                 <div className="toggleItem">
                     <InputCheckbox
@@ -126,12 +125,10 @@ const GeneralSettings: React.FC = () => {
                         onChange={async (e) => {
                             dispatch(updateMainSettings({ minimizeToTray: e.currentTarget.checked }));
                         }}
-                        labelAfter="Minimize to Tray"
+                        labelAfter="最小化到托盘"
                     />
                     <div className="desc">
-                        When enabled, minimize sends the window to the system tray instead of the taskbar. One
-                        window: left-click tray toggles show/hide. Multiple windows: left-click restores or
-                        focuses. Right-click: window list, Hide all Windows, Exit.
+                        启用后，最小化会将窗口发送到系统托盘而不是任务栏。单窗口时左键托盘图标切换显示/隐藏；多窗口时左键还原或聚焦。右键可查看窗口列表、隐藏所有窗口和退出。
                     </div>
                 </div>
                 <div className="toggleItem">
@@ -141,11 +138,10 @@ const GeneralSettings: React.FC = () => {
                         onChange={async (e) => {
                             dispatch(updateMainSettings({ openInExistingWindow: e.currentTarget.checked }));
                         }}
-                        labelAfter="Use Existing Window"
+                        labelAfter="使用现有窗口"
                     />
                     <div className="desc">
-                        Open files in current window and focus it when launching the app again. Disabled: open in
-                        new window. <code>App Restart Needed</code>
+                        再次启动应用时，在当前窗口打开文件并聚焦。关闭后会在新窗口打开。<code>需要重启应用</code>
                     </div>
                 </div>
                 <div className="toggleItem">
@@ -155,9 +151,9 @@ const GeneralSettings: React.FC = () => {
                         onChange={(e) => {
                             dispatch(setAppSettings({ openOnDblClick: e.currentTarget.checked }));
                         }}
-                        labelAfter="Open on double-click"
+                        labelAfter="双击打开"
                     />
-                    <div className="desc">Open items from home location list in reader on double click.</div>
+                    <div className="desc">在主页位置列表中双击项目时，用阅读器打开。</div>
                 </div>
                 <div className="toggleItem">
                     <InputCheckbox
@@ -166,10 +162,10 @@ const GeneralSettings: React.FC = () => {
                         onChange={(e) => {
                             dispatch(setAppSettings({ syncSettings: e.currentTarget.checked }));
                         }}
-                        labelAfter="Sync Settings"
+                        labelAfter="同步设置"
                     />
                     <div className="desc">
-                        Sync app settings across all opened windows. <code>App Restart Needed</code>
+                        在所有已打开窗口之间同步应用设置。<code>需要重启应用</code>
                     </div>
                 </div>
                 <div className="toggleItem">
@@ -179,10 +175,10 @@ const GeneralSettings: React.FC = () => {
                         onChange={(e) => {
                             dispatch(setAppSettings({ syncThemes: e.currentTarget.checked }));
                         }}
-                        labelAfter="Sync Themes"
+                        labelAfter="同步主题"
                     />
                     <div className="desc">
-                        Sync themes across all opened windows. <code>App Restart Needed</code>
+                        在所有已打开窗口之间同步主题。<code>需要重启应用</code>
                     </div>
                 </div>
                 <div className="toggleItem" id="settings-openDirectlyFromManga">
@@ -196,17 +192,16 @@ const GeneralSettings: React.FC = () => {
                                 }),
                             );
                         }}
-                        labelAfter="Chapter Opening Shortcut"
+                        labelAfter="章节打开快捷方式"
                     />
                     <div className="desc">
-                        Open chapter directly by clicking name instead of arrow in reader if chapter folder is in
-                        manga folder inside default location.{" "}
+                        如果章节文件夹位于默认位置下的漫画文件夹内，点击名称即可直接打开章节，不必点击阅读器中的箭头。{" "}
                         <a
                             onClick={() => {
                                 scrollIntoView("#settings-usage-openDirectlyFromManga", "extras");
                             }}
                         >
-                            More Info
+                            更多信息
                         </a>
                     </div>
                 </div>
@@ -217,9 +212,9 @@ const GeneralSettings: React.FC = () => {
                         onChange={(e) => {
                             dispatch(setAppSettings({ showSearch: e.currentTarget.checked }));
                         }}
-                        labelAfter="Bookmark / History Search"
+                        labelAfter="书签/历史搜索"
                     />
-                    <div className="desc">Show search bar over bookmarks and history list.</div>
+                    <div className="desc">在书签和历史列表上方显示搜索栏。</div>
                 </div>
                 <div className="toggleItem">
                     <InputCheckbox
@@ -232,12 +227,12 @@ const GeneralSettings: React.FC = () => {
                                 }),
                             );
                         }}
-                        labelAfter="Confirm Side-List Item Delete"
+                        labelAfter="删除侧边列表项目前确认"
                     />
                     <div className="desc">
-                        Confirm before deleting item from history/bookmark/note in side list.
+                        从侧边列表删除历史、书签或笔记前进行确认。
                         <br />
-                        Always true on home page.
+                        主页中始终启用。
                     </div>
                 </div>
                 <div className="toggleItem">
@@ -247,11 +242,10 @@ const GeneralSettings: React.FC = () => {
                         onChange={(e) => {
                             dispatch(setAppSettings({ openInZenMode: e.currentTarget.checked }));
                         }}
-                        labelAfter="Auto Zen Mode"
+                        labelAfter="自动 Zen Mode"
                     />
                     <div className="desc">
-                        Open reader in &quot;Zen Mode&quot; by default. Applies to opening from file explorer as
-                        well.
+                        默认以 &quot;Zen Mode&quot; 打开阅读器。从文件资源管理器打开时同样生效。
                     </div>
                 </div>
                 <div className="toggleItem">
@@ -265,9 +259,9 @@ const GeneralSettings: React.FC = () => {
                                 }),
                             );
                         }}
-                        labelAfter="Zen Mode Cursor"
+                        labelAfter="Zen Mode 光标"
                     />
-                    <div className="desc">Hide cursor in Zen Mode.</div>
+                    <div className="desc">在 Zen Mode 中隐藏光标。</div>
                 </div>
                 <div className="toggleItem">
                     <InputCheckbox
@@ -280,11 +274,10 @@ const GeneralSettings: React.FC = () => {
                                 }),
                             );
                         }}
-                        labelAfter="Auto Refresh Side-list"
+                        labelAfter="自动刷新侧边列表"
                     />
                     <div className="desc">
-                        Automatically refresh reader-side-list when change in files is detected. It can be heavy
-                        task if you have slow storage and chapter+page count is high.
+                        检测到文件变化时自动刷新阅读器侧边列表。如果存储较慢且章节/页数较多，可能会比较耗时。
                     </div>
                 </div>
                 <div className="toggleItem">
@@ -298,13 +291,12 @@ const GeneralSettings: React.FC = () => {
                                 }),
                             );
                         }}
-                        labelAfter="Canvas Based Rendering"
+                        labelAfter="Canvas 渲染"
                     />
                     <div className="desc">
-                        Make scrolling smooth and prevent stuttering when reading high res images.
+                        阅读高分辨率图片时让滚动更平滑，并减少卡顿。
                         <br />
-                        Drawbacks : high RAM usage and less sharp images when size is set to a low value.
-                        <code>Experimental</code>
+                        缺点：RAM 占用较高；尺寸设置较低时图片清晰度会下降。<code>实验性</code>
                     </div>
                 </div>
                 <div className="toggleItem">
@@ -319,14 +311,13 @@ const GeneralSettings: React.FC = () => {
                             );
                         }}
                         disabled={appSettings.useCanvasBasedReader}
-                        labelAfter="Dynamic Image Loading"
+                        labelAfter="动态图片加载"
                     />
                     <div className="desc">
-                        Removes Initial loading screen and load Images as you scroll. Doesn&apos;t work with
+                        移除初始加载界面，并在滚动时加载图片。不适用于
                         &quot;Canvas Based Rendering&quot;
                         <br />
-                        Drawbacks : Inconsistent scroll size, no double-span images support, stuttering while
-                        scrolling.
+                        缺点：滚动尺寸可能不稳定，不支持跨页图片，滚动时可能卡顿。
                     </div>
                 </div>
 
@@ -341,11 +332,10 @@ const GeneralSettings: React.FC = () => {
                                 }),
                             );
                         }}
-                        labelAfter="Auto-Focus current chapter in side-list "
+                        labelAfter="自动聚焦侧边列表中的当前章节"
                     />
                     <div className="desc">
-                        Automatically focus/scroll to current chapter entry in side-list when changing chapter. Can
-                        cause huge performance loss in case of epub with large number (&gt; 500) of chapters.
+                        切换章节时自动聚焦/滚动到侧边列表中的当前章节。对于章节数量很多（&gt; 500）的 EPUB，可能造成明显性能损耗。
                     </div>
                 </div>
                 <div className="toggleItem">
@@ -359,7 +349,7 @@ const GeneralSettings: React.FC = () => {
                                 }),
                             );
                         }}
-                        labelAfter="EPUB: Auto-Focus current chapter in side-list "
+                        labelAfter="EPUB：自动聚焦侧边列表中的当前章节"
                     />
                 </div>
                 <div className="toggleItem">
@@ -373,13 +363,12 @@ const GeneralSettings: React.FC = () => {
                                 }),
                             );
                         }}
-                        labelAfter="EPUB: Load By Chapter"
+                        labelAfter="EPUB：按章节加载"
                     />
                     <div className="desc">
-                        Load and show one chapter at a time (from TOC). If disabled whole epub file will be
-                        displayed (high RAM usage).
+                        每次只加载并显示一个章节（来自 TOC）。关闭后会显示整个 EPUB 文件（RAM 占用较高）。
                         <br />
-                        Drawback : Content outside of TOC will not be accessible.
+                        缺点：TOC 之外的内容将无法访问。
                     </div>
                 </div>
                 <div className="toggleItem">
@@ -393,16 +382,16 @@ const GeneralSettings: React.FC = () => {
                                 }),
                             );
                         }}
-                        labelAfter="EPUB: Disable Text Select / Enable double-click zen mode"
+                        labelAfter="EPUB：禁用文本选择 / 启用双击 Zen Mode"
                     />
                     <div className="desc">
-                        Removes ability to select text in epub reader and enabled double-click zen mode.
+                        禁用 EPUB 阅读器中的文本选择，并启用双击进入 Zen Mode。
                     </div>
                 </div>
             </div>
 
             <div className="settingItem2 otherSettings">
-                <h3>Style Settings</h3>
+                <h3>样式设置</h3>
 
                 <div className="toggleItem">
                     <InputCheckbox
@@ -415,9 +404,9 @@ const GeneralSettings: React.FC = () => {
                                 }),
                             );
                         }}
-                        labelAfter="Location List Numbering"
+                        labelAfter="位置列表编号"
                     />
-                    <div className="desc">Enabled Location List Numbering. This will be applied to all lists.</div>
+                    <div className="desc">启用位置列表编号。此设置会应用到所有列表。</div>
                 </div>
                 <div className="toggleItem">
                     <InputCheckbox
@@ -430,11 +419,10 @@ const GeneralSettings: React.FC = () => {
                                 }),
                             );
                         }}
-                        labelAfter="Chapter Transition screen"
+                        labelAfter="章节过渡画面"
                     />
                     <div className="desc">
-                        Show the chapter transition screen that show up at start and end of chapter (only in
-                        vertical scroll Reading mode).
+                        显示章节开头和结尾处的章节过渡画面（仅在纵向滚动阅读模式中生效）。
                     </div>
                 </div>
 
@@ -449,11 +437,10 @@ const GeneralSettings: React.FC = () => {
                                 }),
                             );
                         }}
-                        labelAfter="More Info on Bookmark / History Hover"
+                        labelAfter="悬停书签/历史时显示更多信息"
                     />
                     <div className="desc">
-                        Show more info such as &quot;date&quot;, &quot;total pages&quot;, &quot;last page
-                        number&quot;, &quot;path&quot; when mouse over items in bookmark / history tab.
+                        鼠标悬停在书签/历史项目上时，显示日期、总页数、上次页码、路径等更多信息。
                     </div>
                 </div>
 
@@ -468,9 +455,9 @@ const GeneralSettings: React.FC = () => {
                                 }),
                             );
                         }}
-                        labelAfter="Reader Settings Checkbox"
+                        labelAfter="阅读器设置使用复选框"
                     />
-                    <div className="desc">Show checkbox instead of toggle in reader settings.</div>
+                    <div className="desc">在阅读器设置中使用复选框而不是开关。</div>
                 </div>
                 <div className="toggleItem">
                     <InputCheckbox
@@ -483,7 +470,7 @@ const GeneralSettings: React.FC = () => {
                                 }),
                             );
                         }}
-                        labelAfter="Show Page Count in Side-List"
+                        labelAfter="在侧边列表显示页数"
                     />
                 </div>
                 <div className="toggleItem">
@@ -497,20 +484,20 @@ const GeneralSettings: React.FC = () => {
                                 }),
                             );
                         }}
-                        labelAfter="Show text files badge in Side-List"
+                        labelAfter="在侧边列表显示文本文件标记"
                     />
                 </div>
             </div>
             <div className="settingItem2 dangerZone">
-                <h3>Reset</h3>
+                <h3>重置</h3>
                 <div className="main row">
                     <button
                         onClick={() => {
                             dialogUtils
                                 .warn({
-                                    title: "Reset library",
+                                    title: "重置书库",
                                     message:
-                                        "This will delete all entries from library including bookmarks. Continue?",
+                                        "这会删除书库中的所有条目，包括书签。是否继续？",
                                     noOption: false,
                                     defaultId: 0,
                                 })
@@ -520,11 +507,11 @@ const GeneralSettings: React.FC = () => {
                                     if (response === 0) {
                                         dialogUtils
                                             .warn({
-                                                title: "Reset library",
+                                                title: "重置书库",
                                                 message:
-                                                    "This will delete all entries from library including bookmarks. Continue?",
+                                                    "这会删除书库中的所有条目，包括书签。是否继续？",
                                                 noOption: false,
-                                                buttons: ["Cancel", "Reset"],
+                                                buttons: ["取消", "重置"],
                                                 defaultId: 0,
                                             })
                                             .then(({ response }) => {
@@ -535,14 +522,14 @@ const GeneralSettings: React.FC = () => {
                                 });
                         }}
                     >
-                        Reset Library
+                        重置书库
                     </button>
                     <button
                         onClick={() => {
                             dialogUtils
                                 .warn({
-                                    title: "Reset themes",
-                                    message: "This will delete all Themes. Continue?",
+                                    title: "重置主题",
+                                    message: "这会删除所有主题。是否继续？",
                                     noOption: false,
                                 })
                                 .then(({ response }) => {
@@ -551,10 +538,10 @@ const GeneralSettings: React.FC = () => {
                                     if (response === 0) {
                                         dialogUtils
                                             .warn({
-                                                title: "Reset Themes",
+                                                title: "重置主题",
                                                 noOption: false,
                                                 message:
-                                                    "Are you really sure you want to delete all Themes?\nThis process is irreversible.",
+                                                    "确定要删除所有主题吗？\n此操作不可撤销。",
                                             })
                                             .then((res) => {
                                                 if (res.response === 1) return;
@@ -564,14 +551,14 @@ const GeneralSettings: React.FC = () => {
                                 });
                         }}
                     >
-                        Reset Themes
+                        重置主题
                     </button>
                     <button
                         onClick={() => {
                             dialogUtils
                                 .warn({
-                                    title: "Warning",
-                                    message: "Reset Shortcuts to default?",
+                                    title: "警告",
+                                    message: "将快捷键重置为默认值？",
                                     noOption: false,
                                 })
                                 .then((res) => {
@@ -581,14 +568,14 @@ const GeneralSettings: React.FC = () => {
                                 });
                         }}
                     >
-                        Reset Shortcuts
+                        重置快捷键
                     </button>
                     <button
                         onClick={() => {
                             dialogUtils
                                 .warn({
-                                    title: "Reset Settings",
-                                    message: "This will reset all Settings. Continue?",
+                                    title: "重置设置",
+                                    message: "这会重置所有设置。是否继续？",
                                     noOption: false,
                                 })
                                 .then(({ response }) => {
@@ -597,10 +584,10 @@ const GeneralSettings: React.FC = () => {
                                     if (response === 0) {
                                         dialogUtils
                                             .warn({
-                                                title: "Reset Settings",
+                                                title: "重置设置",
                                                 noOption: false,
                                                 message:
-                                                    "Are you really sure you want to reset settings?\nThis process is irreversible.",
+                                                    "确定要重置设置吗？\n此操作不可撤销。",
                                             })
                                             .then((res) => {
                                                 if (res.response === 1) return;
@@ -611,7 +598,7 @@ const GeneralSettings: React.FC = () => {
                                 });
                         }}
                     >
-                        Reset Settings
+                        重置设置
                     </button>
                 </div>
             </div>

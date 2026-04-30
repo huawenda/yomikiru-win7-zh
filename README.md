@@ -139,6 +139,7 @@ Beta versions are available for users who want to try the latest features before
 ## Documentation
 
 - **[User Guide](docs/GUIDE.md)**: Complete user manual and tips
+- **[Project Documentation](docs/PROJECT.md)**: Developer-oriented architecture and maintenance notes
 - **[Screenshots](docs/SCREENSHOTS.md)**: Visual overview of features
 - **[Build Guide](docs/build.md)**: Development setup and compilation
 - **[Contributing](docs/contribute.md)**: How to contribute to the project

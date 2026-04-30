@@ -10,7 +10,7 @@ import { useSettingsContext } from "../Settings";
 const AnilistSetting: React.FC = () => {
     const { scrollIntoView } = useSettingsContext();
     const appSettings = useAppSelector((store) => store.appSettings);
-    const [anilistUsername, setAnilistUsername] = useState("Error");
+    const [anilistUsername, setAnilistUsername] = useState("错误");
     const anilistToken = useAppSelector((store) => store.anilist.token);
     const dispatch = useAppDispatch();
 
@@ -24,17 +24,16 @@ const AnilistSetting: React.FC = () => {
         <div className="settingItem2">
             <h3>AniList</h3>
             <div className="desc">
-                Link Yomikiru to your AniList account.{" "}
+                将 Yomikiru 连接到你的 AniList 账号。{" "}
                 <a
                     onClick={() => {
                         scrollIntoView("#settings-usage-anilist", "extras");
                     }}
                 >
-                    More Info
+                    更多信息
                 </a>
                 <br />
-                NOTE: Yomikiru does not use internet for anything other than app updates if it is not linked with
-                AniList.
+                注意：如果未连接 AniList，Yomikiru 除应用更新外不会使用互联网。
             </div>
             <div className="main row">
                 <button
@@ -43,7 +42,7 @@ const AnilistSetting: React.FC = () => {
                         dispatch(setAnilistLoginOpen(true));
                     }}
                 >
-                    {!anilistToken ? "Login with AniList" : `Logged in as ${anilistUsername}`}
+                    {!anilistToken ? "使用 AniList 登录" : `已登录为 ${anilistUsername}`}
                 </button>
                 {anilistToken && (
                     <button
@@ -51,7 +50,7 @@ const AnilistSetting: React.FC = () => {
                             dispatch(setAnilistToken(""));
                         }}
                     >
-                        Logout
+                        退出登录
                     </button>
                 )}
             </div>
@@ -67,11 +66,10 @@ const AnilistSetting: React.FC = () => {
                         );
                     }}
                     disabled={!anilistToken}
-                    labelAfter="Auto-Update AniList Progress"
+                    labelAfter="自动更新 AniList 进度"
                 />
                 <div className="desc">
-                    Automatically update AniList progress when chapter is read over 70%. Only works if chapter
-                    names are well formatted.
+                    当章节阅读超过 70% 时自动更新 AniList 进度。仅在章节名称格式良好时生效。
                 </div>
             </div>
         </div>

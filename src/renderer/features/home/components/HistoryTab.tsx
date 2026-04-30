@@ -77,13 +77,13 @@ const HistoryTab: React.FC = () => {
 
     return (
         <div className="contTab listCont" id="historyTab">
-            <h2>Continue Reading</h2>
+            <h2>继续阅读</h2>
 
             <ListNavigator.Provider
                 items={historyItems}
                 filterFn={filterHistoryItem}
                 renderItem={renderHistoryItem}
-                emptyMessage="Library Empty"
+                emptyMessage="书库为空"
                 onContextMenu={(elem) => elem.dispatchEvent(window.contextMenu.fakeEvent(elem))}
                 onSelect={(elem) => elem.click()}
             >
@@ -92,14 +92,14 @@ const HistoryTab: React.FC = () => {
                         <div className="row1">
                             <button
                                 data-tooltip={
-                                    "Sort: " +
+                                    "排序：" +
                                     (appSettings.historyListSortType === "normal" ? "▲ " : "▼ ") +
                                     appSettings.historyListSortBy.toUpperCase()
                                 }
                                 onClick={(e) => {
                                     const items: Menu.ListItem[] = [
                                         {
-                                            label: "Name",
+                                            label: "名称",
                                             action() {
                                                 dispatch(
                                                     setAppSettings({
@@ -110,7 +110,7 @@ const HistoryTab: React.FC = () => {
                                             selected: appSettings.historyListSortBy === "name",
                                         },
                                         {
-                                            label: "Date Updated",
+                                            label: "更新时间",
                                             action() {
                                                 dispatch(
                                                     setAppSettings({
@@ -122,7 +122,7 @@ const HistoryTab: React.FC = () => {
                                         },
                                         window.contextMenu.template.divider(),
                                         {
-                                            label: "Ascending",
+                                            label: "升序",
                                             action() {
                                                 dispatch(
                                                     setAppSettings({
@@ -133,7 +133,7 @@ const HistoryTab: React.FC = () => {
                                             selected: appSettings.historyListSortType === "normal",
                                         },
                                         {
-                                            label: "Descending",
+                                            label: "降序",
                                             action() {
                                                 dispatch(
                                                     setAppSettings({

@@ -50,7 +50,7 @@ const NoteModal: React.FC<{
         clear();
         log.error(`bookInReader missing while editing note id ${noteId}`);
         dialogUtils.customError({
-            message: "Unknown error",
+            message: "未知错误",
         });
         return null;
     }
@@ -58,33 +58,33 @@ const NoteModal: React.FC<{
     if (!note) {
         clear();
         dialogUtils.customError({
-            message: "Note not found",
+            message: "未找到笔记",
         });
         return null;
     }
 
     return (
         <Modal open onClose={clear} className="note-modal">
-            <h3>Edit Note</h3>
+            <h3>编辑笔记</h3>
 
             <p className="selected-text">{note.selectedText}</p>
 
             <div className="note-input">
-                <h4>Note:</h4>
+                <h4>笔记：</h4>
                 <textarea
                     ref={inputRef}
                     defaultValue={note.content || ""}
                     onKeyDown={(e) => {
                         e.stopPropagation();
                     }}
-                    placeholder="Enter your notes"
+                    placeholder="输入笔记"
                 />
                 <InputColor
                     value={color}
                     onChange={(color) => {
                         setColor(color);
                     }}
-                    title="Color"
+                    title="颜色"
                     showAlpha={false}
                 />
                 <div className="color-buttons">
@@ -99,7 +99,7 @@ const NoteModal: React.FC<{
             </div>
 
             <div className="modal-actions">
-                <button onClick={clear}>Cancel</button>
+                <button onClick={clear}>取消</button>
                 <button
                     onClick={() => {
                         if (!inputRef.current) return;
@@ -113,7 +113,7 @@ const NoteModal: React.FC<{
                         clear();
                     }}
                 >
-                    Save
+                    保存
                 </button>
             </div>
         </Modal>
@@ -154,7 +154,7 @@ const NotesList: React.FC<{
             } catch (error) {
                 log.error("navigate to note chapter failed", error);
                 dialogUtils.customError({
-                    message: "Could not find the note",
+                    message: "找不到笔记",
                 });
             }
         },
@@ -171,21 +171,21 @@ const NotesList: React.FC<{
             const note = notesArray.find((n) => n.id === noteId);
             if (!note) {
                 dialogUtils.customError({
-                    message: "Could not find the note",
+                    message: "找不到笔记",
                 });
                 return;
             }
 
             const items: Menu.ListItem[] = [
                 {
-                    label: "Edit Note",
+                    label: "编辑笔记",
                     action() {
                         if (!bookInReader) return;
                         setEditNoteId(note.id);
                     },
                 },
                 {
-                    label: "Delete Note",
+                    label: "删除笔记",
                     action() {
                         if (!bookInReader) return;
                         if (!confirmDeleteItem) {
@@ -193,10 +193,10 @@ const NotesList: React.FC<{
                         } else {
                             dialogUtils
                                 .warn({
-                                    title: "Delete Note",
-                                    message: "Only this note will be removed. Continue?",
+                                    title: "删除笔记",
+                                    message: "只会删除此笔记。是否继续？",
                                     noOption: false,
-                                    buttons: ["Cancel", "Yes"],
+                                    buttons: ["取消", "是"],
                                     defaultId: 0,
                                 })
                                 .then(({ response }) => {
@@ -241,7 +241,7 @@ const NotesList: React.FC<{
                     <span className="highlight-color" style={{ backgroundColor: note.color }}></span>
                     <div>
                         <span className="text">{note.chapterName}</span>
-                        {note.content && <span className="text">Note: {note.content}</span>}
+                        {note.content && <span className="text">笔记：{note.content}</span>}
                         <span
                             className={note.content === "" ? "text" : "note-selected-text"}
                             title={note.selectedText}
@@ -265,7 +265,7 @@ const NotesList: React.FC<{
             <div className="actions">
                 {/* <input
                     type="text"
-                    placeholder="Add Note"
+                    placeholder="添加笔记"
                     className="add-note-input"
                     value={newNoteText}
                     onChange={(e) => setNewNoteText(e.target.value)}
@@ -281,7 +281,7 @@ const NotesList: React.FC<{
                 </div>
             </div>
             <div className="location-cont">
-                <ListNavigator.Provider items={notesArray} renderItem={renderNoteItem} emptyMessage="No Notes">
+                <ListNavigator.Provider items={notesArray} renderItem={renderNoteItem} emptyMessage="暂无笔记">
                     <ListNavigator.List />
                 </ListNavigator.Provider>
 

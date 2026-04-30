@@ -33,7 +33,7 @@ export const migrateToSqlite = async (
         logger.error("SQLite migration from bookmarks/history JSON failed", error);
         dialog.showMessageBox({
             type: "error",
-            message: "Error migrating to sqlite",
+            message: "迁移到 SQLite 时出错",
             detail: String(error),
         });
     }
@@ -55,11 +55,11 @@ export const checkForJSONMigration = async (db: DatabaseService): Promise<void> 
         if (bookmarks.length > 0 || history.length > 0) {
             const res = await dialog.showMessageBox({
                 type: "question",
-                message: "Found old bookmarks and history data to migrate.",
+                message: "发现可迁移的旧书签和历史记录数据。",
                 detail:
-                    "Do you want to migrate it to the new database system?\n" +
-                    "You current and old data will be backed up before migration.",
-                buttons: ["Yes", "No"],
+                    "是否将其迁移到新的数据库系统？\n" +
+                    "迁移前会备份当前数据和旧数据。",
+                buttons: ["是", "否"],
                 defaultId: 0,
                 cancelId: 1,
             });

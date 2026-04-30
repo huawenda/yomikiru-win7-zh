@@ -365,14 +365,14 @@ const ReaderSideList = memo(
         const handleSortClick = (e: React.MouseEvent<HTMLButtonElement>) => {
             const items: Menu.ListItem[] = [
                 {
-                    label: "Name",
+                    label: "名称",
                     action() {
                         dispatch(setAppSettings({ locationListSortBy: "name" }));
                     },
                     selected: appSettings.locationListSortBy === "name",
                 },
                 {
-                    label: "Date Modified",
+                    label: "修改日期",
                     action() {
                         dispatch(
                             setAppSettings({
@@ -385,14 +385,14 @@ const ReaderSideList = memo(
                 },
                 window.contextMenu.template.divider(),
                 {
-                    label: "Ascending",
+                    label: "升序",
                     action() {
                         dispatch(setAppSettings({ locationListSortType: "normal" }));
                     },
                     selected: appSettings.locationListSortType === "normal",
                 },
                 {
-                    label: "Descending",
+                    label: "降序",
                     action() {
                         dispatch(setAppSettings({ locationListSortType: "inverse" }));
                     },
@@ -412,8 +412,8 @@ const ReaderSideList = memo(
             if (prevNextChapter.prev === "~") {
                 dialogUtils
                     .confirm({
-                        message: "There's no previous chapter.",
-                        buttons: ["Ok", "Home"],
+                        message: "没有上一章。",
+                        buttons: ["确定", "首页"],
                         noOption: false,
                         noLink: true,
                     })
@@ -442,10 +442,10 @@ const ReaderSideList = memo(
             if (bookmarkedId !== null) {
                 return dialogUtils
                     .warn({
-                        title: "Warning",
-                        message: "Remove - Remove Bookmark",
+                        title: "警告",
+                        message: "移除 - 删除书签",
                         noOption: false,
-                        buttons: ["Cancel", "Remove"],
+                        buttons: ["取消", "移除"],
                         defaultId: 0,
                     })
                     .then(({ response }) => {
@@ -465,15 +465,15 @@ const ReaderSideList = memo(
                     },
                 }),
             );
-            setShortcutText("Bookmark Added");
+            setShortcutText("书签已添加");
         };
 
         const handleNextChapterClick = () => {
             if (prevNextChapter.next === "~") {
                 dialogUtils
                     .confirm({
-                        message: "There's no next chapter.",
-                        buttons: ["Ok", "Home"],
+                        message: "没有下一章。",
+                        buttons: ["确定", "首页"],
                         noOption: false,
                         noLink: true,
                     })
@@ -605,7 +605,7 @@ const ReaderSideList = memo(
                     renderItem={renderChapterItem}
                     onContextMenu={handleContextMenu}
                     onSelect={handleSelect}
-                    emptyMessage="No chapters found"
+                    emptyMessage="未找到章节"
                     inputRef={sideListSearchRef}
                     onFilteredItemsChange={handleFilteredItemsChange}
                     persistFilterOnItemsChange={isSearchFixed}
@@ -613,13 +613,13 @@ const ReaderSideList = memo(
                     <div className="tools">
                         <div className="row1">
                             <div className="search-with-pin">
-                                <ListNavigator.SearchInput placeholder="Search chapters..." />
+                                <ListNavigator.SearchInput placeholder="搜索章节..." />
                                 <button
                                     className={`pin-filter-toggle ${isSearchFixed ? "selected" : ""}`}
                                     data-tooltip={
                                         isSearchFixed
-                                            ? "Filter pinned - search persists on list refresh; click to unpin"
-                                            : "Filter unpinned - search clears on list refresh; click to pin"
+                                            ? "筛选已固定 - 列表刷新后保留搜索；点击取消固定"
+                                            : "筛选未固定 - 列表刷新后清空搜索；点击固定"
                                     }
                                     onClick={handleSearchFixedToggle}
                                 >
@@ -632,7 +632,7 @@ const ReaderSideList = memo(
 
                             {(isShuffleMode || !appSettings.autoRefreshSideList) && (
                                 <button
-                                    data-tooltip={isShuffleMode ? "Refresh and reshuffle" : "Refresh"}
+                                    data-tooltip={isShuffleMode ? "刷新并重新随机" : "刷新"}
                                     onClick={makeChapterList}
                                 >
                                     <FontAwesomeIcon icon={faSyncAlt} />
@@ -641,7 +641,7 @@ const ReaderSideList = memo(
 
                             <button
                                 data-tooltip={
-                                    "Sort: " +
+                                    "排序: " +
                                     (appSettings.locationListSortType === "normal" ? "▲ " : "▼ ") +
                                     appSettings.locationListSortBy.toUpperCase()
                                 }
@@ -655,14 +655,14 @@ const ReaderSideList = memo(
                             <Button
                                 className="ctrl-menu-item"
                                 btnRef={openPrevChapterRef}
-                                tooltip="Open Previous"
+                                tooltip="打开上一章"
                                 clickAction={handlePrevChapterClick}
                             >
                                 <FontAwesomeIcon icon={faArrowLeft} />
                             </Button>
                             <Button
                                 className="ctrl-menu-item"
-                                tooltip="Bookmark"
+                                tooltip="书签"
                                 btnRef={addToBookmarkRef}
                                 clickAction={handleBookmarkClick}
                             >
@@ -671,7 +671,7 @@ const ReaderSideList = memo(
                             <Button
                                 className="ctrl-menu-item"
                                 btnRef={openNextChapterRef}
-                                tooltip="Open Next"
+                                tooltip="打开下一章"
                                 clickAction={handleNextChapterClick}
                             >
                                 <FontAwesomeIcon icon={faArrowRight} />
@@ -681,12 +681,12 @@ const ReaderSideList = memo(
 
                     <div className="in-reader">
                         <div>
-                            <span className="bold">Manga</span>
+                            <span className="bold">漫画</span>
                             <span className="bold"> : </span>
                             <span>{mangaInReader?.title}</span>
                         </div>
                         <div>
-                            <span className="bold">Chapter</span>
+                            <span className="bold">章节</span>
                             <span className="bold"> : </span>
                             <span>{formatUtils.files.getName(mangaInReader?.progress?.chapterName || "")}</span>
                         </div>
@@ -699,22 +699,22 @@ const ReaderSideList = memo(
                             <button
                                 className={`${displayList === "content" ? "selected" : ""}`}
                                 onClick={handleContentToggle}
-                                data-tooltip="Click again to hide"
+                                data-tooltip="再次点击隐藏"
                             >
-                                Content
+                                目录
                             </button>
                             <button
                                 className={`${displayList === "bookmarks" ? "selected" : ""}`}
                                 onClick={handleBookmarksToggle}
                             >
-                                Bookmarks
+                                书签
                             </button>
                         </div>
                         {displayList === "content" && (
                             <div className="row2">
                                 <button
                                     className="ctrl-menu-item"
-                                    data-tooltip="Locate Current Chapter"
+                                    data-tooltip="定位当前章节"
                                     onClick={handleLocateClick}
                                 >
                                     <FontAwesomeIcon icon={faLocationDot} />
@@ -724,20 +724,20 @@ const ReaderSideList = memo(
                                     className={`shuffle-mode-toggle ${isShuffleMode ? "selected" : ""}`}
                                     data-tooltip={
                                         isShuffleMode
-                                            ? "Shuffle ON - list order randomized; click to use sorted"
-                                            : "Shuffle OFF - click to randomize chapter order"
+                                            ? "随机开启 - 列表顺序已随机；点击使用排序"
+                                            : "随机关闭 - 点击随机章节顺序"
                                     }
                                     onClick={handleShuffleToggle}
                                     aria-pressed={isShuffleMode}
                                     type="button"
                                 >
                                     <FontAwesomeIcon icon={faShuffle} />
-                                    <span className="shuffle-label">{isShuffleMode ? "ON" : "Off"}</span>
+                                    <span className="shuffle-label">{isShuffleMode ? "ON" : "OFF"}</span>
                                 </button>
                                 <Button
                                     className="ctrl-menu-item"
                                     btnRef={openRandomChapterRef}
-                                    tooltip="Open Random Chapter"
+                                    tooltip="随机打开章节"
                                     disabled={effectiveListForNav.length === 0}
                                     clickAction={handleRandomChapterClick}
                                 >

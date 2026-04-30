@@ -10,7 +10,7 @@ const FindInPage = memo(({ findInPage }: { findInPage: (str: string, forward?: b
                 type="text"
                 name=""
                 spellCheck={false}
-                placeholder="Find In Page (regexp allowed)"
+                placeholder="页内查找（允许正则）"
                 onChange={(e) => {
                     setFindInPageStr(e.currentTarget.value);
                 }}
@@ -30,7 +30,7 @@ const FindInPage = memo(({ findInPage }: { findInPage: (str: string, forward?: b
                 }}
             />
             <button
-                data-tooltip="Previous"
+                data-tooltip="上一个"
                 onClick={() => {
                     findInPage(findInPageStr, false);
                 }}
@@ -38,7 +38,7 @@ const FindInPage = memo(({ findInPage }: { findInPage: (str: string, forward?: b
                 <FontAwesomeIcon icon={faArrowUp} />
             </button>
             <button
-                data-tooltip="Next"
+                data-tooltip="下一个"
                 onClick={() => {
                     findInPage(findInPageStr);
                 }}

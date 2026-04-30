@@ -30,7 +30,7 @@ const PresetActionsRow = ({ type, title }: PresetActionsRowProps) => {
     const dispatch = useAppDispatch();
     return (
         <div className="col">
-            <h4>{title} Presets</h4>
+            <h4>{title}预设</h4>
             <ul className="presetList">
                 {presets.map((preset, idx) => {
                     const isSelected = currentPresetId === preset.id;
@@ -53,14 +53,14 @@ const PresetActionsRow = ({ type, title }: PresetActionsRowProps) => {
                                     <button
                                         disabled={!canMoveUp}
                                         onClick={() => dispatch(movePreset({ id: preset.id, direction: "up" }))}
-                                        title="Move up"
+                                        title="上移"
                                     >
                                         <FontAwesomeIcon icon={faChevronUp} />
                                     </button>
                                     <button
                                         disabled={!canMoveDown}
                                         onClick={() => dispatch(movePreset({ id: preset.id, direction: "down" }))}
-                                        title="Move down"
+                                        title="下移"
                                     >
                                         <FontAwesomeIcon icon={faChevronDown} />
                                     </button>
@@ -70,7 +70,7 @@ const PresetActionsRow = ({ type, title }: PresetActionsRowProps) => {
                                 onClick={() => dispatch(selectReaderPreset(preset.id))}
                                 className={isSelected ? "optionSelected" : ""}
                             >
-                                Select
+                                选择
                             </button>
                             {presets.length > 1 && (
                                 <button
@@ -78,14 +78,14 @@ const PresetActionsRow = ({ type, title }: PresetActionsRowProps) => {
                                     disabled={isUserPresetId(preset.id)}
                                     onClick={() => {
                                         dialogUtils
-                                            .confirm({ message: "Delete preset?", noOption: false })
+                                            .confirm({ message: "删除预设？", noOption: false })
                                             .then((res) => {
                                                 if (res.response === 0) {
                                                     dispatch(deleteReaderPresetWithFallback(preset.id));
                                                 }
                                             });
                                     }}
-                                    title="Delete preset"
+                                    title="删除预设"
                                 >
                                     <FontAwesomeIcon icon={faTrash} />
                                 </button>
@@ -98,7 +98,7 @@ const PresetActionsRow = ({ type, title }: PresetActionsRowProps) => {
                 <button
                     onClick={async () => {
                         const opt = await dialogUtils.showSaveDialog({
-                            title: `Export ${title} Presets`,
+                            title: `导出${title}预设`,
                             defaultPath: `yomikiru-${type}ReaderPresets.json`,
                             filters: [{ name: "json", extensions: ["json"] }],
                         });
@@ -109,7 +109,7 @@ const PresetActionsRow = ({ type, title }: PresetActionsRowProps) => {
                         });
                     }}
                 >
-                    Export
+                    导出
                 </button>
                 <button
                     onClick={async () => {
@@ -129,20 +129,20 @@ const PresetActionsRow = ({ type, title }: PresetActionsRowProps) => {
                                 else dispatch(addBookPresets(toAdd as BookReaderPreset[]));
                             }
                             dialogUtils.confirm({
-                                title: "Imported",
-                                message: `Imported ${toAdd.length} preset(s).${skipped > 0 ? ` Skipped ${skipped} duplicate(s).` : ""}`,
+                                title: "已导入",
+                                message: `已导入 ${toAdd.length} 个预设。${skipped > 0 ? `已跳过 ${skipped} 个重复项。` : ""}`,
                                 noOption: true,
                             });
                         } catch (err) {
                             log.error(err);
                             dialogUtils.customError({
-                                message: "Invalid preset file.",
+                                message: "预设文件无效。",
                                 log: false,
                             });
                         }
                     }}
                 >
-                    Import
+                    导入
                 </button>
                 <button
                     onClick={(e) => {
@@ -152,23 +152,23 @@ const PresetActionsRow = ({ type, title }: PresetActionsRowProps) => {
                                 window.electron.writeText(JSON.stringify(current, null, "\t"));
                                 const target = e.currentTarget as HTMLButtonElement;
                                 const old = target.innerText;
-                                target.innerText = "Copied!";
+                                target.innerText = "已复制";
                                 target.disabled = true;
                                 setTimeout(() => {
                                     target.disabled = false;
                                     target.innerText = old;
                                 }, 3000);
                             } catch (reason) {
-                                dialogUtils.customError({ message: `Failed to copy: ${reason}` });
+                                dialogUtils.customError({ message: `复制失败：${reason}` });
                             }
                         } else {
                             dialogUtils.warn({
-                                message: "No preset selected. Apply a preset first, then copy.",
+                                message: "未选择预设。请先应用一个预设，然后再复制。",
                             });
                         }
                     }}
                 >
-                    Copy Current Preset to Clipboard
+                    复制当前预设到剪贴板
                 </button>
             </div>
         </div>
@@ -186,25 +186,25 @@ const GeneralReaderPresetsSettings: React.FC = () => {
     const handleSavePresetFromClipboard = () => {
         const text = window.electron.readText("clipboard");
         try {
-            if (!text) throw new Error("No preset data in clipboard.");
+            if (!text) throw new Error("剪贴板中没有预设数据。");
             const parsed = JSON.parse(text) as unknown;
             const validated = parsePresetImport(Array.isArray(parsed) ? parsed : [parsed]);
             const p = validated[0];
-            if (!p) throw new Error("Invalid format");
+            if (!p) throw new Error("格式无效");
             if (presets.some((e) => e.id === p.id)) {
-                dialogUtils.warn({ message: "Preset with this id already exists." });
+                dialogUtils.warn({ message: "此 id 的预设已存在。" });
                 return;
             }
             if (p.type === "manga") dispatch(addMangaPresets([p as MangaReaderPreset]));
             else dispatch(addBookPresets([p as BookReaderPreset]));
             dialogUtils.confirm({
-                title: "Imported",
-                message: `Imported preset "${p.name}".`,
+                title: "已导入",
+                message: `已导入预设 "${p.name}"。`,
                 noOption: true,
             });
         } catch {
             dialogUtils.customError({
-                message: "Invalid preset data in clipboard.",
+                message: "剪贴板中的预设数据无效。",
                 log: false,
             });
         }
@@ -212,15 +212,14 @@ const GeneralReaderPresetsSettings: React.FC = () => {
 
     return (
         <div className="settingItem2" id="settings-reader-presets">
-            <h3>Reader Presets</h3>
+            <h3>阅读器预设</h3>
             <div className="desc">
-                Reset default presets, or export/import/share manga and book reader presets. Custom presets only
-                (default presets excluded from export).{" "}
+                重置默认预设，或导出/导入/分享漫画和书籍阅读器预设。只处理自定义预设（导出时不包含默认预设）。{" "}
                 <a
                     onClick={() => scrollIntoView("#settings-usage-readerPresets", "extras")}
                     id="settings-readerPresets"
                 >
-                    More Info
+                    更多信息
                 </a>
             </div>
             <div className="main col">
@@ -230,7 +229,7 @@ const GeneralReaderPresetsSettings: React.FC = () => {
                             dialogUtils
                                 .confirm({
                                     message:
-                                        "Reset default presets to their original state? Custom presets are kept.",
+                                        "将默认预设重置为初始状态？自定义预设会保留。",
                                     noOption: false,
                                 })
                                 .then((res) => {
@@ -238,12 +237,12 @@ const GeneralReaderPresetsSettings: React.FC = () => {
                                 });
                         }}
                     >
-                        Reset Default Presets (custom are unaffected)
+                        重置默认预设（不影响自定义预设）
                     </button>
-                    <button onClick={handleSavePresetFromClipboard}>Save Preset from Clipboard</button>
+                    <button onClick={handleSavePresetFromClipboard}>从剪贴板保存预设</button>
                 </div>
-                <PresetActionsRow type="manga" title="Manga" />
-                <PresetActionsRow type="book" title="Book" />
+                <PresetActionsRow type="manga" title="漫画" />
+                <PresetActionsRow type="book" title="书籍" />
             </div>
         </div>
     );

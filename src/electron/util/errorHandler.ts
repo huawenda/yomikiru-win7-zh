@@ -279,10 +279,10 @@ export class ErrorHandler {
 
         const result = await dialog.showMessageBox(window, {
             type: "question",
-            title: "Report Issue",
-            message: "Would you like to report this issue to help improve Yomikiru?",
-            detail: "This will open GitHub with error information pre-filled. No personal data is included.",
-            buttons: ["Report Issue", "Copy Error Info", "Cancel"],
+            title: "报告问题",
+            message: "是否报告此问题以帮助改进 Yomikiru？",
+            detail: "这会打开 GitHub，并预填错误信息。不会包含个人数据。",
+            buttons: ["报告问题", "复制错误信息", "取消"],
             defaultId: 0,
             cancelId: 2,
         });
@@ -293,9 +293,9 @@ export class ErrorHandler {
             await this.copyErrorInfoToClipboard();
             await dialog.showMessageBox(window, {
                 type: "info",
-                title: "Error Info Copied",
-                message: "Error information has been copied to clipboard.",
-                buttons: ["OK"],
+                title: "错误信息已复制",
+                message: "错误信息已复制到剪贴板。",
+                buttons: ["确定"],
             });
         }
     }
@@ -364,14 +364,14 @@ export class ErrorHandler {
             return;
         }
 
-        const buttons = ["OK"];
+        const buttons = ["确定"];
         if (errorReport.severity === "high" || errorReport.severity === "critical") {
-            buttons.push("Report Issue");
+            buttons.push("报告问题");
         }
 
         const result = await dialog.showMessageBox(window, {
             type: "error",
-            title: `${errorReport.severity.charAt(0).toUpperCase() + errorReport.severity.slice(1)} Error`,
+            title: `${errorReport.severity} 错误`,
             message: errorReport.message,
             detail: this.formatErrorDetail(errorReport),
             buttons,

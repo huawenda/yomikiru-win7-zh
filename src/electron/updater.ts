@@ -100,10 +100,10 @@ const checkForAnnouncements = async () => {
             dialog
                 .showMessageBox({
                     type: "info",
-                    title: "New Announcement",
-                    message: "There's a new announcement. Check it out!",
+                    title: "新公告",
+                    message: "有一条新公告，去看看吧！",
                     detail: newAnnouncements[0],
-                    buttons: ["Show", "Dismiss"],
+                    buttons: ["查看", "忽略"],
                     cancelId: 1,
                 })
                 .then((res) => {
@@ -113,10 +113,10 @@ const checkForAnnouncements = async () => {
             dialog
                 .showMessageBox({
                     type: "info",
-                    title: "New Announcements",
-                    message: "There are new announcements. Check them out!",
+                    title: "新公告",
+                    message: "有多条新公告，去看看吧！",
                     detail: newAnnouncements.join("\n"),
-                    buttons: ["Open Each", "Open Announcement Page", "Dismiss"],
+                    buttons: ["逐条打开", "打开公告页面", "忽略"],
                     cancelId: 2,
                 })
                 .then((res) => {
@@ -215,7 +215,7 @@ const checkForUpdate = async (
             dialog.showMessageBox(window, {
                 type: "info",
                 title: "Yomikiru",
-                message: "Running latest version",
+                message: "当前已是最新版本",
                 buttons: [],
             });
         }
@@ -225,8 +225,8 @@ const checkForUpdate = async (
             const window = BrowserWindow.fromId(windowId ?? 1)!;
             dialog.showMessageBox(window, {
                 type: "error",
-                title: "Update Check Failed",
-                message: "Failed to check for updates.",
+                title: "检查更新失败",
+                message: "无法检查更新。",
                 detail: error instanceof Error ? error.message : String(error),
             });
         }
@@ -241,7 +241,7 @@ const showNoReleasesMessage = (windowId: number, channel: string) => {
     dialog.showMessageBox(window, {
         type: "info",
         title: "Yomikiru",
-        message: `No ${channel} releases available.`,
+        message: `没有可用的 ${channel} 版本。`,
         buttons: [],
     });
 };
@@ -256,16 +256,16 @@ const showUpdateAvailableMessage = (
 
     const skipPatchHint =
         versionDiff === "patch"
-            ? `To skip check for patch updates, enable "skip patch update" in settings.\nYou can also enable "auto download".`
+            ? `如需跳过 patch 更新检查，请在设置中启用“跳过 patch 更新”。\n也可以启用“自动下载”。`
             : "";
 
     dialog
         .showMessageBox(window, {
             type: "info",
-            title: "New Version Available",
-            message: `Current Version : ${currentVersion}\n` + `Latest Version   : ${latestVersion}`,
+            title: "有新版本可用",
+            message: `当前版本：${currentVersion}\n` + `最新版本：${latestVersion}`,
             detail: skipPatchHint,
-            buttons: ["Download Now", "Download and show Changelog", "Show Changelog", "Download Later"],
+            buttons: ["立即下载", "下载并显示更新日志", "显示更新日志", "稍后下载"],
             cancelId: 3,
         })
         .then((response) => {
@@ -335,13 +335,13 @@ const downloadUpdates = (latestVersion: string, windowId: number, silent = false
         }
 
         const showMainPrompt = () => {
-            const buttons = ["Install Now", "Install on Quit"];
-            if (silent) buttons.push("Install and Show Changelog");
+            const buttons = ["立即安装", "退出时安装"];
+            if (silent) buttons.push("安装并显示更新日志");
             dialog
                 .showMessageBox(window, {
                     type: "info",
-                    title: "Updates downloaded",
-                    message: "Updates downloaded.",
+                    title: "更新已下载",
+                    message: "更新已下载。",
                     buttons,
                     cancelId: 1,
                 })
@@ -364,14 +364,14 @@ const downloadUpdates = (latestVersion: string, windowId: number, silent = false
             dialog
                 .showMessageBox(window, {
                     type: "warning",
-                    title: "Update Installation Notice",
-                    message: "Due to recent Windows security changes, auto-updates might fail.",
-                    detail: `You can either proceed with normal installation (which might fail) or install manually (just run the downloaded file).`,
+                    title: "更新安装提示",
+                    message: "由于近期 Windows 安全机制变化，自动更新可能失败。",
+                    detail: "你可以继续正常安装（可能失败），也可以手动安装（直接运行已下载文件）。",
                     buttons: [
-                        "Try Normal Installation",
-                        "Install Manually (Recommended, show downloaded file)",
-                        "Install Manually and Show Changelog",
-                        "More Info",
+                        "尝试正常安装",
+                        "手动安装（推荐，显示已下载文件）",
+                        "手动安装并显示更新日志",
+                        "更多信息",
                     ],
                     cancelId: 1,
                 })
@@ -409,8 +409,8 @@ const downloadUpdates = (latestVersion: string, windowId: number, silent = false
                         if (state !== "completed") {
                             dialog.showMessageBox(window, {
                                 type: "error",
-                                title: "Error while downloading",
-                                message: state === "cancelled" ? "Download canceled." : "Download failed.",
+                                title: "下载时出错",
+                                message: state === "cancelled" ? "下载已取消。" : "下载失败。",
                             });
                         }
                     });
@@ -431,8 +431,8 @@ const downloadUpdates = (latestVersion: string, windowId: number, silent = false
                 downloadItem = null;
                 dialog.showMessageBox(window, {
                     type: "error",
-                    title: "Error while downloading",
-                    message: `${e}\n\nPlease check the homepage if persist.`,
+                    title: "下载时出错",
+                    message: `${e}\n\n如果问题持续，请查看主页。`,
                 });
             });
     };
@@ -446,10 +446,10 @@ const downloadUpdates = (latestVersion: string, windowId: number, silent = false
             dialog
                 .showMessageBox(window, {
                     type: "error",
-                    title: "Update Failed",
+                    title: "更新失败",
                     message:
-                        "Could not find update file for this platform. Please download manually from the releases page.",
-                    buttons: ["Open Releases", "OK"],
+                        "找不到适用于此平台的更新文件。请从 releases 页面手动下载。",
+                    buttons: ["打开 Releases", "确定"],
                 })
                 .then((res) => {
                     if (res.response === 0) shell.openExternal(RELEASES_PAGE);
@@ -550,10 +550,10 @@ const downloadUpdates = (latestVersion: string, windowId: number, silent = false
             const showInstallError = (err: unknown) => {
                 dialog.showMessageBox(window, {
                     type: "error",
-                    title: "Update Installation Failed",
-                    message: "Failed to install the update.",
+                    title: "更新安装失败",
+                    message: "安装更新失败。",
                     detail: err instanceof Error ? err.message : String(err),
-                    buttons: ["OK"],
+                    buttons: ["确定"],
                 });
             };
 

@@ -5,54 +5,52 @@ const FileExplorerOptions = (): ReactElement => {
     const { isUpdating, handleInvoke } = useExplorerOptions();
 
     const handleAddOption = () => {
-        handleInvoke("explorer:addOption", "Explorer option added successfully for manga/image files");
+        handleInvoke("explorer:addOption", "已成功为漫画/图片文件添加文件资源管理器选项");
     };
 
     const handleRemoveOption = () => {
-        handleInvoke("explorer:removeOption", "Explorer option removed successfully for manga/image files");
+        handleInvoke("explorer:removeOption", "已成功移除漫画/图片文件的文件资源管理器选项");
     };
 
     const handleAddEpubOption = () => {
-        handleInvoke("explorer:addOption:epub", "Explorer option added successfully for epub/text files");
+        handleInvoke("explorer:addOption:epub", "已成功为 EPUB/文本文件添加文件资源管理器选项");
     };
 
     const handleRemoveEpubOption = () => {
-        handleInvoke("explorer:removeOption:epub", "Explorer option removed successfully for epub/text files");
+        handleInvoke("explorer:removeOption:epub", "已成功移除 EPUB/文本文件的文件资源管理器选项");
     };
 
     return (
         <div className="settingItem2" id="settings-fileExplorerOption">
-            <h3>File Explorer Option</h3>
+            <h3>文件资源管理器选项</h3>
             <div className="desc">
-                Add file explorer option (right click menu) to open item in Yomikiru&apos;s reader directly from
-                File Explorer. Use &quot;Use Existing Window&quot; in Other Settings to open in current window.
+                添加文件资源管理器选项（右键菜单），可直接从文件资源管理器中用 Yomikiru 阅读器打开项目。若要在当前窗口打开，请在其他设置中启用“使用现有窗口”。
             </div>
             <ul>
                 <li>
                     <div className="desc">
-                        For folders, <code>.zip/.cbz</code>, <code>.7z/.cb7</code>, <code>.rar/.cbr</code>,{" "}
-                        <code>.pdf</code> (Opened in Manga/Image Reader)
+                        用于文件夹、<code>.zip/.cbz</code>、<code>.7z/.cb7</code>、<code>.rar/.cbr</code>、{" "}
+                        <code>.pdf</code>（在漫画/图片阅读器中打开）
                     </div>
                     <div className="main row">
                         <button onClick={handleAddOption} disabled={isUpdating}>
-                            {"Add"}
+                            {"添加"}
                         </button>
                         <button onClick={handleRemoveOption} disabled={isUpdating}>
-                            {"Remove"}
+                            {"移除"}
                         </button>
                     </div>
                 </li>
                 <li>
                     <div className="desc">
-                        For <code>.epub</code>, <code>.txt</code>, <code>.html/.xhtml</code> (Opened in Epub/Text
-                        Reader)
+                        用于 <code>.epub</code>、<code>.txt</code>、<code>.html/.xhtml</code>（在 EPUB/文本阅读器中打开）
                     </div>
                     <div className="main row">
                         <button onClick={handleAddEpubOption} disabled={isUpdating}>
-                            {"Add"}
+                            {"添加"}
                         </button>
                         <button onClick={handleRemoveEpubOption} disabled={isUpdating}>
-                            {"Remove"}
+                            {"移除"}
                         </button>
                     </div>
                 </li>

@@ -26,12 +26,12 @@ export const addOptionToExplorerMenu = async (): Promise<boolean> => {
         
         ; specify an icon for the item
         [HKEY_CURRENT_USER\\Software\\Classes\\directory\\shell\\Yomikiru]
-        @="Open in Yomikiru "
+        @="用 Yomikiru 打开 "
         "icon"="${appPath}"
 
         
         [HKEY_CLASSES_ROOT\\.cbz\\shell\\Yomikiru]
-        @="Open in Yomikiru"
+        @="用 Yomikiru 打开"
         "Icon"="${appPath}"
 
         [HKEY_CLASSES_ROOT\\.cbz\\shell\\Yomikiru\\command]
@@ -98,7 +98,7 @@ export const addOptionToExplorerMenu_epub = async (): Promise<boolean> => {
         const regInit = `Windows Registry Editor Version 5.00
         
         [HKEY_CLASSES_ROOT\\.epub\\shell\\Yomikiru]
-        @="Open in Yomikiru"
+        @="用 Yomikiru 打开"
         "Icon"="${appPath}"
 
         [HKEY_CLASSES_ROOT\\.epub\\shell\\Yomikiru\\command]

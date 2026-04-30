@@ -83,7 +83,7 @@ export const dialogUtils: DialogUtils = {
             message: err.message,
         });
     },
-    customError: ({ title = "Error", message, detail, log = true }) => {
+    customError: ({ title = "错误", message, detail, log = true }) => {
         if (log) dialogLog.error(`customError: ${message}`, detail || "");
         return window.electron.invoke("dialog:error", {
             title,
@@ -92,9 +92,9 @@ export const dialogUtils: DialogUtils = {
             log,
         });
     },
-    warn: ({ title = "Warning", message, detail, noOption = true, buttons, defaultId }) => {
+    warn: ({ title = "警告", message, detail, noOption = true, buttons, defaultId }) => {
         if (!noOption && !buttons) {
-            buttons = ["Yes", "No"];
+            buttons = ["是", "否"];
             if (typeof defaultId !== "number") defaultId = 1;
         }
         return window.electron.invoke("dialog:warn", {
@@ -107,7 +107,7 @@ export const dialogUtils: DialogUtils = {
         });
     },
     confirm: ({
-        title = "Confirm",
+        title = "确认",
         message,
         detail,
         noOption = true,
@@ -119,7 +119,7 @@ export const dialogUtils: DialogUtils = {
         type = "info",
     }) => {
         if (!noOption && !buttons) {
-            buttons = ["Yes", "No"];
+            buttons = ["是", "否"];
             if (typeof defaultId !== "number") defaultId = 1;
         }
         return window.electron.invoke("dialog:confirm", {

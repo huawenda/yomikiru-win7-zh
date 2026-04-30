@@ -37,7 +37,7 @@ const AnilistBar = memo(() => {
                     if (e) {
                         dispatch(setAnilistCurrentManga(e));
                     } else {
-                        dialogUtils.customError({ message: "Failed to sync AniList progress.", log: false });
+                        dialogUtils.customError({ message: "同步 AniList 进度失败。", log: false });
                         setProgress(anilistCurrentManga.progress);
                     }
                 });
@@ -82,15 +82,15 @@ const AnilistBar = memo(() => {
                         <button onClick={() => setProgress((init) => init + 1)}>
                             <FontAwesomeIcon icon={faPlus} />
                         </button>
-                        <button data-tooltip="More Options" onClick={() => dispatch(setAnilistEditOpen(true))}>
+                        <button data-tooltip="更多选项" onClick={() => dispatch(setAnilistEditOpen(true))}>
                             <FontAwesomeIcon icon={faSlidersH} />
                         </button>
                     </div>
                 ) : (
-                    <span>Network Error</span>
+                    <span>网络错误</span>
                 )
             ) : (
-                <button onClick={() => dispatch(setAnilistSearchOpen(true))}>Track</button>
+                <button onClick={() => dispatch(setAnilistSearchOpen(true))}>追踪</button>
             )}
         </div>
     );

@@ -56,11 +56,11 @@ const AnilistSearch = () => {
                     }}
                     tabIndex={-1}
                 >
-                    <h1>Add Tracking</h1>
+                    <h1>添加追踪</h1>
                     <div className="searchBar">
                         <input
                             type="text"
-                            placeholder="Search on Anilist"
+                            placeholder="在 AniList 上搜索"
                             onKeyDown={(e) => {
                                 e.stopPropagation();
                             }}
@@ -81,7 +81,7 @@ const AnilistSearch = () => {
                     </div>
                     <div className="results">
                         {result.length <= 0 ? (
-                            <p>No Result</p>
+                            <p>无结果</p>
                         ) : (
                             <ol>
                                 {result.map((e) => (
@@ -121,7 +121,7 @@ const ResultListItem = ({ item, onClick }: ResultListItemProps) => {
                             <span className="badge">{formatStr}</span>
                         </span>
                         <span className="row">
-                            <span className="badge">Started: {startDateStr}</span>
+                            <span className="badge">开始: {startDateStr}</span>
                         </span>
                         <span className="row">
                             <span className="badge">{statusStr}</span>

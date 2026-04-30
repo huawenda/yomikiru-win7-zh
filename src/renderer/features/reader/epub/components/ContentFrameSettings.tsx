@@ -10,10 +10,10 @@ import type { BookReaderSettings } from "@utils/readerSettingsSchema";
 import { memo } from "react";
 
 const BORDER_STYLE_OPTIONS: Menu.OptSelectOption[] = [
-    { label: "Solid", value: "solid" },
-    { label: "Dashed", value: "dashed" },
-    { label: "Dotted", value: "dotted" },
-    { label: "Double", value: "double" },
+    { label: "实线", value: "solid" },
+    { label: "虚线", value: "dashed" },
+    { label: "点线", value: "dotted" },
+    { label: "双线", value: "double" },
 ];
 
 /**
@@ -43,7 +43,7 @@ const ContentFrameSettings = memo(() => {
                     );
                 }}
             >
-                Content Frame
+                内容框架
             </div>
             <div className="options col">
                 <InputCheckboxColor
@@ -71,7 +71,7 @@ const ContentFrameSettings = memo(() => {
                                 }),
                             ),
                     ]}
-                    paraBefore="Content background color&nbsp;:"
+                    paraBefore="内容背景色&nbsp;:"
                 />
                 <InputNumber
                     value={cf.paddingInline}
@@ -89,7 +89,7 @@ const ContentFrameSettings = memo(() => {
                                 }),
                             ),
                     ]}
-                    paraBefore="Horizontal spacing&nbsp;:"
+                    paraBefore="水平间距&nbsp;:"
                     paraAfter="px"
                 />
                 <InputCheckbox
@@ -107,7 +107,7 @@ const ContentFrameSettings = memo(() => {
                             }),
                         );
                     }}
-                    labelAfter="Content border"
+                    labelAfter="内容边框"
                 />
                 <InputNumber
                     value={border.width}
@@ -129,7 +129,7 @@ const ContentFrameSettings = memo(() => {
                                 }),
                             ),
                     ]}
-                    paraBefore="Border width&nbsp;:"
+                    paraBefore="边框宽度&nbsp;:"
                     paraAfter="px"
                 />
                 <InputSelect
@@ -150,7 +150,7 @@ const ContentFrameSettings = memo(() => {
                         );
                     }}
                     options={BORDER_STYLE_OPTIONS}
-                    paraBefore="Border style&nbsp;:"
+                    paraBefore="边框样式&nbsp;:"
                 />
                 <InputColor
                     labeled
@@ -171,7 +171,7 @@ const ContentFrameSettings = memo(() => {
                                 }),
                             ),
                     ]}
-                    paraBefore="Border color&nbsp;:"
+                    paraBefore="边框颜色&nbsp;:"
                 />
             </div>
         </div>

@@ -63,7 +63,7 @@ function ListNavigatorProviderComponent<T>({
     onContextMenu,
     handleExtraKeyDown,
     onSelect,
-    emptyMessage = "No items",
+    emptyMessage = "暂无项目",
     inputRef: inputRefProp,
     onFilteredItemsChange,
     persistFilterOnItemsChange,
@@ -291,7 +291,7 @@ type SearchInputProps = {
 );
 
 const SearchInputComponent: React.FC<SearchInputProps> = ({
-    placeholder = "Type to search",
+    placeholder = "输入以搜索",
     className = "search-input",
     onChange,
     runOriginalOnChange = false,

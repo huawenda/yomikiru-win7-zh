@@ -93,7 +93,7 @@ const ReaderPresetSection = memo(({ type }: ReaderPresetSectionProps) => {
                     }}
                     onClick={toggleCollapsed}
                 >
-                    Preset
+                    预设
                 </div>
                 <div className="options">
                     <div className="col">
@@ -120,7 +120,7 @@ const ReaderPresetSection = memo(({ type }: ReaderPresetSectionProps) => {
                         <div className="row stretch-content">
                             <button
                                 onClick={() => setShowPresetNameModal(true)}
-                                title="Save current settings as new preset"
+                                title="将当前设置保存为新预设"
                             >
                                 <FontAwesomeIcon icon={faPlus} />
                             </button>
@@ -133,7 +133,7 @@ const ReaderPresetSection = memo(({ type }: ReaderPresetSectionProps) => {
                                                 setPresetAutosave({ id: preset.id, autosave: !preset.autosave }),
                                             )
                                         }
-                                        title={preset.autosave ? "Disable autosave" : "Enable autosave"}
+                                        title={preset.autosave ? "禁用自动保存" : "启用自动保存"}
                                     >
                                         <FontAwesomeIcon icon={faSync} />
                                     </button>
@@ -157,12 +157,12 @@ const ReaderPresetSection = memo(({ type }: ReaderPresetSectionProps) => {
                                                     );
                                                 }
                                                 dialogUtils.confirm({
-                                                    message: "Preset updated.",
+                                                    message: "预设已更新。",
                                                     noOption: true,
                                                 });
                                             }
                                         }}
-                                        title="Update selected preset with current settings"
+                                        title="用当前设置更新选中的预设"
                                     >
                                         <FontAwesomeIcon icon={faSave} />
                                     </button>
@@ -172,7 +172,7 @@ const ReaderPresetSection = memo(({ type }: ReaderPresetSectionProps) => {
                                                 if (!presetId) return;
                                                 dialogUtils
                                                     .confirm({
-                                                        message: "Delete preset?",
+                                                        message: "删除预设？",
                                                         noOption: false,
                                                     })
                                                     .then((res) => {
@@ -181,7 +181,7 @@ const ReaderPresetSection = memo(({ type }: ReaderPresetSectionProps) => {
                                                         }
                                                     });
                                             }}
-                                            title="Delete preset"
+                                            title="删除预设"
                                         >
                                             <FontAwesomeIcon icon={faTrash} />
                                         </button>
@@ -194,8 +194,8 @@ const ReaderPresetSection = memo(({ type }: ReaderPresetSectionProps) => {
             </div>
             {showPresetNameModal && (
                 <TextInputModal
-                    title="Preset name"
-                    placeholder="Enter preset name"
+                    title="预设名称"
+                    placeholder="输入预设名称"
                     onClose={() => setShowPresetNameModal(false)}
                     onSave={handleAddPreset}
                 />

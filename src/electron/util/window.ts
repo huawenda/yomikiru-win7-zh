@@ -32,9 +32,8 @@ export class WindowManager {
             dialog
                 .showMessageBox({
                     type: "info",
-                    message:
-                        "If you are seeing blank window then check the github page for new version or create an issue if no new version is available.",
-                    buttons: ["Ok", "Home Page"],
+                    message: "如果看到空白窗口，请到 GitHub 页面检查新版本；如果没有新版本，请创建 issue。",
+                    buttons: ["确定", "主页"],
                 })
                 .then((e) => {
                     if (e.response === 1) shell.openExternal("https://github.com/mienaiyami/yomikiru");
@@ -53,8 +52,8 @@ export class WindowManager {
                 arguments: "--new-window",
                 iconPath: process.execPath,
                 iconIndex: 0,
-                title: "New Window",
-                description: "Create a new window",
+                title: "新窗口",
+                description: "创建新窗口",
             },
         ]);
     }
@@ -115,9 +114,8 @@ export class WindowManager {
                 dialog
                     .showMessageBox({
                         type: "error",
-                        message:
-                            "App crashed. Please check the github page for new version or create an issue if no new version is available.",
-                        buttons: ["Ok", "Home Page"],
+                        message: "应用已崩溃。请到 GitHub 页面检查新版本；如果没有新版本，请创建 issue。",
+                        buttons: ["确定", "主页"],
                     })
                     .then((e) => {
                         if (e.response === 1) shell.openExternal("https://github.com/mienaiyami/yomikiru");
@@ -136,9 +134,9 @@ export class WindowManager {
             let res = 1;
             if (MainSettings.settings.askBeforeClosing) {
                 res = dialog.showMessageBoxSync(window, {
-                    message: "Close this window?",
+                    message: "关闭此窗口？",
                     title: "Yomikiru",
-                    buttons: ["No", "Yes"],
+                    buttons: ["否", "是"],
                     type: "question",
                 });
             }

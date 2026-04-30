@@ -115,7 +115,7 @@ const TopBar = (): ReactElement => {
                         dispatch(setSettingsOpen(false));
                     }}
                     tabIndex={-1}
-                    data-tooltip="Home"
+                    data-tooltip="主页"
                 >
                     <FontAwesomeIcon icon={faHome} />
                 </button>
@@ -126,7 +126,7 @@ const TopBar = (): ReactElement => {
                         dispatch(toggleSettingsOpen());
                     }}
                     tabIndex={-1}
-                    data-tooltip="Settings"
+                    data-tooltip="设置"
                 >
                     <FontAwesomeIcon icon={faCog} />
                 </button>
@@ -139,14 +139,14 @@ const TopBar = (): ReactElement => {
                     <label
                         className="pageNumber noBG"
                         htmlFor="NavigateToPageInput"
-                        data-tooltip="Navigate To Page Number"
+                        data-tooltip="跳转到页码"
                     >
                         <input
                             type="number"
                             id="NavigateToPageInput"
                             className="pageNumberInput"
                             defaultValue={1}
-                            placeholder="Page Num."
+                            placeholder="页码"
                             ref={pageNumberInputRef}
                             min="1"
                             max={readerContent.progress?.totalPages || 0}
@@ -261,7 +261,7 @@ const TopBar = (): ReactElement => {
                         <button
                             tabIndex={-1}
                             id="minimizeBtn"
-                            title="Minimize"
+                            title="最小化"
                             onFocus={(e) => e.currentTarget.blur()}
                             onClick={() => window.electron.currentWindow.minimize()}
                         >
@@ -271,7 +271,7 @@ const TopBar = (): ReactElement => {
                             tabIndex={-1}
                             id="maximizeRestoreBtn"
                             onFocus={(e) => e.currentTarget.blur()}
-                            title={isMaximized ? "Restore" : "Maximize"}
+                            title={isMaximized ? "还原" : "最大化"}
                             onClick={() => {
                                 if (isMaximized) return window.electron.currentWindow.restore();
                                 window.electron.currentWindow.maximize();
@@ -282,7 +282,7 @@ const TopBar = (): ReactElement => {
                         <button
                             tabIndex={-1}
                             id="closeBtn"
-                            title="Close"
+                            title="关闭"
                             onFocus={(e) => e.currentTarget.blur()}
                             onClick={() => window.electron.currentWindow.close()}
                         >

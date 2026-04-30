@@ -41,17 +41,17 @@ const BookmarkButton = memo(
         return (
             <button
                 className="ctrl-menu-item"
-                data-tooltip="Bookmark"
+                data-tooltip="书签"
                 ref={addToBookmarkRef}
                 onClick={() => {
                     if (!bookInReader || !bookInReader.progress) return;
                     if (bookmarkedId !== null) {
                         return dialogUtils
                             .warn({
-                                title: "Warning",
-                                message: "Remove - Remove Bookmark\n",
+                                title: "警告",
+                                message: "移除 - 删除书签\n",
                                 noOption: false,
-                                buttons: ["Cancel", "Remove"],
+                                buttons: ["取消", "移除"],
                                 defaultId: 0,
                             })
                             .then(({ response }) => {
@@ -78,7 +78,7 @@ const BookmarkButton = memo(
                                 },
                             }),
                         );
-                        setShortcutText("Bookmark Added");
+                        setShortcutText("书签已添加");
                     });
                 }}
             >

@@ -19,7 +19,7 @@ const ContentList = memo(
         const appSettings = useAppSelector((store) => store.appSettings);
         const [listShow, setListShow] = useState(new Array(epubTOC.size).fill(false));
 
-        if (epubTOC.size === 0) return <p>No TOC found in epub</p>;
+        if (epubTOC.size === 0) return <p>EPUB 中未找到 TOC</p>;
 
         const NestedList = ({ ncx }: { ncx: EPUB.NCXTree[] }) => {
             return (

@@ -101,6 +101,7 @@
         "css-loader": "^6.4.0",
         "drizzle-kit": "^0.30.4",
         "electron": "22.3.25",
+        "electron-winstaller": "5.1.0",
         "eslint": "7.29.0",
         "eslint-config-prettier": "^10.1.1",
         "eslint-import-resolver-typescript": "^3.8.2",

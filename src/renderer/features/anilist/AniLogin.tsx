@@ -51,14 +51,13 @@ const AniLogin: React.FC = () => {
                     tabIndex={-1}
                     ref={contRef}
                 >
-                    <h1>Link AniList</h1>
+                    <h1>关联 AniList</h1>
                     <p>
-                        Click &quot;Proceed&quot; to start authorization process. You will be redirected to your
-                        default browser. <br /> <br />
-                        After authorization, anilist will give you a token, copy and paste that below to complete
-                        linking.
+                        点击“继续”开始授权流程。系统会跳转到你的默认浏览器。
                         <br /> <br />
-                        Check Usage & Features in settings for more info or ask on the github page.
+                        授权完成后，AniList 会提供一个 token，将其复制并粘贴到下方即可完成关联。
+                        <br /> <br />
+                        更多信息可查看设置中的“使用说明与功能”，或在 GitHub 页面提问。
                     </p>
                     <div className="btns">
                         {!proceeded && (
@@ -70,13 +69,13 @@ const AniLogin: React.FC = () => {
                                     setProceeded(true);
                                 }}
                             >
-                                Proceed
+                                继续
                             </button>
                         )}
                         {proceeded && (
                             <>
                                 <input
-                                    placeholder="Paste your token here"
+                                    placeholder="在此粘贴 token"
                                     type="text"
                                     ref={inputRef}
                                     onKeyDown={(e) => {
@@ -89,26 +88,26 @@ const AniLogin: React.FC = () => {
                                         if (inputRef.current) {
                                             const token = inputRef.current.value.trimEnd();
                                             const elem = e.currentTarget;
-                                            elem.innerText = "Checking...";
+                                            elem.innerText = "正在检查...";
                                             AniList.checkToken(token).then((e) => {
                                                 if (e) {
-                                                    elem.innerText = "Linked!";
+                                                    elem.innerText = "已关联！";
                                                     setTimeout(() => {
                                                         dispatch(setAnilistToken(token));
                                                         dispatch(setAnilistLoginOpen(false));
                                                     }, 1000);
                                                 } else {
-                                                    elem.innerText = "Invalid Token / Error";
+                                                    elem.innerText = "Token 无效 / 发生错误";
                                                     if (inputRef.current) inputRef.current.value = "";
                                                     setTimeout(() => {
-                                                        elem.innerText = "Submit";
+                                                        elem.innerText = "提交";
                                                     }, 2000);
                                                 }
                                             });
                                         }
                                     }}
                                 >
-                                    Submit
+                                    提交
                                 </button>
                             </>
                         )}

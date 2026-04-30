@@ -57,7 +57,7 @@ export default class AniList {
                 if (!e && e !== undefined)
                     dialogUtils.customError({
                         message:
-                            "Unable to login to AniList. If persists, try logging in again using different token.",
+                            "无法登录 AniList。如果问题持续，请尝试使用其他 token 重新登录。",
                     });
             });
     }
@@ -123,7 +123,7 @@ export default class AniList {
             }
             return raw.ok;
         } catch (reason) {
-            dialogUtils.customError({ message: "Unable to make request to AniList server." });
+            dialogUtils.customError({ message: "无法请求 AniList 服务器。" });
             log.error("checkToken: request failed", reason);
         }
     }
@@ -157,8 +157,8 @@ export default class AniList {
                     log.error("fetch: error payload from API", json);
                     if (json.errors.message === "Invalid token")
                         dialogUtils.customError({
-                            message: "AniList: Invalid token",
-                            detail: "Try logging out and in again.",
+                            message: "AniList: token 无效",
+                            detail: "请尝试退出登录后重新登录。",
                         });
                 }
             }
@@ -176,7 +176,7 @@ export default class AniList {
         `;
         const data = await AniList.fetch(query);
         if (data) return data.Viewer.name;
-        else return "Error";
+        else return "错误";
     }
     static getVariables(variables: object) {
         return AniList.displayAdultContent ? { ...variables } : { ...variables, displayAdultContent: false };
@@ -252,10 +252,10 @@ export default class AniList {
 
 /** Human-readable labels for Anilist media format values. */
 export const ANILIST_FORMAT_LABEL: Record<Anilist.MediaFormat, string> = {
-    MANGA: "Manga",
-    NOVEL: "Novel",
-    LIGHT_NOVEL: "Light Novel",
-    ONE_SHOT: "One Shot",
+    MANGA: "漫画",
+    NOVEL: "小说",
+    LIGHT_NOVEL: "轻小说",
+    ONE_SHOT: "短篇",
     MANHWA: "Manhwa",
     MANHUA: "Manhua",
     DOUJINSHI: "Doujinshi",
@@ -264,9 +264,9 @@ export const ANILIST_FORMAT_LABEL: Record<Anilist.MediaFormat, string> = {
 
 /** Human-readable labels for Anilist media status values. */
 export const ANILIST_STATUS_LABEL: Record<Anilist.MediaStatus, string> = {
-    FINISHED: "Finished",
-    RELEASING: "Releasing",
-    CANCELLED: "Cancelled",
-    HIATUS: "Hiatus",
-    NOT_YET_RELEASED: "Not Yet Released",
+    FINISHED: "已完结",
+    RELEASING: "连载中",
+    CANCELLED: "已取消",
+    HIATUS: "暂停",
+    NOT_YET_RELEASED: "尚未发布",
 };

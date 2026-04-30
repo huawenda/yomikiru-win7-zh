@@ -48,21 +48,21 @@ export const USER_PRESET_BOOK_ID = "user-preset-book";
 const initPresets: ReaderPreset[] = [
     {
         id: USER_PRESET_MANGA_ID,
-        name: "User",
+        name: "用户",
         type: "manga",
         autosave: true,
         data: defaultMangaReaderSettings,
     },
     {
         id: USER_PRESET_BOOK_ID,
-        name: "User",
+        name: "用户",
         type: "book",
         autosave: true,
         data: defaultBookReaderSettings,
     },
     {
         id: "manga-preset-paged-ltr",
-        name: "Paged LTR",
+        name: "分页 LTR",
         type: "manga",
         autosave: false,
         data: {
@@ -76,7 +76,7 @@ const initPresets: ReaderPreset[] = [
     },
     {
         id: "manga-preset-long-strip",
-        name: "Long Strip",
+        name: "长条",
         type: "manga",
         autosave: false,
         data: {
@@ -89,7 +89,7 @@ const initPresets: ReaderPreset[] = [
     },
     {
         id: "manga-preset-longstrip-gaps",
-        name: "Long Strip with Gaps",
+        name: "长条（带间距）",
         type: "manga",
         autosave: false,
         data: {
@@ -102,7 +102,7 @@ const initPresets: ReaderPreset[] = [
     },
     {
         id: "book-preset-default",
-        name: "Default",
+        name: "默认",
         type: "book",
         autosave: false,
         data: defaultBookReaderSettings satisfies BookReaderSettings,
@@ -129,14 +129,14 @@ export const buildFirstRunPresets = (
         ...initPresets.filter((p) => !isUserPresetId(p.id)),
         {
             id: USER_PRESET_MANGA_ID,
-            name: "User",
+            name: "用户",
             type: "manga",
             autosave: true,
             data: mangaSettings,
         },
         {
             id: USER_PRESET_BOOK_ID,
-            name: "User",
+            name: "用户",
             type: "book",
             autosave: true,
             data: bookSettings,
@@ -146,7 +146,7 @@ export const buildFirstRunPresets = (
 
 const mangaPresetTopDefaults: MangaReaderPreset = {
     id: "",
-    name: "Manga preset",
+    name: "漫画预设",
     type: "manga",
     autosave: false,
     data: defaultMangaReaderSettings,
@@ -154,7 +154,7 @@ const mangaPresetTopDefaults: MangaReaderPreset = {
 
 const bookPresetTopDefaults: BookReaderPreset = {
     id: "",
-    name: "Book preset",
+    name: "书籍预设",
     type: "book",
     autosave: false,
     data: defaultBookReaderSettings,

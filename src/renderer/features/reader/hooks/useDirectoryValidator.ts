@@ -103,7 +103,7 @@ export const useDirectoryValidator = () => {
             window.electron.webFrame.clearCache();
 
             if (formatUtils.book.test(normalizedLink)) {
-                dispatch(setReaderLoading({ message: "PROCESSING EPUB" }));
+                dispatch(setReaderLoading({ message: "正在处理 EPUB" }));
                 dispatch(
                     setReaderState({
                         type: "book",
@@ -143,8 +143,8 @@ export const useDirectoryValidator = () => {
             dispatch(setReaderLoading(null));
             if (errorOnInvalid) {
                 await dialogUtils.customError({
-                    title: "Invalid Folder",
-                    message: "The folder is not valid. Please check the folder and try again.",
+                    title: "文件夹无效",
+                    message: "此文件夹无效，请检查后重试。",
                     detail: result.error instanceof Error ? result.error.message : String(result.error),
                 });
             }

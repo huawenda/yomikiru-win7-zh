@@ -13,7 +13,6 @@ import {
     useState,
 } from "react";
 import FocusLock from "react-focus-lock";
-import About from "./components/About";
 import GeneralSettings from "./components/GeneralSettings";
 import Shortcuts from "./components/Shortcuts";
 import ThemeCont from "./components/ThemeCont";
@@ -171,11 +170,8 @@ const Settings = (): ReactElement => {
                             <div className={`tab ${currentTab === TAB_INFO.makeTheme[0] ? "selected " : ""}`}>
                                 <ThemeCont />
                             </div>
-                            <div className={`tab ${currentTab === TAB_INFO.about[0] ? "selected " : ""}`}>
-                                <About />
-                            </div>
                             <div className={`tab ${currentTab === TAB_INFO.extras[0] ? "selected " : ""}`}>
-                                <h1>Usage & Features</h1>
+                                <h1>使用说明与功能</h1>
                                 <Usage />
                             </div>
                         </div>

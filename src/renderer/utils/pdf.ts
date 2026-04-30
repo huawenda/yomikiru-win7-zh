@@ -19,10 +19,10 @@ const renderPDF = async (
 
         loadingTask.onPassword = () => {
             dialogUtils.customError({
-                message: "PDF is password protected.",
+                message: "PDF 受密码保护。",
                 log: false,
             });
-            throw new Error("PDF is password protected.");
+            throw new Error("PDF 受密码保护。");
         };
 
         const pdf = await loadingTask.promise;
@@ -96,7 +96,7 @@ const renderPDF = async (
         }
 
         throw {
-            message: "PDF Reading Error",
+            message: "PDF 读取错误",
             reason: err instanceof Error ? err.message : String(err),
         };
     }

@@ -42,7 +42,7 @@ const BookmarkList: React.FC = () => {
             } catch (error) {
                 log.error("navigate to bookmark failed", error);
                 dialogUtils.customError({
-                    message: "Could not find the chapter for corresponding id.",
+                    message: "找不到对应 ID 的章节。",
                 });
             }
         },
@@ -57,7 +57,7 @@ const BookmarkList: React.FC = () => {
             const bookmark = bookmarksArray.find((b) => b.id === bookmarkId);
             if (!bookmark) {
                 dialogUtils.customError({
-                    message: "Could not find the chapter for corresponding id.",
+                    message: "找不到对应 ID 的章节。",
                 });
                 return;
             }
@@ -88,7 +88,7 @@ const BookmarkList: React.FC = () => {
                 <span className="text">
                     <span className="chapterName">{bookmark.chapterName}</span>
 
-                    <span className="page" title="Bookmarked Page / Total Pages">
+                    <span className="page" title="书签页 / 总页数">
                         {bookmark.page}/{mangaInReader?.progress?.totalPages}
                     </span>
                 </span>
@@ -106,7 +106,7 @@ const BookmarkList: React.FC = () => {
             <ListNavigator.Provider
                 items={bookmarksArray}
                 renderItem={renderBookmarkItem}
-                emptyMessage="No Bookmarks"
+                emptyMessage="没有书签"
             >
                 <ListNavigator.List />
             </ListNavigator.Provider>

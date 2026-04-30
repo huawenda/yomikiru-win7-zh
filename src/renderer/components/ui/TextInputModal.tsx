@@ -28,10 +28,10 @@ const TextInputModal = memo(
     ({
         title,
         placeholder = "",
-        submitLabel = "Save",
-        cancelLabel = "Cancel",
+        submitLabel = "保存",
+        cancelLabel = "取消",
         initialValue = "",
-        validate = (value) => (value.trim() === "" ? "This field is required" : null),
+        validate = (value) => (value.trim() === "" ? "此字段为必填项" : null),
         onClose,
         onSave,
     }: TextInputModalProps) => {
