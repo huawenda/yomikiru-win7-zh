@@ -15,8 +15,6 @@ import {
 import FocusLock from "react-focus-lock";
 import GeneralSettings from "./components/GeneralSettings";
 import Shortcuts from "./components/Shortcuts";
-import ThemeCont from "./components/ThemeCont";
-import Usage from "./components/Usage";
 import { TAB_INFO } from "./utils/constants";
 
 const log = createRendererLogger("Settings");
@@ -166,13 +164,6 @@ const Settings = (): ReactElement => {
                             </div>
                             <div className={`tab ${currentTab === TAB_INFO.shortcutKeys[0] ? "selected " : ""}`}>
                                 <Shortcuts />
-                            </div>
-                            <div className={`tab ${currentTab === TAB_INFO.makeTheme[0] ? "selected " : ""}`}>
-                                <ThemeCont />
-                            </div>
-                            <div className={`tab ${currentTab === TAB_INFO.extras[0] ? "selected " : ""}`}>
-                                <h1>使用说明与功能</h1>
-                                <Usage />
                             </div>
                         </div>
                     </div>

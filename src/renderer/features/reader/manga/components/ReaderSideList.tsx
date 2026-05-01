@@ -25,7 +25,6 @@ const log = createRendererLogger("manga/ReaderSideList");
 
 import { shallowEqual } from "react-redux";
 import { useAppContext } from "src/renderer/App";
-import AnilistBar from "../../../anilist/AnilistBar";
 import BookmarkList from "./BookmarkList";
 import ReaderSideListItem from "./ReaderSideListItem";
 
@@ -97,7 +96,6 @@ const ReaderSideList = memo(
         const mangaInReader = useAppSelector(getReaderManga);
         const bookmarks = useAppSelector((store) => store.bookmarks);
         const appSettings = useAppSelector((store) => store.appSettings);
-        const anilistToken = useAppSelector((store) => store.anilist.token);
         const dispatch = useAppDispatch();
 
         const sideListRef = useRef<HTMLDivElement>(null);
@@ -267,28 +265,6 @@ const ReaderSideList = memo(
         };
         useLayoutEffect(() => {
             makeChapterList();
-
-            if (mangaLink && appSettings.autoRefreshSideList && !isShuffleMode) {
-                const refresh = () => {
-                    if (timeout) clearTimeout(timeout);
-                    timeout = setTimeout(() => {
-                        makeChapterList();
-                    }, 1000);
-                };
-                const closeWatcher = window.chokidar.watch({
-                    path: mangaLink,
-                    event: "all",
-                    options: {
-                        depth: 0,
-                        ignoreInitial: true,
-                    },
-                    callback: refresh,
-                });
-                let timeout: NodeJS.Timeout;
-                return () => {
-                    closeWatcher();
-                };
-            }
         }, [mangaLink]);
 
         const handleResizerDrag = (e: MouseEvent) => {
@@ -630,14 +606,12 @@ const ReaderSideList = memo(
                                 </button>
                             </div>
 
-                            {(isShuffleMode || !appSettings.autoRefreshSideList) && (
-                                <button
-                                    data-tooltip={isShuffleMode ? "刷新并重新随机" : "刷新"}
-                                    onClick={makeChapterList}
-                                >
-                                    <FontAwesomeIcon icon={faSyncAlt} />
-                                </button>
-                            )}
+                            <button
+                                data-tooltip={isShuffleMode ? "刷新并重新随机" : "刷新"}
+                                onClick={makeChapterList}
+                            >
+                                <FontAwesomeIcon icon={faSyncAlt} />
+                            </button>
 
                             <button
                                 data-tooltip={
@@ -691,8 +665,6 @@ const ReaderSideList = memo(
                             <span>{formatUtils.files.getName(mangaInReader?.progress?.chapterName || "")}</span>
                         </div>
                     </div>
-
-                    {anilistToken && <AnilistBar />}
 
                     <div className="tools">
                         <div className="btnOptions">

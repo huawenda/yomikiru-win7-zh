@@ -24,7 +24,7 @@ export type RetryOptions = {
  * ```ts
  * const result = await withRetry(
  *     async () => {
- *         const response = await fetch('https://api.example.com/data');
+ *         const response = await readLocalData();
  *         return response.json();
  *     },
  *     {
@@ -93,7 +93,7 @@ export async function withRetry<T>(operation: () => Promise<T>, options: RetryOp
  * ```ts
  * const fetchWithRetry = makeRetryable(
  *     async (url: string) => {
- *         const response = await fetch(url);
+ *         const response = await readLocalData(url);
  *         return response.json();
  *     },
  *     { maxRetries: 3, retryDelay: 1000 }

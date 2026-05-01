@@ -9,11 +9,6 @@ const initialState: MainSettingsType = {
     tempPath: window.electron.app.getPath("temp"),
     openInExistingWindow: false,
     askBeforeClosing: false,
-    minimizeToTray: false,
-    checkForUpdates: true,
-    skipPatch: false,
-    autoDownload: false,
-    channel: "stable",
 };
 
 export const updateMainSettings = createAsyncThunk(

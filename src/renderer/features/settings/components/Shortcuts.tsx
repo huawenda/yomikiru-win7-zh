@@ -6,7 +6,6 @@ import { dialogUtils } from "@utils/dialog";
 import { keyFormatter, mouseEventFormatter, SHORTCUT_COMMAND_MAP } from "@utils/keybindings";
 import { createRendererLogger } from "@utils/logger";
 import type { ReactElement } from "react";
-import { useSettingsContext } from "../Settings";
 import { reservedKeys, SHORTCUT_LIMIT } from "../utils/constants";
 
 const log = createRendererLogger("settings/Shortcuts");
@@ -94,7 +93,6 @@ const ShortcutInput = ({ command }: { command: ShortcutCommands }) => {
 };
 
 const Shortcuts = (): ReactElement => {
-    const { scrollIntoView } = useSettingsContext();
     return (
         <div className="shortcutKey">
             <ul>
@@ -126,15 +124,6 @@ const Shortcuts = (): ReactElement => {
                         <tr key={e.command}>
                             <td>
                                 {e.name}
-                                {(["dirUp", "contextMenu"] as ShortcutCommands[]).includes(e.command) && (
-                                    <a
-                                        onClick={() => {
-                                            scrollIntoView("#settings-usage-searchShortcutKeys", "extras");
-                                        }}
-                                    >
-                                        更多信息。
-                                    </a>
-                                )}
                             </td>
                             <td>
                                 <ShortcutInput command={e.command} />

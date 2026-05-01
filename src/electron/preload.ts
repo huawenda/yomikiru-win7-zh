@@ -4,7 +4,6 @@ import os from "node:os";
 import path from "node:path";
 import type { IPCChannels } from "@common/types/ipc";
 import { app, clipboard, getCurrentWindow, nativeImage } from "@electron/remote";
-import * as chokidar from "chokidar";
 import { contextBridge, ipcRenderer, shell, webFrame } from "electron";
 import { getFonts } from "font-list";
 import { createRendererLogSink, setupPreloadLogging } from "./util/logger";
@@ -91,7 +90,6 @@ const electronAPI = {
     readText: clipboard.readText,
     writeText: clipboard.writeText,
     copyImage: (imagePath: string) => clipboard.writeImage(nativeImage.createFromPath(imagePath)),
-    openExternal: (url: string) => shell.openExternal(url),
     showItemInFolder: (path: string) => shell.showItemInFolder(path),
     webFrame: {
         getZoomFactor: () => webFrame.getZoomFactor(),
@@ -178,29 +176,9 @@ const processObj = {
     buildType,
 };
 
-const chokidarAPI = {
-    // cant be used directly in renderer process
-    watch: ({
-        path,
-        event,
-        options,
-        callback,
-    }: {
-        path: string | string[];
-        event: "all" | "change" | "add" | "addDir" | "unlink" | "unlinkDir" | "error" | "ready" | "raw";
-        options?: chokidar.WatchOptions;
-        callback: (event: string, path: string) => void;
-    }): (() => void) => {
-        const watcher = chokidar.watch(path, options);
-        watcher.on(event, callback);
-        return () => watcher.close();
-    },
-};
-
 contextBridge.exposeInMainWorld("fs", fsAPI);
 contextBridge.exposeInMainWorld("path", pathAPI);
 contextBridge.exposeInMainWorld("electron", electronAPI);
-contextBridge.exposeInMainWorld("chokidar", chokidarAPI);
 contextBridge.exposeInMainWorld("process", processObj);
 contextBridge.exposeInMainWorld("getFonts", getFonts);
 setupPreloadLogging(() => app.getPath("userData"));
@@ -212,7 +190,6 @@ declare global {
         fs: typeof fsAPI;
         path: typeof pathAPI;
         electron: typeof electronAPI;
-        chokidar: typeof chokidarAPI;
         process: typeof processObj;
         getFonts: typeof getFonts;
         logger: ReturnType<typeof createRendererLogSink>;

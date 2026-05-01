@@ -17,16 +17,7 @@ const GeneralPDFSettings: React.FC = () => {
     return (
         <div className="settingItem2" id="settings-pdfScale">
             <h3>PDF 选项</h3>
-            <div className="desc">
-                调整 PDF 渲染质量。数值越高，质量越高。{" "}
-                <a
-                    onClick={() => {
-                        scrollIntoView("#settings-usage-pdfScale", "extras");
-                    }}
-                >
-                    更多信息
-                </a>
-            </div>
+            <div className="desc">调整 PDF 渲染质量。数值越高，质量越高，但初次处理时 CPU 和存储占用也越高。</div>
             <div className="main row">
                 <InputNumber
                     value={appSettings.readerSettings.pdfScale}

@@ -97,26 +97,6 @@ export type FileSystemChannels = {
     >;
     "fs:showInExplorer": ChannelDefinition<string, void>;
     "fs:saveFile": ChannelDefinition<{ filePath: string; data: string }, void>;
-    "fs:fileChanged": ChannelDefinition<{ filePath: string; sourceWindowId?: number; ts: number }, void, "m2r">;
-};
-
-export type AppUpdateChannel = "stable" | "beta";
-
-export type UpdateChannels = {
-    "update:check:manual": ChannelDefinition<
-        {
-            promptAfterCheck?: boolean;
-            channel?: AppUpdateChannel;
-        },
-        void
-    >;
-};
-
-export type ExplorerMenuChannels = {
-    "explorer:addOption": ChannelDefinition<void, boolean>;
-    "explorer:removeOption": ChannelDefinition<void, boolean>;
-    "explorer:addOption:epub": ChannelDefinition<void, boolean>;
-    "explorer:removeOption:epub": ChannelDefinition<void, boolean>;
 };
 
 export type ReaderChannels = {
@@ -176,18 +156,6 @@ export type DialogChannels = {
     "dialog:showSaveDialog": ChannelDefinition<Electron.SaveDialogOptions, Electron.SaveDialogReturnValue>;
 };
 
-export type ErrorReportingChannels = {
-    "error:report": ChannelDefinition<
-        {
-            error: string;
-            stack?: string;
-            context?: Record<string, unknown>;
-            severity?: "low" | "medium" | "high" | "critical";
-        },
-        void
-    >;
-};
-
 export type MainSettingsChannels = {
     "mainSettings:get": ChannelDefinition<void, MainSettingsType>;
     "mainSettings:update": ChannelDefinition<Partial<MainSettingsType>, void>;
@@ -198,11 +166,8 @@ export type IPCChannels = DatabaseChannels &
     DatabaseChangeChannels &
     WindowManagementChannels &
     FileSystemChannels &
-    UpdateChannels &
-    ExplorerMenuChannels &
     ReaderChannels &
     DialogChannels &
-    ErrorReportingChannels &
     MainSettingsChannels;
 
 export type MainToRendererChannels = {

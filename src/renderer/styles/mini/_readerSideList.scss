@@ -82,38 +82,6 @@
             }
         }
     }
-    .anilistBar {
-        font-size: 20px;
-        border: solid var(--reader-sidelist-divider-color);
-        border-width: 0 0 4px 0;
-        display: grid;
-        grid-template-columns: 5rem 1rem auto;
-        align-items: baseline;
-        padding: 5px;
-        div.btns {
-            display: flex;
-            flex-direction: row;
-            gap: 6px;
-            font-size: 0.8em;
-            > :nth-child(n) {
-                width: 30%;
-            }
-            > :nth-child(2n) {
-                width: 20%;
-            }
-            > .input input {
-                text-align: center;
-            }
-        }
-        span {
-            &.bold {
-                font-size: 20px;
-                font-weight: 700;
-                display: inline-block;
-                position: relative;
-            }
-        }
-    }
     &.hideTextFileBadge {
         .nonFolder[data-type-text="true"] {
             display: none;

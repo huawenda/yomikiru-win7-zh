@@ -123,7 +123,6 @@ export const mangaReaderSettingsSchema = z.object({
     }),
     focusChapterInList: z.boolean(),
     hideSideList: z.boolean(),
-    autoUpdateAnilistProgress: z.boolean(),
     enableTouchScroll: z.boolean(),
     touchScrollMultiplier: z.number(),
 });
@@ -184,7 +183,6 @@ export const defaultMangaReaderSettings: MangaReaderSettings = {
     },
     focusChapterInList: true,
     hideSideList: false,
-    autoUpdateAnilistProgress: false,
     enableTouchScroll: false,
     touchScrollMultiplier: 5,
 };

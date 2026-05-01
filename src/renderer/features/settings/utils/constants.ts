@@ -4,8 +4,6 @@
 const TAB_INFO = {
     settings: [0, "设置"],
     shortcutKeys: [1, "快捷键"],
-    makeTheme: [2, "主题制作"],
-    extras: [3, "附加说明"],
 } as const;
 
 Object.freeze(TAB_INFO);

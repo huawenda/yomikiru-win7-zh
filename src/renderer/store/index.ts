@@ -1,5 +1,4 @@
 import { configureStore } from "@reduxjs/toolkit";
-import anilistReducer from "./anilist";
 import appSettingsReducer from "./appSettings";
 import bookmarksReducer from "./bookmarks";
 import bookNotesReducer from "./bookNotes";
@@ -23,7 +22,6 @@ const store = configureStore({
         library: libraryReducer,
         prevNextChapter: prevNextChapterReducer,
         shortcuts: shortcutsReducer,
-        anilist: anilistReducer,
         ui: uiReducer,
         reader: readerReducer,
         mainSettings: mainSettingsReducer,

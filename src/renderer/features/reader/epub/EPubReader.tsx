@@ -1,5 +1,4 @@
 import type { BookProgress } from "@common/types/db";
-import { setAnilistCurrentManga } from "@store/anilist";
 import { setAppSettings, setEpubReaderSettings, setReaderSettings } from "@store/appSettings";
 import { addNote } from "@store/bookNotes";
 import { useAppDispatch, useAppSelector } from "@store/hooks";
@@ -13,8 +12,6 @@ import {
 } from "@store/reader";
 import { cyclePresetNext, cyclePresetPrev, selectPresetSlot } from "@store/readerPresets";
 import { getShortcutsMapped } from "@store/shortcuts";
-import AniList from "@utils/anilist";
-import { processChapterNumber } from "@utils/chapterUtils";
 import { colorUtils } from "@utils/color";
 import { dialogUtils } from "@utils/dialog";
 import EPUB, { type EPubData } from "@utils/epub";
@@ -43,7 +40,6 @@ const EPubReader: React.FC = () => {
     const shortcutsMapped = useAppSelector(getShortcutsMapped, shallowEqual);
     const isSettingOpen = useAppSelector((store) => store.ui.isOpen.settings);
     const readerState = useAppSelector((store) => store.reader);
-    const anilistCurrentManga = useAppSelector((store) => store.anilist.currentManga);
     const isLoading = useAppSelector((store) => store.reader.loading !== null);
 
     const libraryItem = useAppSelector((store) => selectLibraryItem(store, readerState.link));
@@ -78,7 +74,6 @@ const EPubReader: React.FC = () => {
     } | null>(null);
 
     const [editNoteId, setEditNoteId] = useState<number | null>(null);
-    const [updatedAnilistProgress, setUpdatedAnilistProgress] = useState(false);
     // when "", will hide all lists
     const [displayList, setDisplayList] = useState<"" | "content" | "bookmarks" | "notes">("content");
 
@@ -225,15 +220,11 @@ const EPubReader: React.FC = () => {
             const href = (ev.currentTarget as HTMLAnchorElement).getAttribute("data-href");
             if (href) {
                 if (href.startsWith("http")) {
-                    dialogUtils
-                        .warn({
-                            message: "打开外部链接？",
-                            detail: href,
-                            noOption: false,
-                        })
-                        .then((res) => {
-                            if (res.response === 0) window.electron.openExternal(href);
-                        });
+                    dialogUtils.warn({
+                        message: "外部链接已禁用。",
+                        detail: href,
+                        noOption: true,
+                    });
                 } else {
                     setProgressPosition("");
                     if (appSettings.epubReaderSettings.loadOneChapter) {
@@ -454,23 +445,6 @@ const EPubReader: React.FC = () => {
         setBookProgress(progress);
         makeScrollPos();
     };
-
-    useEffect(() => {
-        setUpdatedAnilistProgress(false);
-    }, [currentChapter.index]);
-
-    useLayoutEffect(() => {
-        if (updatedAnilistProgress || !appSettings.readerSettings.autoUpdateAnilistProgress) return;
-        if (bookProgress < 70) return;
-        if (!anilistCurrentManga || !bookInReader?.progress) return;
-        const chapterNumber = processChapterNumber(bookInReader.progress.chapterName);
-        if (!chapterNumber) return;
-        setUpdatedAnilistProgress(true);
-        if (chapterNumber > anilistCurrentManga.progress)
-            AniList.setCurrentMangaProgress(chapterNumber).then((e) => {
-                if (e) dispatch(setAnilistCurrentManga(e));
-            });
-    }, [bookProgress, appSettings.readerSettings.autoUpdateAnilistProgress]);
 
     const handleAddNote = useCallback(
         (color?: string) => {

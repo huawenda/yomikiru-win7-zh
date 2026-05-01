@@ -21,7 +21,6 @@ const sortByEnum = z.union([z.literal("name"), z.literal("date")]);
 const settingSchema = z
     .object({
         baseDir: z.string(),
-        customStylesheet: z.string(),
         locationListSortType: sortTypeEnum,
         locationListSortBy: sortByEnum,
         bookListSortType: sortTypeEnum,
@@ -50,11 +49,8 @@ const settingSchema = z
          * Show more data in title attr in bookmark/history tab items
          */
         showMoreDataOnItemHover: z.boolean(),
-        autoRefreshSideList: z.boolean(),
         keepExtractedFiles: z.boolean(),
         checkboxReaderSetting: z.boolean(),
-        syncSettings: z.boolean(),
-        syncThemes: z.boolean(),
         /**
          * Confirm before deleting item from history/bookmark/note
          * only in side list
@@ -78,7 +74,6 @@ const settingSchema = z
     // it is separate do i dont leave default-less value
     .default({
         baseDir: window.electron.app.getPath("home"),
-        customStylesheet: "",
         locationListSortType: "normal",
         locationListSortBy: "name",
         bookListSortType: "normal",
@@ -97,11 +92,8 @@ const settingSchema = z
         openInZenMode: false,
         hideCursorInZenMode: false,
         showMoreDataOnItemHover: true,
-        autoRefreshSideList: false,
         keepExtractedFiles: true,
         checkboxReaderSetting: false,
-        syncSettings: true,
-        syncThemes: true,
         confirmDeleteItem: true,
         showPageCountInSideList: true,
         showTextFileBadge: true,

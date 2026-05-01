@@ -7,16 +7,12 @@ import { resetAllTheme } from "@store/themes";
 import InputCheckbox from "@ui/InputCheckbox";
 import { dialogUtils } from "@utils/dialog";
 import { promptSelectDir } from "@utils/file";
-import { useSettingsContext } from "../Settings";
-import AnilistSetting from "./AnilistSetting";
 import CustomTempLocation from "./CustomTempLocation";
-import FileExplorerOptions from "./FileExplorerOptions";
 import GeneralPDFSettings from "./GeneralPDFSettings";
 import GeneralReaderPresetsSettings from "./GeneralReaderPresetsSettings";
 import GeneralThemeSettings from "./GeneralThemeSettings";
 
 const GeneralSettings: React.FC = () => {
-    const { scrollIntoView } = useSettingsContext();
     const appSettings = useAppSelector((store) => store.appSettings);
     const mainSettings = useAppSelector((store) => store.mainSettings);
     const dispatch = useAppDispatch();
@@ -42,55 +38,7 @@ const GeneralSettings: React.FC = () => {
             </div>
             <GeneralThemeSettings />
             <GeneralReaderPresetsSettings />
-            {process.platform === "win32" && <FileExplorerOptions />}
-            <AnilistSetting />
             <GeneralPDFSettings />
-            <div className="settingItem2" id="settings-customStylesheet">
-                <h3>自定义样式表</h3>
-                <div className="desc">
-                    可以加载自定义 CSS 样式表，以实现主题之外的界面样式调整。{" "}
-                    <a
-                        onClick={() => {
-                            scrollIntoView("#settings-usage-customStylesheet", "extras");
-                        }}
-                    >
-                        更多信息
-                    </a>
-                </div>
-                <div className="main row">
-                    <input
-                        type="text"
-                        placeholder="未选择文件"
-                        value={appSettings.customStylesheet}
-                        readOnly
-                    />
-                    <button
-                        onClick={() => {
-                            promptSelectDir(
-                                (path) => {
-                                    dispatch(setAppSettings({ customStylesheet: path as string }));
-                                },
-                                true,
-                                [
-                                    {
-                                        extensions: ["css"],
-                                        name: "Cascading Style Sheets",
-                                    },
-                                ],
-                            );
-                        }}
-                    >
-                        选择
-                    </button>
-                    <button
-                        onClick={() => {
-                            dispatch(setAppSettings({ customStylesheet: "" }));
-                        }}
-                    >
-                        清除
-                    </button>
-                </div>
-            </div>
             <CustomTempLocation />
             <div className="settingItem2 otherSettings" id="settings-otherSettings">
                 <h3>其他设置</h3>
@@ -120,19 +68,6 @@ const GeneralSettings: React.FC = () => {
                 </div>
                 <div className="toggleItem">
                     <InputCheckbox
-                        checked={mainSettings.minimizeToTray}
-                        className="noBG"
-                        onChange={async (e) => {
-                            dispatch(updateMainSettings({ minimizeToTray: e.currentTarget.checked }));
-                        }}
-                        labelAfter="最小化到托盘"
-                    />
-                    <div className="desc">
-                        启用后，最小化会将窗口发送到系统托盘而不是任务栏。单窗口时左键托盘图标切换显示/隐藏；多窗口时左键还原或聚焦。右键可查看窗口列表、隐藏所有窗口和退出。
-                    </div>
-                </div>
-                <div className="toggleItem">
-                    <InputCheckbox
                         checked={mainSettings.openInExistingWindow}
                         className="noBG"
                         onChange={async (e) => {
@@ -155,32 +90,6 @@ const GeneralSettings: React.FC = () => {
                     />
                     <div className="desc">在主页位置列表中双击项目时，用阅读器打开。</div>
                 </div>
-                <div className="toggleItem">
-                    <InputCheckbox
-                        checked={appSettings.syncSettings}
-                        className="noBG"
-                        onChange={(e) => {
-                            dispatch(setAppSettings({ syncSettings: e.currentTarget.checked }));
-                        }}
-                        labelAfter="同步设置"
-                    />
-                    <div className="desc">
-                        在所有已打开窗口之间同步应用设置。<code>需要重启应用</code>
-                    </div>
-                </div>
-                <div className="toggleItem">
-                    <InputCheckbox
-                        checked={appSettings.syncThemes}
-                        className="noBG"
-                        onChange={(e) => {
-                            dispatch(setAppSettings({ syncThemes: e.currentTarget.checked }));
-                        }}
-                        labelAfter="同步主题"
-                    />
-                    <div className="desc">
-                        在所有已打开窗口之间同步主题。<code>需要重启应用</code>
-                    </div>
-                </div>
                 <div className="toggleItem" id="settings-openDirectlyFromManga">
                     <InputCheckbox
                         checked={appSettings.openDirectlyFromManga}
@@ -195,14 +104,7 @@ const GeneralSettings: React.FC = () => {
                         labelAfter="章节打开快捷方式"
                     />
                     <div className="desc">
-                        如果章节文件夹位于默认位置下的漫画文件夹内，点击名称即可直接打开章节，不必点击阅读器中的箭头。{" "}
-                        <a
-                            onClick={() => {
-                                scrollIntoView("#settings-usage-openDirectlyFromManga", "extras");
-                            }}
-                        >
-                            更多信息
-                        </a>
+                        如果章节文件夹位于默认位置下的漫画文件夹内，点击名称即可直接打开章节，不必点击阅读器中的箭头。
                     </div>
                 </div>
                 <div className="toggleItem">
@@ -262,23 +164,6 @@ const GeneralSettings: React.FC = () => {
                         labelAfter="Zen Mode 光标"
                     />
                     <div className="desc">在 Zen Mode 中隐藏光标。</div>
-                </div>
-                <div className="toggleItem">
-                    <InputCheckbox
-                        checked={appSettings.autoRefreshSideList}
-                        className="noBG"
-                        onChange={(e) => {
-                            dispatch(
-                                setAppSettings({
-                                    autoRefreshSideList: e.currentTarget.checked,
-                                }),
-                            );
-                        }}
-                        labelAfter="自动刷新侧边列表"
-                    />
-                    <div className="desc">
-                        检测到文件变化时自动刷新阅读器侧边列表。如果存储较慢且章节/页数较多，可能会比较耗时。
-                    </div>
                 </div>
                 <div className="toggleItem">
                     <InputCheckbox

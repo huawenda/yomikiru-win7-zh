@@ -1,6 +1,3 @@
-import AniLogin from "@features/anilist/AniLogin";
-import AnilistEdit from "@features/anilist/AnilistEdit";
-import AnilistSearch from "@features/anilist/AnilistSearch";
 import ClassicView from "@features/home/ClassicView";
 import EPubReader from "@features/reader/epub/EPubReader";
 import Reader from "@features/reader/manga/Reader";
@@ -24,12 +21,6 @@ const Main = (): ReactElement => {
         shallowEqual,
     );
 
-    // todo: move anilist login to Settings component
-    const anilistToken = useAppSelector((store) => store.anilist.token);
-    const isAniLoginOpen = useAppSelector((store) => store.ui.isOpen.anilist.login);
-    const isAniSearchOpen = useAppSelector((store) => store.ui.isOpen.anilist.search);
-    const isAniEditOpen = useAppSelector((store) => store.ui.isOpen.anilist.edit);
-
     const { contextMenuData, optSelectData, colorSelectData } = useAppContext();
 
     return (
@@ -40,9 +31,6 @@ const Main = (): ReactElement => {
             {contextMenuData && <ContextMenu />}
             {optSelectData && <MenuList />}
             {colorSelectData && <InputColorReal />}
-            {!anilistToken && isAniLoginOpen && <AniLogin />}
-            {reader.link && isAniSearchOpen && <AnilistSearch />}
-            {reader.link && isAniEditOpen && <AnilistEdit />}
             {reader.link && (reader.type === "manga" ? <Reader /> : reader.type === "book" ? <EPubReader /> : "")}
         </div>
     );

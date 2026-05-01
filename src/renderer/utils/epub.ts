@@ -437,8 +437,7 @@ export default class EPUB {
             else log.error("EPUB readChapter: Error while reading chapter", e);
             return `
             <p>读取 EPUB 文件时出错。可能是临时文件已被删除，请尝试重新加载。</p>
-            <p>如果仍未解决，可能是 EPUB 文件格式异常。若你有原始文件，可以在
-            <a data-href="https://github.com/mienaiyami/yomikiru/issues">这里</a>提交 issue。</p>
+            <p>如果仍未解决，可能是 EPUB 文件格式异常。</p>
             <p>请注意，Yomikiru 的 EPUB 阅读器只是基础阅读器，并未完整实现 EPUB 规范。</p>
             <code>${e}</code>
             `;

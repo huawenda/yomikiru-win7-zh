@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import { ipc } from "@electron/ipc/utils";
 import * as remote from "@electron/remote/main";
-import { app, BrowserWindow, dialog, shell } from "electron";
+import { app, BrowserWindow, dialog } from "electron";
 import { getWindowFromWebContents } from ".";
 import { createMainLogger } from "./logger";
 
@@ -9,7 +9,6 @@ const logger = createMainLogger("WindowManager");
 
 import { handleError } from "./errorHandler";
 import { MainSettings } from "./mainSettings";
-import { TrayManager } from "./tray";
 
 declare const HOME_WEBPACK_ENTRY: string;
 declare const HOME_PRELOAD_WEBPACK_ENTRY: string;
@@ -29,15 +28,11 @@ export class WindowManager {
         }
 
         WindowManager.errorCheckTimeout = setTimeout(() => {
-            dialog
-                .showMessageBox({
-                    type: "info",
-                    message: "如果看到空白窗口，请到 GitHub 页面检查新版本；如果没有新版本，请创建 issue。",
-                    buttons: ["确定", "主页"],
-                })
-                .then((e) => {
-                    if (e.response === 1) shell.openExternal("https://github.com/mienaiyami/yomikiru");
-                });
+            dialog.showMessageBox({
+                type: "info",
+                message: "如果看到空白窗口，请检查本地日志以定位问题。",
+                buttons: ["确定"],
+            });
         }, 1000 * 10);
     }
     private constructor() {
@@ -97,7 +92,6 @@ export class WindowManager {
         remote.enable(window.webContents);
 
         window.webContents.once("dom-ready", () => {
-            TrayManager.setupWindowListeners(window);
             // maximize also unhide window
             window.maximize();
             if (WindowManager.isFirstWindow) {
@@ -111,15 +105,11 @@ export class WindowManager {
             WindowManager.handleWindowClose(window);
             window.webContents.on("render-process-gone", (detail) => {
                 logger.error("Renderer process terminated unexpectedly", detail);
-                dialog
-                    .showMessageBox({
-                        type: "error",
-                        message: "应用已崩溃。请到 GitHub 页面检查新版本；如果没有新版本，请创建 issue。",
-                        buttons: ["确定", "主页"],
-                    })
-                    .then((e) => {
-                        if (e.response === 1) shell.openExternal("https://github.com/mienaiyami/yomikiru");
-                    });
+                dialog.showMessageBox({
+                    type: "error",
+                    message: "应用已崩溃。请检查本地日志以定位问题。",
+                    buttons: ["确定"],
+                });
             });
         });
 
@@ -170,7 +160,6 @@ export class WindowManager {
         const onClosed = () => {
             WindowManager.windows[currentWindowIndex] = null;
             WindowManager.deleteDirsOnClose[currentWindowIndex] = null;
-            TrayManager.refreshMenu();
             if (WindowManager.windows.every((w) => !w)) app.quit();
         };
 

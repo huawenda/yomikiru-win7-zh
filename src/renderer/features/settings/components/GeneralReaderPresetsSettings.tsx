@@ -13,7 +13,6 @@ import { dialogUtils } from "@utils/dialog";
 import { createRendererLogger } from "@utils/logger";
 import type { BookReaderPreset, MangaReaderPreset } from "@utils/readerPresets";
 import { isUserPresetId, parsePresetImport } from "@utils/readerPresets";
-import { useSettingsContext } from "../Settings";
 
 const log = createRendererLogger("settings/GeneralReaderPresetsSettings");
 
@@ -181,7 +180,6 @@ const PresetActionsRow = ({ type, title }: PresetActionsRowProps) => {
 const GeneralReaderPresetsSettings: React.FC = () => {
     const dispatch = useAppDispatch();
     const presets = useAppSelector((s) => s.readerPresets.presets);
-    const { scrollIntoView } = useSettingsContext();
 
     const handleSavePresetFromClipboard = () => {
         const text = window.electron.readText("clipboard");
@@ -214,13 +212,7 @@ const GeneralReaderPresetsSettings: React.FC = () => {
         <div className="settingItem2" id="settings-reader-presets">
             <h3>阅读器预设</h3>
             <div className="desc">
-                重置默认预设，或导出/导入/分享漫画和书籍阅读器预设。只处理自定义预设（导出时不包含默认预设）。{" "}
-                <a
-                    onClick={() => scrollIntoView("#settings-usage-readerPresets", "extras")}
-                    id="settings-readerPresets"
-                >
-                    更多信息
-                </a>
+                重置默认预设，或导出/导入/分享漫画和书籍阅读器预设。只处理自定义预设（导出时不包含默认预设）。
             </div>
             <div className="main col">
                 <div className="row">

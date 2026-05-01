@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import * as remote from "@electron/remote/main";
-import { app, BrowserWindow, Menu, type MenuItemConstructorOptions, shell } from "electron";
+import { app, BrowserWindow, Menu, type MenuItemConstructorOptions } from "electron";
 import { createMainLogger } from "./util/logger";
 
 const logger = createMainLogger("main");
@@ -9,24 +9,13 @@ import { getErrorHandler } from "./util/errorHandler";
 
 remote.initialize();
 
-if (require("electron-squirrel-startup")) app.quit();
-
 import { DatabaseService } from "./db";
 import { setupDatabaseHandlers } from "./ipc/database";
 import { registerDialogHandlers } from "./ipc/dialog";
-import { registerErrorReportingHandlers } from "./ipc/errorReporting";
-import { registerExplorerHandlers } from "./ipc/explorer";
 import { registerFSHandlers } from "./ipc/fs";
-import { registerUpdateHandlers } from "./ipc/update";
-import handleSquirrelEvent from "./util/handleSquirrelEvent";
 import { MainSettings } from "./util/mainSettings";
 import { checkForJSONMigration } from "./util/migrate";
-import { TrayManager } from "./util/tray";
 import { WindowManager } from "./util/window";
-
-if (handleSquirrelEvent()) {
-    app.quit();
-}
 
 // initialize global error handler early
 const errorHandler = getErrorHandler({
@@ -106,11 +95,6 @@ app.on("ready", async () => {
                 label: "其他",
                 submenu: [
                     {
-                        role: "help",
-                        accelerator: "F1",
-                        click: () => shell.openExternal("https://github.com/mienaiyami/yomikiru"),
-                    },
-                    {
                         label: "新窗口",
                         accelerator: process.platform === "darwin" ? "Cmd+N" : "Ctrl+N",
                         click: () => WindowManager.createWindow(),
@@ -119,10 +103,6 @@ app.on("ready", async () => {
                         label: "关闭",
                         accelerator: process.platform === "darwin" ? "Cmd+W" : "Ctrl+W",
                         click: (_, window) => window?.close(),
-                    },
-                    {
-                        label: "报告问题",
-                        click: () => errorHandler.showIssueReportDialog(),
                     },
                 ],
             },
@@ -135,15 +115,10 @@ app.on("ready", async () => {
 
         WindowManager.registerListeners();
 
-        registerExplorerHandlers();
         registerFSHandlers();
         registerDialogHandlers();
-        registerErrorReportingHandlers();
 
         WindowManager.createWindow(openFolderOnLaunch);
-        TrayManager.initialize();
-        // need to be after window is created
-        registerUpdateHandlers();
     } catch (error) {
         errorHandler.handleError(error as Error, "critical", {
             source: "App Ready Handler",

@@ -4,14 +4,13 @@ import path from "node:path";
 import { promisify } from "node:util";
 import { saveFile } from "@electron/util";
 import { createMainLogger } from "@electron/util/logger";
-import { WindowManager } from "@electron/util/window";
 import * as crossZip from "cross-zip";
-import { BrowserWindow, dialog } from "electron";
+import { dialog } from "electron";
 import { ipc } from "./utils";
 
 const logger = createMainLogger("ipc/fs");
 
-// manual merge from https://github.com/mienaiyami/yomikiru/commit/b1b6acbf18ff4eac5d352d91fafd511223cc8ad0
+// manual merge retained for zip extraction behavior
 /**
  * Flatten directories. Recursively flattens directory structure by renaming directories and files
  * to use underscores instead of path separators.
@@ -62,14 +61,6 @@ export const registerFSHandlers = (): void => {
     ipc.handle("fs:saveFile", async (_event, { filePath, data }) => {
         try {
             saveFile(filePath, data);
-            const sourceWindowId = BrowserWindow.fromWebContents(_event.sender)?.id;
-            WindowManager.getAllWindows().forEach((window) => {
-                ipc.send(window.webContents, "fs:fileChanged", {
-                    filePath,
-                    sourceWindowId,
-                    ts: Date.now(),
-                });
-            });
         } catch (error) {
             logger.error(`"fs:saveFile" failed for "${filePath}"`, error);
         }

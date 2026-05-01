@@ -1,6 +1,5 @@
 import { useDirectoryValidator } from "@features/reader/hooks/useDirectoryValidator";
-import { setAnilistCurrentManga } from "@store/anilist";
-import { refreshAppSettings, setAppSettings } from "@store/appSettings";
+import { setAppSettings } from "@store/appSettings";
 import { addBookmark, fetchAllBookmarks, removeBookmark } from "@store/bookmarks";
 import { fetchAllNotes } from "@store/bookNotes";
 import { useAppDispatch, useAppSelector } from "@store/hooks";
@@ -13,10 +12,9 @@ import {
 } from "@store/library";
 import { getMainSettings, setMainSettings } from "@store/mainSettings";
 import { resetReaderState } from "@store/reader";
-import { refreshReaderPresetsWithReconcile } from "@store/readerPresets";
-import { getShortcutsMapped, refreshShortcuts } from "@store/shortcuts";
-import { refreshThemes, setTheme } from "@store/themes";
-import { setAnilistEditOpen, setAnilistLoginOpen, setAnilistSearchOpen, toggleSettingsOpen } from "@store/ui";
+import { getShortcutsMapped } from "@store/shortcuts";
+import { setTheme } from "@store/themes";
+import { toggleSettingsOpen } from "@store/ui";
 import { dialogUtils } from "@utils/dialog";
 import { keyFormatter, mouseEventFormatter } from "@utils/keybindings";
 import {
@@ -34,10 +32,6 @@ import TopBar from "./TopBar";
 import {
     formatUtils,
     promptSelectDir,
-    readerPresetsPath,
-    settingsPath,
-    shortcutsPath,
-    themesPath,
 } from "./utils/file";
 import { createRendererLogger } from "./utils/logger";
 
@@ -105,10 +99,6 @@ const App = (): ReactElement => {
     const closeReader = async () => {
         await dispatch(updateCurrentItemProgress());
         dispatch(resetReaderState());
-        dispatch(setAnilistCurrentManga(null));
-        dispatch(setAnilistEditOpen(false));
-        dispatch(setAnilistLoginOpen(false));
-        dispatch(setAnilistSearchOpen(false));
 
         // this is needed coz it is async and by the time it executes, deleteDirOnClose changes to current dir
         const deleteDir = window.app.deleteDirOnClose;
@@ -145,23 +135,6 @@ const App = (): ReactElement => {
             window.electron.send("window:addDirToDelete", window.app.deleteDirOnClose);
     }, [window.app.deleteDirOnClose]);
 
-    useLayoutEffect(() => {
-        const elem = document.head.querySelector("#customStylesheet");
-        if (appSettings.customStylesheet && !elem) {
-            window.fs.access(appSettings.customStylesheet).then(() => {
-                log.log(`Applying user customStylesheet: ${appSettings.customStylesheet}`);
-                const stylesheet = document.createElement("link");
-                stylesheet.rel = "stylesheet";
-                stylesheet.href = appSettings.customStylesheet;
-                stylesheet.id = "customStylesheet";
-                document.head.appendChild(stylesheet);
-            });
-        } else if (elem) {
-            log.log("Removing user customStylesheet link from document head");
-            document.head.removeChild(elem);
-        }
-    }, [appSettings.customStylesheet]);
-
     useEffect(() => {
         const listeners: (() => void)[] = [];
         setFirstRendered(true);
@@ -195,13 +168,6 @@ const App = (): ReactElement => {
             window.electron.on("mainSettings:sync", (settings) => {
                 dispatch(setMainSettings(settings));
             }),
-            window.electron.on("fs:fileChanged", ({ filePath }) => {
-                // log.log("fs:fileChanged sync", filePath, sourceWindowId);
-                if (filePath === settingsPath && appSettings.syncSettings) dispatch(refreshAppSettings());
-                if (filePath === shortcutsPath && appSettings.syncSettings) dispatch(refreshShortcuts());
-                if (filePath === themesPath && appSettings.syncThemes) dispatch(refreshThemes());
-                if (filePath === readerPresetsPath) dispatch(refreshReaderPresetsWithReconcile());
-            }),
         );
 
         listeners.push(
@@ -216,26 +182,7 @@ const App = (): ReactElement => {
         // here bcoz reload doesnt make window exit fullscreen
         if (window.electron.currentWindow.isFullScreen()) window.electron.currentWindow.setFullScreen(false);
 
-        //! moving to fs:fileChanged listener
-        // const filesToWatch = [readerPresetsPath, shortcutsPath];
-        // if (appSettings.syncSettings) filesToWatch.push(settingsPath);
-        // if (appSettings.syncThemes) filesToWatch.push(themesPath);
-        // const debouncedRefreshFromWatcher = debounce((path: string) => {
-        //     if (path === settingsPath) dispatch(refreshAppSettings());
-        //     if (path === themesPath) dispatch(refreshThemes());
-        //     if (path === readerPresetsPath) dispatch(refreshReaderPresetsWithReconcile());
-        //     if (path === shortcutsPath) dispatch(refreshShortcuts());
-        // }, 150);
-        // const closeWatcher = window.chokidar.watch({
-        //     path: filesToWatch,
-        //     event: "change",
-        //     callback: (_event, path) => {
-        //         debouncedRefreshFromWatcher(path);
-        //     },
-        // });
-
         return () => {
-            // closeWatcher();
             listeners.forEach((e) => void e());
         };
     }, []);

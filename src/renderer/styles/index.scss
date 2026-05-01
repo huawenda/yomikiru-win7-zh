@@ -398,39 +398,6 @@ html{
                     padding: 10px;
                 }
             }
-            @import "mini/readerAnilist";
-
-            #anilistLogin {
-                width: 100%;
-                height: 100%;
-                position: absolute;
-                top: 0;
-                left: 0;
-                z-index: 10000;
-                display: grid;
-                place-items: center;
-
-                @include mixins.contFadeScaleIn(".overlayCont");
-                .row {
-                    display: flex;
-                    flex-direction: row;
-                }
-                .overlayCont {
-                    p {
-                        padding: 10px 20px;
-                    }
-                    .btns {
-                        display: flex;
-                        flex-direction: column;
-                        gap: 10px;
-                        padding: 20px;
-                        input {
-                            text-align: center;
-                        }
-                    }
-                }
-            }
-
             #settings {
                 width: 100%;
                 height: 100%;
@@ -509,23 +476,6 @@ html{
                         display: none;
                         &.selected {
                             display: block;
-                        }
-                        &:has(.themeMaker) {
-                            > h1 {
-                                padding-inline: 0.75em;
-                                input {
-                                    width: 15em;
-                                    margin-left: auto;
-                                }
-                                span {
-                                    text-transform: none;
-                                    font-size: 0.8em;
-                                    font-weight: normal;
-                                    max-width: 15em;
-                                    overflow: hidden;
-                                    text-overflow: ellipsis;
-                                }
-                            }
                         }
                         > h1 {
                             // border-bottom: 2px solid var(--divider-color);
@@ -797,64 +747,6 @@ html{
                                 }
                             }
                         }
-                        .themeMaker {
-                            padding: 0 1.3em;
-                            display: grid;
-                            td,
-                            th {
-                                display: inline-flex;
-                                align-items: center;
-                                height: 55px;
-                                &:nth-child(1) {
-                                    width: 40%;
-                                }
-                                &:nth-child(2) {
-                                    width: 15%;
-                                    display: inline-flex;
-                                    align-items: center;
-                                    gap: 20px;
-                                    > button,
-                                    label {
-                                        width: 40px;
-                                    }
-                                }
-                                &:nth-child(3) {
-                                    width: 45%;
-                                }
-
-                                input[type="color"] {
-                                    width: 100%;
-                                    height: 100%;
-                                }
-
-                                .resetBtn {
-                                    padding: 10px;
-                                    font-size: 15px;
-                                    align-items: center;
-                                    border-radius: 3px;
-                                    overflow: initial;
-                                }
-                                .selected {
-                                    background-color: var(--btn-color-focus);
-                                }
-                                label {
-                                    cursor: pointer;
-                                    padding: 10px;
-                                    font-size: 15px;
-                                    align-items: center;
-                                    border-radius: 3px;
-
-                                    input[type="checkbox"] {
-                                        display: none;
-                                    }
-
-                                    &:active {
-                                        background-color: var(--btn-color-focus);
-                                    }
-                                }
-                            }
-                        }
-
                         .shortcutKey {
                             padding: 0 1.3em;
                             display: grid;

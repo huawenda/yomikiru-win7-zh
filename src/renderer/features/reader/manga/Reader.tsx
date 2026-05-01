@@ -1,8 +1,7 @@
 import type { MangaProgress } from "@common/types/db";
-import { setAnilistCurrentManga } from "@store/anilist";
 import { setAppSettings, setReaderSettings } from "@store/appSettings";
 import { useAppDispatch, useAppSelector } from "@store/hooks";
-import { addLibraryItem, selectLibraryItem, updateChaptersRead, updateMangaProgress } from "@store/library";
+import { addLibraryItem, selectLibraryItem, updateMangaProgress } from "@store/library";
 import {
     getReaderMangaState,
     setReaderLoading,
@@ -11,8 +10,6 @@ import {
     updateReaderMangaCurrentPage,
 } from "@store/reader";
 import { cyclePresetNext, cyclePresetPrev, selectPresetSlot } from "@store/readerPresets";
-import AniList from "@utils/anilist";
-import { processChapterNumber } from "@utils/chapterUtils";
 import { formatUtils } from "@utils/file";
 import { keyFormatter, mouseEventFormatter } from "@utils/keybindings";
 import { createRendererLogger } from "@utils/logger";
@@ -45,7 +42,6 @@ const Reader: React.FC = () => {
     const isSettingOpen = useAppSelector((store) => store.ui.isOpen.settings);
     const linkInReader = useAppSelector((store) => store.reader.link);
     const readerState = useAppSelector(getReaderMangaState);
-    const anilistCurrentManga = useAppSelector((store) => store.anilist.currentManga);
     const isLoadingManga = useAppSelector((store) => store.reader.loading !== null);
 
     const libraryItem = useAppSelector((store) => selectLibraryItem(store, linkInReader));
@@ -81,7 +77,6 @@ const Reader: React.FC = () => {
     const [shortcutText, setShortcutText] = useState("");
     // for grab to scroll
     const [mouseDown, setMouseDown] = useState<null | { top: number; left: number; x: number; y: number }>(null);
-    const [updatedAnilistProgress, setUpdatedAnilistProgress] = useState(false);
     const [prevNextChapter, setPrevNextChapter] = useState<{ prev: string; next: string }>({ prev: "", next: "" });
 
     const readerSettingExtender = useRef<HTMLButtonElement>(null);
@@ -622,7 +617,6 @@ const Reader: React.FC = () => {
         setImageData([]);
         setImageRow([]);
         setImageDecodeQueue([]);
-        setUpdatedAnilistProgress(false);
         setCurrentlyDecoding(false);
         setChapterChangerDisplay(false);
         /**
@@ -906,44 +900,6 @@ const Reader: React.FC = () => {
             clearTimeout(timeOutId);
         };
     }, [sideListWidth]);
-    useLayoutEffect(() => {
-        // anilist auto update progress
-        if (updatedAnilistProgress || !appSettings.readerSettings.autoUpdateAnilistProgress) return;
-        if (currentPageNumber / images.length > (images.length <= 4 ? 0.5 : 0.7)) {
-            if (!anilistCurrentManga || !readerState?.content?.progress) {
-                // console.error("anilistCurrentManga is null, this should not happen");
-                return;
-            }
-            const chapterNumber = processChapterNumber(readerState?.content?.progress?.chapterName);
-            if (!chapterNumber) {
-                log.log(
-                    "AniList auto-progress: skipped (could not parse chapter number from chapter title)",
-                    readerState?.content?.progress?.chapterName,
-                );
-                return;
-            }
-            dispatch(
-                updateChaptersRead({
-                    itemLink: readerState?.content?.progress?.itemLink,
-                    chapterName: readerState?.content?.progress?.chapterName,
-                    read: true,
-                }),
-            );
-            setUpdatedAnilistProgress(true);
-            if (chapterNumber > anilistCurrentManga.progress)
-                AniList.setCurrentMangaProgress(chapterNumber).then((e) => {
-                    if (e) {
-                        dispatch(setAnilistCurrentManga(e));
-                        log.log(`AniList auto-progress: synced list progress to chapter ${chapterNumber}`);
-                    } else {
-                        log.error(
-                            "AniList auto-progress: setCurrentMangaProgress returned empty (sync may have failed)",
-                        );
-                        // dialogUtils.customError({ message: "Failed to sync AniList progress.", log: false });
-                    }
-                });
-        }
-    }, [currentPageNumber, appSettings.readerSettings.autoUpdateAnilistProgress]);
     useLayoutEffect(() => {
         changePageNumber();
     }, [currentImageRow]);

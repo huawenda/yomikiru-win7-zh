@@ -91,26 +91,7 @@ const LocationsTab = (): ReactElement => {
     }, [appSettings.baseDir]);
 
     useEffect(() => {
-        let timeout: NodeJS.Timeout;
-        const refresh = () => {
-            if (timeout) clearTimeout(timeout);
-            timeout = setTimeout(() => {
-                displayList(currentLink, true);
-            }, 1000);
-        };
-        const closeWatcher = window.chokidar.watch({
-            path: currentLink,
-            event: "all",
-            options: {
-                depth: 0,
-                ignoreInitial: true,
-            },
-            callback: refresh,
-        });
         displayList();
-        return () => {
-            closeWatcher();
-        };
     }, [currentLink]);
 
     const sortedLocations = useMemo(() => {

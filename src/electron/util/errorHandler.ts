@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { app, BrowserWindow, dialog, shell } from "electron";
+import { app, BrowserWindow, dialog } from "electron";
 import { createMainLogger } from "./logger";
 
 const logger = createMainLogger("errorHandler");
@@ -127,7 +127,7 @@ export type ErrorHandlerConfig = {
  *
  * // basic retry
  * const result = await withRetry(
- *     async () => fetch('https://api.example.com/data'),
+ *     async () => readLocalData(),
  *     { maxRetries: 3, retryDelay: 1000 }
  * );
  *
@@ -248,59 +248,6 @@ export class ErrorHandler {
     }
 
     /**
-     * Export error reports for issue reporting
-     */
-    public exportErrorReports(): string {
-        const recentErrors = this.errorReports.slice(-5);
-        const reportData = {
-            appVersion: app.getVersion(),
-            systemInfo: this.systemInfo,
-            timestamp: new Date().toISOString(),
-            errors: recentErrors.map((report) => ({
-                message: report.message,
-                stack: report.stack,
-                severity: report.severity,
-                context: report.context,
-                timestamp: report.timestamp.toISOString(),
-                handled: report.handled,
-            })),
-        };
-
-        return JSON.stringify(reportData, null, 2);
-    }
-
-    public async showIssueReportDialog(windowId?: number): Promise<void> {
-        const window = windowId ? BrowserWindow.fromId(windowId) : BrowserWindow.getFocusedWindow();
-
-        if (!window) {
-            logger.warn("showIssueReportDialog: no BrowserWindow to attach the dialog to");
-            return;
-        }
-
-        const result = await dialog.showMessageBox(window, {
-            type: "question",
-            title: "报告问题",
-            message: "是否报告此问题以帮助改进 Yomikiru？",
-            detail: "这会打开 GitHub，并预填错误信息。不会包含个人数据。",
-            buttons: ["报告问题", "复制错误信息", "取消"],
-            defaultId: 0,
-            cancelId: 2,
-        });
-
-        if (result.response === 0) {
-            await this.openGitHubIssue();
-        } else if (result.response === 1) {
-            await this.copyErrorInfoToClipboard();
-            await dialog.showMessageBox(window, {
-                type: "info",
-                title: "错误信息已复制",
-                message: "错误信息已复制到剪贴板。",
-                buttons: ["确定"],
-            });
-        }
-    }
-
-    /**
      * Create error report from error object
      */
     private createErrorReport(
@@ -364,23 +311,14 @@ export class ErrorHandler {
             return;
         }
 
-        const buttons = ["确定"];
-        if (errorReport.severity === "high" || errorReport.severity === "critical") {
-            buttons.push("报告问题");
-        }
-
-        const result = await dialog.showMessageBox(window, {
+        await dialog.showMessageBox(window, {
             type: "error",
             title: `${errorReport.severity} 错误`,
             message: errorReport.message,
             detail: this.formatErrorDetail(errorReport),
-            buttons,
+            buttons: ["确定"],
             defaultId: 0,
         });
-
-        if (result.response === 1) {
-            await this.showIssueReportDialog(window.id);
-        }
     }
 
     private formatErrorDetail(errorReport: ErrorReport): string {
@@ -486,46 +424,6 @@ export class ErrorHandler {
         if (!fs.existsSync(logDir)) {
             fs.mkdirSync(logDir, { recursive: true });
         }
-    }
-
-    private async openGitHubIssue(): Promise<void> {
-        const errorInfo = this.exportErrorReports();
-        const issueTitle = encodeURIComponent("Error Report");
-        const issueBody = encodeURIComponent(
-            `
-## Error Report
-
-**App Version:** ${app.getVersion()}
-**Platform:** ${this.systemInfo.platform} ${this.systemInfo.arch}
-**OS Version:** ${this.systemInfo.osVersion}
-
-## Error Details
-
-\`\`\`json
-${errorInfo}
-\`\`\`
-
-## Steps to Reproduce
-
-1. 
-
-## Expected Behavior
-
-## Actual Behavior
-
-## Additional Context
-
-        `.trim(),
-        );
-
-        const githubUrl = `https://github.com/mienaiyami/yomikiru/issues/new?title=${issueTitle}&body=${issueBody}&labels=bug`;
-        await shell.openExternal(githubUrl);
-    }
-
-    private async copyErrorInfoToClipboard(): Promise<void> {
-        const { clipboard } = await import("electron");
-        const errorInfo = this.exportErrorReports();
-        clipboard.writeText(errorInfo);
     }
 }
 
