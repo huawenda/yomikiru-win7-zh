@@ -1,5 +1,6 @@
 import type { MainSettingsType } from "@electron/util/mainSettings";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { mainSettingsApi } from "@shared/api/mainSettingsApi";
 
 /**
  * @see src/electron/util/mainSettings.ts
@@ -14,11 +15,11 @@ const initialState: MainSettingsType = {
 export const updateMainSettings = createAsyncThunk(
     "mainSettings/update",
     async (settings: Partial<MainSettingsType>) => {
-        await window.electron.invoke("mainSettings:update", settings);
+        await mainSettingsApi.update(settings);
     },
 );
 export const getMainSettings = createAsyncThunk("mainSettings/get", async () => {
-    return await window.electron.invoke("mainSettings:get");
+    return await mainSettingsApi.get();
 });
 
 /**

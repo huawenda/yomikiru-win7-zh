@@ -10,10 +10,9 @@ Yomikiru 是一个离线桌面阅读器，主要用于阅读本地漫画、Webto
 
 - 本地文件夹、图片、压缩包、PDF、EPUB 的阅读。
 - 阅读进度、历史、书签和 EPUB 笔记的持久化。
-- 多窗口、拖放打开、系统文件管理器集成。
+- 多窗口、拖放打开。
 - 自定义主题、阅读器预设、快捷键和应用设置。
-- AniList 登录、搜索和阅读进度编辑。
-- Electron Forge 打包 Windows/Linux/macOS 产物。
+- Electron Forge 打包 Windows 7 32位便携版。
 
 ## 技术栈
 
@@ -23,7 +22,7 @@ Yomikiru 是一个离线桌面阅读器，主要用于阅读本地漫画、Webto
 | 前端 | React 17、React DOM、SCSS |
 | 状态管理 | Redux Toolkit、React Redux |
 | 数据库 | better-sqlite3、Drizzle ORM、Drizzle Kit |
-| 文件与系统能力 | Electron IPC、preload bridge、chokidar |
+| 文件与系统能力 | Electron IPC、preload bridge |
 | 格式与阅读 | pdfjs-dist、自定义 EPUB/漫画解析工具 |
 | 代码质量 | TypeScript、Biome、ESLint、Husky、lint-staged |
 
@@ -34,11 +33,10 @@ Yomikiru 是一个离线桌面阅读器，主要用于阅读本地漫画、Webto
 ├─ docs/                 项目文档、用户指南、构建指南
 ├─ drizzle/              SQLite 数据库迁移文件和快照
 ├─ public/               Electron/webpack 使用的静态资源
-├─ scripts/              发布、打 tag、构建辅助脚本
 ├─ src/
 │  ├─ common/            主进程和渲染进程共享的类型与日志模块
 │  ├─ electron/          Electron 主进程、preload、IPC、数据库、窗口工具
-│  └─ renderer/          React 应用、功能模块、Redux store、样式和工具
+│  └─ renderer/          React 应用、功能模块、共享 API/平台适配、Redux store、样式和工具
 ├─ webpack/              Electron Forge webpack 配置
 ├─ forge.config.ts       Electron Forge 打包配置
 ├─ drizzle.config.ts     Drizzle Kit 配置
@@ -49,11 +47,11 @@ Yomikiru 是一个离线桌面阅读器，主要用于阅读本地漫画、Webto
 ## 运行流程
 
 1. Electron 启动主进程入口 `src/electron/main.ts`。
-2. 主进程初始化错误处理、SQLite 数据库、应用菜单、窗口管理、托盘和 IPC handlers。
+2. 主进程初始化错误处理、SQLite 数据库、应用菜单、窗口管理和 IPC handlers。
 3. `WindowManager.createWindow` 创建 BrowserWindow，并加载 webpack 构建后的渲染进程资源。
-4. `src/electron/preload.ts` 通过 `contextBridge` 向渲染进程暴露受控 API，例如 `window.electron`、`window.fs`、`window.path`、`window.chokidar`。
+4. `src/electron/preload.ts` 通过 `contextBridge` 向渲染进程暴露受控 API，例如 `window.electron`、`window.fs`、`window.path`。
 5. React 入口加载 Redux store，`App.tsx` 初始化设置、主题、书签、笔记、阅读历史和 IPC 监听。
-6. `Main.tsx` 根据当前 reader 状态渲染首页、设置、漫画阅读器、EPUB 阅读器和 AniList 相关弹窗。
+6. `Main.tsx` 根据当前 reader 状态渲染首页、设置、漫画阅读器和 EPUB 阅读器。
 
 ## 主进程
 
@@ -61,11 +59,13 @@ Yomikiru 是一个离线桌面阅读器，主要用于阅读本地漫画、Webto
 
 重要文件：
 
-- `main.ts`：应用生命周期入口，负责初始化数据库、IPC、窗口、菜单、托盘和更新检查。
+- `main.ts`：应用生命周期入口，负责初始化数据库、IPC、窗口和菜单。
 - `preload.ts`：隔离主进程能力和渲染进程 UI，暴露文件系统、Electron、路径、字体、日志等 API。
 - `db/index.ts`：`DatabaseService` 封装 Drizzle SQLite 连接、迁移和部分事务逻辑。
 - `db/schema.ts`：数据库表结构，包括 library items、漫画进度、书籍进度、漫画书签、书籍书签和书籍笔记。
-- `ipc/*.ts`：按能力拆分的 IPC handler，例如数据库、文件系统、对话框、更新、资源管理器集成。
+- `ipc/*.ts`：按能力拆分的 IPC handler，例如数据库、文件系统、对话框。
+- `ipc/database/`：数据库 IPC handler 按 library、manga、book、bookmarks、notes 拆分；外部仍通过 `setupDatabaseHandlers(db)` 统一注册。
+- `ipc/broadcast.ts`：主进程向所有窗口广播数据库变更事件，例如 `db:library:change`。
 - `util/window.ts`：窗口创建、窗口间通信、关闭和单实例相关逻辑。
 - `util/mainSettings.ts`：主进程级别的应用设置。
 
@@ -77,16 +77,23 @@ Yomikiru 是一个离线桌面阅读器，主要用于阅读本地漫画、Webto
 
 重要区域：
 
-- `App.tsx`：全局上下文、快捷键、拖放打开、设置同步、阅读器打开/关闭逻辑。
-- `Main.tsx`：顶层 UI 组合，根据 Redux 状态渲染当前功能。
+- `app/`：应用级编排层，包括顶层 Provider、主视图组合、启动同步、全局 IPC 监听、拖放打开、全局快捷键、右键菜单模板和阅读器生命周期。
 - `features/home/`：主页和本地库列表。
 - `features/reader/manga/`：漫画、图片文件夹、压缩包、PDF 阅读体验。
 - `features/reader/epub/`：EPUB/文本阅读、目录、书签、笔记、查找等功能。
-- `features/settings/`：应用设置、阅读器设置、主题、快捷键、AniList 设置。
-- `features/anilist/`：AniList 登录、搜索和编辑弹窗。
+- `features/settings/`：应用设置、阅读器设置、主题、快捷键。
+- `shared/api/`：渲染进程访问主进程能力的 typed API client，store thunk 和功能模块应优先通过这里调用 IPC。
+- `shared/platform/`：平台边界适配，例如 `ipcClient` 对 `window.electron.invoke/send/on` 的轻量封装。
 - `components/`：通用组件和基础 UI 控件。
 - `utils/`：文件格式判断、EPUB/PDF 处理、快捷键、主题、对话框、日志等工具。
 - `styles/`：全局 SCSS、组件样式、字体和图标资源。
+
+新增代码建议遵循以下归属：
+
+- 应用启动、全局事件、副作用编排放到 `renderer/app/hooks/`。
+- 具体业务 UI 和局部逻辑放到对应 `renderer/features/*/`。
+- 跨 feature 复用的主进程调用封装放到 `renderer/shared/api/`。
+- 不要在新的 store thunk 或 feature 组件中直接拼接 IPC channel；优先新增 typed API 方法。
 
 ## 状态管理
 
@@ -102,8 +109,7 @@ Redux store 位于 `src/renderer/store/`，在 `store/index.ts` 统一注册 red
 - `bookNotes`：EPUB 笔记。
 - `readerPresets`：阅读器预设，并通过 `readerPresetsAutosaveMiddleware` 自动保存。
 - `shortcuts`：快捷键配置。
-- `themes`：主题配置和当前主题。
-- `anilist`：AniList token、当前条目和同步相关状态。
+- `themes`：主题配置和当前主题（localStorage 存储）。
 - `ui`：设置面板、弹窗、菜单等 UI 开关。
 
 应用启动时，`App.tsx` 会拉取数据库中的 library/bookmark/note 数据，并监听 `db:*:change` 事件来刷新对应 store。
@@ -132,7 +138,8 @@ window.electron.on("db:library:change", () => {
 1. 在 `src/common/types/ipc.ts` 中声明通道类型。
 2. 在对应的 `src/electron/ipc/*.ts` 文件中实现 handler。
 3. 如果是数据库变更，必要时调用 `pingDatabaseChange(...)` 通知所有窗口刷新。
-4. 在渲染进程中通过 `window.electron.invoke/send/on` 使用通道。
+4. 在 `src/renderer/shared/api/` 中新增 typed API 方法。
+5. 在渲染进程功能代码或 store thunk 中调用 API 方法，避免直接拼接 IPC channel。
 
 ## 数据库
 
@@ -171,12 +178,11 @@ pnpm drizzle:studio
 渲染进程配置文件路径由 `src/renderer/utils/file.ts` 统一定义，基于 `window.electron.app.getPath("userData")`：
 
 - `settings.json`：应用设置。
-- `themes.json`：用户主题。
 - `shortcuts.json`：快捷键。
 - `reader-presets.json`：阅读器预设。
 - `history.json`、`bookmarks.json`：旧版本遗留数据，当前主要由 SQLite 接管。
 
-`App.tsx` 会监听 `fs:fileChanged`，在开启同步设置或主题同步时刷新对应配置。
+主题配置使用 localStorage 存储。
 
 ## 文件与阅读格式
 
@@ -203,6 +209,8 @@ pnpm drizzle:studio
 | --- | --- |
 | `@common/*` | `src/common/*` |
 | `@electron/*` | `src/electron/*` |
+| `@app/*` | `src/renderer/app/*` |
+| `@shared/*` | `src/renderer/shared/*` |
 | `@renderer/*` | `src/renderer/*` |
 | `@features/*` | `src/renderer/features/*` |
 | `@store/*` | `src/renderer/store/*` |
@@ -238,14 +246,10 @@ pnpm check
 pnpm package
 ```
 
-平台打包命令：
+打包命令：
 
 ```bash
-pnpm make:win64
-pnpm make:win32
-pnpm make:exe64
-pnpm make:deb
-pnpm make:zip64
+pnpm make:zip32   # 打包 Win7 32位便携版 ZIP
 ```
 
 ## 开发建议
@@ -253,8 +257,7 @@ pnpm make:zip64
 - 修改数据库结构时，同时维护 Drizzle schema、迁移文件和 IPC 输入校验。
 - 新增主进程能力时，优先通过 typed IPC 暴露，不要直接扩大 preload 中的系统 API 面。
 - 修改阅读器行为时，注意漫画阅读器和 EPUB 阅读器的数据模型不同：漫画以页和章节路径为主，EPUB 以章节 ID 和 DOM/CSS 位置为主。
-- 修改设置、主题、快捷键或阅读器预设时，检查对应 JSON 文件的读写和跨窗口同步。
-- 多窗口相关功能需要关注主进程广播和 `db:*:change` 刷新逻辑。
+- 修改设置、快捷键或阅读器预设时，检查对应 JSON 文件的读写。
 - 对用户数据执行删除、迁移、重置前，应保留备份或提供确认流程。
 
 ## 常见扩展点
@@ -264,15 +267,15 @@ pnpm make:zip64
 1. 在设置 schema 或默认值中加入字段。
 2. 在 `features/settings/` 中添加 UI 控件。
 3. 如果设置影响阅读器或主页，连接对应 Redux slice。
-4. 如果设置需要跨窗口同步，确认 `fs:fileChanged` 或主进程同步事件是否覆盖。
 
 ### 新增数据库能力
 
 1. 修改 `src/electron/db/schema.ts`。
 2. 运行 `pnpm drizzle:generate` 生成迁移。
 3. 在 `src/common/types/db.ts` 和 `src/common/types/ipc.ts` 中补充类型。
-4. 在 `src/electron/ipc/database.ts` 添加 handler。
-5. 在对应 store slice 中添加 thunk/action。
+4. 在 `src/electron/ipc/database/` 对应领域文件中添加 handler。
+5. 在 `src/renderer/shared/api/` 添加 typed API 方法。
+6. 在对应 store slice 中添加 thunk/action。
 
 ### 新增阅读格式
 
@@ -287,20 +290,12 @@ pnpm make:zip64
 2. 在 `App.tsx` 或具体阅读器 hook 中处理快捷键。
 3. 在设置页快捷键组件中确认可编辑和可展示。
 
-## 发布流程
-
-发布相关脚本位于 `scripts/`：
-
-- `generate-release.ts`：生成发布说明。
-- `tag-and-push.ts`：打 tag 并推送。
-
-常规流程通常包括：
+## 构建流程
 
 ```bash
-pnpm check
-pnpm package
-pnpm generate:release
-pnpm release
+pnpm check          # Biome + TypeScript 检查
+pnpm check:chrome108 # Chrome 108 兼容性检查
+pnpm make:zip32      # 打包 Win7 32位便携版
 ```
 
-具体分支、版本号和渠道策略以维护者发布规范为准。
+产物输出到 `./out` 目录。

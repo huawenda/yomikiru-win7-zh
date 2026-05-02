@@ -1,6 +1,7 @@
 import type { BookNote } from "@common/types/db";
 import type { DatabaseChannels } from "@common/types/ipc";
 import { createAsyncThunk, createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import { bookNoteApi } from "@shared/api/bookNoteApi";
 
 type BookNotesState = {
     // map of key:itemLink value: notes
@@ -16,14 +17,14 @@ const initialState: BookNotesState = {
 };
 
 export const fetchAllNotes = createAsyncThunk("bookNotes/fetchAll", async () => {
-    const notes = await window.electron.invoke("db:book:getAllNotes");
+    const notes = await bookNoteApi.getAll();
     return { bookNotes: notes };
 });
 
 export const addNote = createAsyncThunk(
     "bookNotes/add",
     async (data: DatabaseChannels["db:book:addNote"]["request"]) => {
-        const note = await window.electron.invoke("db:book:addNote", data);
+        const note = await bookNoteApi.add(data);
         if (!note) throw new Error("Failed to fetch added note");
         return { note };
     },
@@ -32,7 +33,7 @@ export const addNote = createAsyncThunk(
 export const updateNote = createAsyncThunk(
     "bookNotes/update",
     async (data: { id: number; content: string; color: string }) => {
-        const updatedNote = await window.electron.invoke("db:book:updateNote", data);
+        const updatedNote = await bookNoteApi.update(data);
         if (!updatedNote) throw new Error("Failed to update note");
         return { note: updatedNote };
     },
@@ -41,7 +42,7 @@ export const updateNote = createAsyncThunk(
 export const removeNote = createAsyncThunk(
     "bookNotes/remove",
     async ({ itemLink, ids }: { itemLink: string; ids: number[] }) => {
-        await window.electron.invoke("db:book:deleteNotes", { itemLink, ids });
+        await bookNoteApi.delete({ itemLink, ids });
         return { itemLink, ids };
     },
 );
@@ -49,7 +50,7 @@ export const removeNote = createAsyncThunk(
 export const removeAllNotes = createAsyncThunk(
     "bookNotes/removeAll",
     async ({ itemLink }: { itemLink: string }) => {
-        await window.electron.invoke("db:book:deleteNotes", { itemLink, ids: [] });
+        await bookNoteApi.delete({ itemLink, ids: [] });
         return { itemLink };
     },
 );

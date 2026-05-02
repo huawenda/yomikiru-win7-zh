@@ -18,6 +18,8 @@
             //
             "@electron/*": ["src/electron/*"],
             //
+            "@app/*": ["src/renderer/app/*"],
+            "@shared/*": ["src/renderer/shared/*"],
             "@ui/*": ["src/renderer/components/ui/*"],
             "@hooks/*": ["src/renderer/hooks/*"],
             "@store/*": ["src/renderer/store/*"],

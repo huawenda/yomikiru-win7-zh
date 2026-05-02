@@ -1,6 +1,7 @@
 import type { BookBookmark, MangaBookmark } from "@common/types/db";
 import type { DatabaseChannels } from "@common/types/ipc";
 import { createAsyncThunk, createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import { bookmarkApi } from "@shared/api/bookmarkApi";
 
 type BookmarksState = {
     // map of key:itemLink value: bookmarks
@@ -16,17 +17,9 @@ const initialState: BookmarksState = {
     error: null,
 };
 export const fetchAllBookmarks = createAsyncThunk("bookmarks/fetchAll", async () => {
-    const bookmarks = await window.electron.invoke("db:library:getAllBookmarks");
+    const bookmarks = await bookmarkApi.getAll();
     return bookmarks;
 });
-
-// export const fetchBookmarks = createAsyncThunk(
-//     "bookmarks/fetch",
-//     async ({ itemLink, type }: { itemLink: string; type: "manga" | "book" }) => {
-//         const bookmarks = await ipc.invoke(`db:${type}:getBookmarks`, { itemLink });
-//         return bookmarks;
-//     }
-// );
 
 export const addBookmark = createAsyncThunk(
     "bookmarks/add",
@@ -42,7 +35,7 @@ export const addBookmark = createAsyncThunk(
               data: DatabaseChannels["db:book:addBookmark"]["request"];
               type: "book";
           }) => {
-        const bookmark = await window.electron.invoke(`db:${type}:addBookmark`, data);
+        const bookmark = type === "manga" ? await bookmarkApi.addManga(data) : await bookmarkApi.addBook(data);
         if (!bookmark) throw new Error("Failed to add bookmark");
         return { bookmark, type };
     },
@@ -50,14 +43,16 @@ export const addBookmark = createAsyncThunk(
 export const removeBookmark = createAsyncThunk(
     "bookmarks/remove",
     async ({ itemLink, type, ids }: { itemLink: string; type: "manga" | "book"; ids: number[] }) => {
-        const _res = await window.electron.invoke(`db:${type}:deleteBookmarks`, { itemLink, ids });
+        if (type === "manga") await bookmarkApi.deleteManga({ itemLink, ids });
+        else await bookmarkApi.deleteBook({ itemLink, ids });
         return { itemLink, type, ids };
     },
 );
 export const removeAllBookmarks = createAsyncThunk(
     "bookmarks/removeAll",
     async ({ itemLink, type }: { itemLink: string; type: "manga" | "book" }) => {
-        await window.electron.invoke(`db:${type}:deleteBookmarks`, { itemLink, ids: [] });
+        if (type === "manga") await bookmarkApi.deleteManga({ itemLink, ids: [] });
+        else await bookmarkApi.deleteBook({ itemLink, ids: [] });
         return { itemLink, type };
     },
 );

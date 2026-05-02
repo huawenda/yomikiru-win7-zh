@@ -1,5 +1,6 @@
 import type { DatabaseChannels } from "@common/types/ipc";
 import { createAsyncThunk, createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import { libraryApi } from "@shared/api/libraryApi";
 import { formatUtils } from "@utils/file";
 import { createRendererLogger } from "../utils/logger";
 import type { RootState } from ".";
@@ -25,24 +26,21 @@ const initialState: LibraryState = {
 };
 
 export const fetchAllItemsWithProgress = createAsyncThunk("library/getAllItemsWithProgress", async () => {
-    const now = performance.now();
-    const data = await window.electron.invoke("db:library:getAllAndProgress");
-    const time = performance.now() - now;
-    // console.log(`db:library:getAllAndProgress took ${time}ms`);
+    const data = await libraryApi.getAllItemsWithProgress();
     return data;
 });
 
 export const addLibraryItem = createAsyncThunk(
     "library/addItem",
     async (args: DatabaseChannels["db:library:addItem"]["request"]) => {
-        return await window.electron.invoke("db:library:addItem", args);
+        return await libraryApi.addItem(args);
     },
 );
 
 export const updateMangaProgress = createAsyncThunk(
     "library/updateMangaProgress",
     async (args: DatabaseChannels["db:manga:updateProgress"]["request"]) => {
-        const res = await window.electron.invoke("db:manga:updateProgress", args);
+        const res = await libraryApi.updateMangaProgress(args);
         if (!res) throw new Error("Failed to update progress");
         return res;
     },
@@ -51,7 +49,7 @@ export const updateMangaProgress = createAsyncThunk(
 export const updateBookProgress = createAsyncThunk(
     "library/updateBookProgress",
     async (args: DatabaseChannels["db:book:updateProgress"]["request"]) => {
-        const res = await window.electron.invoke("db:book:updateProgress", args);
+        const res = await libraryApi.updateBookProgress(args);
         if (!res) throw new Error("Failed to update progress");
         return res;
     },
@@ -60,12 +58,12 @@ export const updateBookProgress = createAsyncThunk(
 export const deleteLibraryItem = createAsyncThunk(
     "library/deleteItem",
     async (args: DatabaseChannels["db:library:deleteItem"]["request"]) => {
-        return await window.electron.invoke("db:library:deleteItem", args);
+        return await libraryApi.deleteItem(args);
     },
 );
 
 export const resetLibrary = createAsyncThunk("library/reset", async () => {
-    return await window.electron.invoke("db:library:reset");
+    return await libraryApi.reset();
 });
 
 export const updateCurrentItemProgress = createAsyncThunk(
@@ -78,13 +76,13 @@ export const updateCurrentItemProgress = createAsyncThunk(
             return;
         }
         if (readerState.type === "book" && readerState.content?.progress) {
-            const res = await window.electron.invoke("db:book:updateProgress", {
+            const res = await libraryApi.updateBookProgress({
                 ...readerState.content.progress,
             });
             if (!res) throw new Error("Failed to update progress");
             return res;
         } else if (readerState.type === "manga" && readerState.content?.progress) {
-            const res = await window.electron.invoke("db:manga:updateProgress", {
+            const res = await libraryApi.updateMangaProgress({
                 ...readerState.content.progress,
             });
             if (!res) throw new Error("Failed to update progress");
@@ -98,7 +96,7 @@ export const updateCurrentItemProgress = createAsyncThunk(
 export const updateChaptersRead = createAsyncThunk(
     "library/updateChaptersRead",
     async ({ itemLink, chapterName, read }: { itemLink: string; chapterName: string; read: boolean }) => {
-        const chapterRead = await window.electron.invoke("db:manga:updateChaptersRead", {
+        const chapterRead = await libraryApi.updateMangaChaptersRead({
             itemLink,
             chapterName,
             read,
@@ -110,7 +108,7 @@ export const updateChaptersReadAll = createAsyncThunk(
     "library/updateChaptersReadAll",
     // pass empty chapters to unmark all chapters
     async ({ itemLink, chapters, read }: { itemLink: string; chapters: string[]; read: boolean }) => {
-        const chaptersRead = await window.electron.invoke("db:manga:updateChaptersReadAll", {
+        const chaptersRead = await libraryApi.updateMangaChaptersReadAll({
             itemLink,
             chapters,
             read,
