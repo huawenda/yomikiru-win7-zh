@@ -983,8 +983,7 @@ const Reader: React.FC = () => {
                     <span
                         className="a"
                         data-tooltip={
-                            `按下“${shortcuts.find((e) => e.command === "prevPage")?.keys}”` +
-                            `或点击屏幕左侧`
+                            `按下“${shortcuts.find((e) => e.command === "prevPage")?.keys}”` + `或点击屏幕左侧`
                         }
                     >
                         上一章：{/* <FontAwesomeIcon icon={faQuestionCircle} />: */}

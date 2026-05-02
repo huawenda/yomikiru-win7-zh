@@ -136,11 +136,7 @@ const TopBar = (): ReactElement => {
             </div>
             <div className="windowBtnCont">
                 {readerContent && readerContent.type === "manga" && (
-                    <label
-                        className="pageNumber noBG"
-                        htmlFor="NavigateToPageInput"
-                        data-tooltip="跳转到页码"
-                    >
+                    <label className="pageNumber noBG" htmlFor="NavigateToPageInput" data-tooltip="跳转到页码">
                         <input
                             type="number"
                             id="NavigateToPageInput"

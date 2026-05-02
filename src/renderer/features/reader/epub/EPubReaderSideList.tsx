@@ -317,11 +317,7 @@ const EPubReaderSideList = memo(
                         // }}
                     >
                         {/* //todo virtualize list */}
-                        {epubData.toc.size > 500 && (
-                            <p>
-                                章节过多，点击“目录”隐藏列表可提升应用性能。
-                            </p>
-                        )}
+                        {epubData.toc.size > 500 && <p>章节过多，点击“目录”隐藏列表可提升应用性能。</p>}
                         {epubData.ncx.length > 0 && (
                             <ContentList
                                 currentChapterHref={
@@ -333,9 +329,7 @@ const EPubReaderSideList = memo(
                                 sideListRef={sideListRef}
                             />
                         )}
-                        {epubData.ncx.length === 0 && (
-                            <p>EPUB 中未找到 NCX，可使用“显示书内目录”查看目录。</p>
-                        )}
+                        {epubData.ncx.length === 0 && <p>EPUB 中未找到 NCX，可使用“显示书内目录”查看目录。</p>}
                     </div>
                 )}
                 {displayList === "bookmarks" && <BookmarkList openChapterById={openChapterById} />}

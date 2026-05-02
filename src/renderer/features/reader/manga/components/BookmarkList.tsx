@@ -103,11 +103,7 @@ const BookmarkList: React.FC = () => {
 
     return (
         <div className="location-cont">
-            <ListNavigator.Provider
-                items={bookmarksArray}
-                renderItem={renderBookmarkItem}
-                emptyMessage="没有书签"
-            >
+            <ListNavigator.Provider items={bookmarksArray} renderItem={renderBookmarkItem} emptyMessage="没有书签">
                 <ListNavigator.List />
             </ListNavigator.Provider>
         </div>

@@ -41,7 +41,8 @@ const GeneralPDFSettings: React.FC = () => {
                 >
                     临时文件夹
                 </a>{" "}
-                设置为不会被操作系统自动清理的位置。<br />
+                设置为不会被操作系统自动清理的位置。
+                <br />
                 <a
                     onClick={() => {
                         scrollIntoView("#settings-keepExtractedFiles", "settings");

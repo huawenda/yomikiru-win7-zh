@@ -220,8 +220,7 @@ const GeneralReaderPresetsSettings: React.FC = () => {
                         onClick={() => {
                             dialogUtils
                                 .confirm({
-                                    message:
-                                        "将默认预设重置为初始状态？自定义预设会保留。",
+                                    message: "将默认预设重置为初始状态？自定义预设会保留。",
                                     noOption: false,
                                 })
                                 .then((res) => {

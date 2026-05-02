@@ -56,9 +56,7 @@ export const checkForJSONMigration = async (db: DatabaseService): Promise<void> 
             const res = await dialog.showMessageBox({
                 type: "question",
                 message: "发现可迁移的旧书签和历史记录数据。",
-                detail:
-                    "是否将其迁移到新的数据库系统？\n" +
-                    "迁移前会备份当前数据和旧数据。",
+                detail: "是否将其迁移到新的数据库系统？\n" + "迁移前会备份当前数据和旧数据。",
                 buttons: ["是", "否"],
                 defaultId: 0,
                 cancelId: 1,

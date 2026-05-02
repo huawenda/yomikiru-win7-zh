@@ -118,10 +118,7 @@ const ReaderPresetSection = memo(({ type }: ReaderPresetSectionProps) => {
                             );
                         })}
                         <div className="row stretch-content">
-                            <button
-                                onClick={() => setShowPresetNameModal(true)}
-                                title="将当前设置保存为新预设"
-                            >
+                            <button onClick={() => setShowPresetNameModal(true)} title="将当前设置保存为新预设">
                                 <FontAwesomeIcon icon={faPlus} />
                             </button>
                             {preset && (

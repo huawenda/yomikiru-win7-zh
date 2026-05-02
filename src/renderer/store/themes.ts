@@ -42,7 +42,9 @@ const setBodyTheme = ({ allData, name }: Themes) => {
 
 const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
 const initialState: Themes = {
-    name: initThemeData.allData.some((theme) => theme.name === savedTheme) ? savedTheme || initThemeData.name : initThemeData.name,
+    name: initThemeData.allData.some((theme) => theme.name === savedTheme)
+        ? savedTheme || initThemeData.name
+        : initThemeData.name,
     allData: initThemeData.allData,
 };
 

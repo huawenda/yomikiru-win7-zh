@@ -98,9 +98,7 @@ const Shortcuts = (): ReactElement => {
             <ul>
                 <li>部分更改可能需要重启应用。</li>
                 <li>可以使用鼠标中键或拖拽来滚动阅读器。</li>
-                <li>
-                    鼠标按键 4 或 5（后退/前进）：先将鼠标悬停在“新增”输入框上，然后点击绑定。
-                </li>
+                <li>鼠标按键 4 或 5（后退/前进）：先将鼠标悬停在“新增”输入框上，然后点击绑定。</li>
                 <li>
                     使用 <code>Backspace</code> 清除快捷键绑定。
                 </li>
@@ -122,9 +120,7 @@ const Shortcuts = (): ReactElement => {
                     </tr>
                     {SHORTCUT_COMMAND_MAP.map((e) => (
                         <tr key={e.command}>
-                            <td>
-                                {e.name}
-                            </td>
+                            <td>{e.name}</td>
                             <td>
                                 <ShortcutInput command={e.command} />
                             </td>

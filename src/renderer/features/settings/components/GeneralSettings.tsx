@@ -199,8 +199,7 @@ const GeneralSettings: React.FC = () => {
                         labelAfter="动态图片加载"
                     />
                     <div className="desc">
-                        移除初始加载界面，并在滚动时加载图片。不适用于
-                        &quot;Canvas Based Rendering&quot;
+                        移除初始加载界面，并在滚动时加载图片。不适用于 &quot;Canvas Based Rendering&quot;
                         <br />
                         缺点：滚动尺寸可能不稳定，不支持跨页图片，滚动时可能卡顿。
                     </div>
@@ -220,7 +219,8 @@ const GeneralSettings: React.FC = () => {
                         labelAfter="自动聚焦侧边列表中的当前章节"
                     />
                     <div className="desc">
-                        切换章节时自动聚焦/滚动到侧边列表中的当前章节。对于章节数量很多（&gt; 500）的 EPUB，可能造成明显性能损耗。
+                        切换章节时自动聚焦/滚动到侧边列表中的当前章节。对于章节数量很多（&gt; 500）的
+                        EPUB，可能造成明显性能损耗。
                     </div>
                 </div>
                 <div className="toggleItem">
@@ -269,9 +269,7 @@ const GeneralSettings: React.FC = () => {
                         }}
                         labelAfter="EPUB：禁用文本选择 / 启用双击 Zen Mode"
                     />
-                    <div className="desc">
-                        禁用 EPUB 阅读器中的文本选择，并启用双击进入 Zen Mode。
-                    </div>
+                    <div className="desc">禁用 EPUB 阅读器中的文本选择，并启用双击进入 Zen Mode。</div>
                 </div>
             </div>
 
@@ -306,9 +304,7 @@ const GeneralSettings: React.FC = () => {
                         }}
                         labelAfter="章节过渡画面"
                     />
-                    <div className="desc">
-                        显示章节开头和结尾处的章节过渡画面（仅在纵向滚动阅读模式中生效）。
-                    </div>
+                    <div className="desc">显示章节开头和结尾处的章节过渡画面（仅在纵向滚动阅读模式中生效）。</div>
                 </div>
 
                 <div className="toggleItem">
@@ -381,8 +377,7 @@ const GeneralSettings: React.FC = () => {
                             dialogUtils
                                 .warn({
                                     title: "重置书库",
-                                    message:
-                                        "这会删除书库中的所有条目，包括书签。是否继续？",
+                                    message: "这会删除书库中的所有条目，包括书签。是否继续？",
                                     noOption: false,
                                     defaultId: 0,
                                 })
@@ -393,8 +388,7 @@ const GeneralSettings: React.FC = () => {
                                         dialogUtils
                                             .warn({
                                                 title: "重置书库",
-                                                message:
-                                                    "这会删除书库中的所有条目，包括书签。是否继续？",
+                                                message: "这会删除书库中的所有条目，包括书签。是否继续？",
                                                 noOption: false,
                                                 buttons: ["取消", "重置"],
                                                 defaultId: 0,
@@ -425,8 +419,7 @@ const GeneralSettings: React.FC = () => {
                                             .warn({
                                                 title: "重置主题",
                                                 noOption: false,
-                                                message:
-                                                    "确定要删除所有主题吗？\n此操作不可撤销。",
+                                                message: "确定要删除所有主题吗？\n此操作不可撤销。",
                                             })
                                             .then((res) => {
                                                 if (res.response === 1) return;
@@ -471,8 +464,7 @@ const GeneralSettings: React.FC = () => {
                                             .warn({
                                                 title: "重置设置",
                                                 noOption: false,
-                                                message:
-                                                    "确定要重置设置吗？\n此操作不可撤销。",
+                                                message: "确定要重置设置吗？\n此操作不可撤销。",
                                             })
                                             .then((res) => {
                                                 if (res.response === 1) return;

@@ -27,15 +27,7 @@ const saveJSONfile = (path: string, data: any) => {
         }
 };
 
-export {
-    userDataURL,
-    settingsPath,
-    bookmarksPath,
-    historyPath,
-    readerPresetsPath,
-    shortcutsPath,
-    saveJSONfile,
-};
+export { userDataURL, settingsPath, bookmarksPath, historyPath, readerPresetsPath, shortcutsPath, saveJSONfile };
 
 export const formatUtils = {
     image: {
