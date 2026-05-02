@@ -1,6 +1,7 @@
 node_modules
 .pnpm-store
 .tools
+.codex-run
 dist
 packages
 .webpack
